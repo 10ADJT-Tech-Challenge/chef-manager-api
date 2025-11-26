@@ -2,7 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.0'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.openapi.generator' version '7.6.0'
+	// O plugin do gerador para ler o YAML
+	id 'org.openapi.generator' version '7.17.0'
 }
 
 group = 'com.adjt'
@@ -26,13 +27,54 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	// 1. WEB E DADOS (Essencial para a API e Banco de Dados)
+	implementation 'org.springframework.boot:spring-boot-starter-web' // Necessário para expor os endpoints REST
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Necessário para persistência dos dados
+	implementation 'org.springframework.boot:spring-boot-starter-validation' // Necessário para validar @NotNull, @Size do OpenAPI
+
+	// 2. Dependências do Código Gerado (OpenAPI)
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.41' // O código gerado usa anotações do Swagger (ex: @Schema)
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.6' // O código gerado usa 'JsonNullable' para campos opcionais no PATCH
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0' // Para você a UI em /swagger-ui.html
+
+	// 3. Ferramentas e Banco de Dados
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// 4. Testes
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// 5. Configuração da Geração Automática
+// Informa ao plugin como transformar o YAML em interfaces Java
+openApiGenerate {
+	generatorName = "spring"
+	inputSpec = "$rootDir/src/main/resources/static/openapi_v1.yaml".toString() // Caminho do arquivo da documentação
+	outputDir = layout.buildDirectory.dir("generated-sources/openapi").get().asFile.path
+	apiPackage = "com.adjt.chefapi.api"           // Onde ficam as Interfaces (Controllers)
+	modelPackage = "com.adjt.chefapi.api.model"   // Onde ficam os DTOs (Request/Response)
+	configOptions = [
+			interfaceOnly: "true",       // Gera apenas a interface, você implementa a lógica
+			useJakartaEe: "true",
+			skipDefaultInterface: "true" // Limpa o código gerado
+	]
+}
+
+// Garante que o Java 25 enxergue as classes geradas
+sourceSets {
+	main {
+		java {
+			srcDir layout.buildDirectory.dir("generated-sources/openapi/src/main/java")
+		}
+	}
+}
+
+// Gera o código automaticamente antes de compilar o projeto
+tasks.named("compileJava") {
+	dependsOn tasks.named("openApiGenerate")
 }
 
 tasks.named('test') {
