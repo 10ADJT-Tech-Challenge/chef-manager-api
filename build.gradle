@@ -38,12 +38,13 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0' // Para você a UI em /swagger-ui.html
 
 	// 3. Ferramentas e Banco de Dados
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0' // Para evitar que o MapStruct tente gerar o código de mapeamento (o MapperImpl) antes do Lombok ter terminado de criar os Getters e Setters no bytecode
 	implementation 'org.mapstruct:mapstruct:1.6.3'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
-	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
 
 	// 4. Segurança
 	implementation 'org.springframework.security:spring-security-crypto'

@@ -1,6 +1,7 @@
 package com.adjt.chefmanagerapi.infrastructure.persistence.usuario;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Setter
+@Getter
 @NoArgsConstructor
 @Entity
 @Table(name = "usuario", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -40,102 +42,6 @@ public class UsuarioEntity {
 
     @Column(nullable = false)
     private OffsetDateTime dataUltimaAlteracao;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getRua() {
-        return rua;
-    }
-
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public void setUf(String uf) {
-        this.uf = uf;
-    }
-
-    public OffsetDateTime getDataUltimaAlteracao() {
-        return dataUltimaAlteracao;
-    }
-
-    public void setDataUltimaAlteracao(OffsetDateTime dataUltimaAlteracao) {
-        this.dataUltimaAlteracao = dataUltimaAlteracao;
-    }
 }
 
 

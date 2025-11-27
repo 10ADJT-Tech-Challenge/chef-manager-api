@@ -1,5 +1,10 @@
 package com.adjt.chefmanagerapi.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class Endereco {
    private String rua;
     private String numero;
@@ -12,46 +17,6 @@ public class Endereco {
         this.numero = numero;
         this.cidade = cidade;
         this.cep = cep;
-        this.uf = uf;
-    }
-
-    public String getRua() {
-        return rua;
-    }
-
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public void setUf(String uf) {
         this.uf = uf;
     }
 }
