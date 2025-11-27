@@ -1,4 +1,4 @@
-package com.adjt.chef_manager_api;
+package com.adjt.chefmanagerapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

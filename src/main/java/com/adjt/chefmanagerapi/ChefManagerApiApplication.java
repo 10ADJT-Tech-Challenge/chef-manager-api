@@ -1,4 +1,4 @@
-package com.adjt.chef_manager_api;
+package com.adjt.chefmanagerapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -54,12 +54,13 @@ openApiGenerate {
 	generatorName = "spring"
 	inputSpec = "$rootDir/src/main/resources/static/openapi_v1.yaml".toString() // Caminho do arquivo da documentação
 	outputDir = layout.buildDirectory.dir("generated-sources/openapi").get().asFile.path
-	apiPackage = "com.adjt.chefapi.api"           // Onde ficam as Interfaces (Controllers)
-	modelPackage = "com.adjt.chefapi.api.model"   // Onde ficam os DTOs (Request/Response)
+	apiPackage = "com.adjt.chefmanagerapi"           // Onde ficam as Interfaces (Controllers)
+	modelPackage = "com.adjt.chefmanagerapi.model"   // Onde ficam os DTOs (Request/Response)
 	configOptions = [
-			interfaceOnly: "true",       // Gera apenas a interface, você implementa a lógica
+			interfaceOnly: "true",        // Gera apenas a interface, você implementa a lógica
 			useJakartaEe: "true",
-			skipDefaultInterface: "true" // Limpa o código gerado
+			skipDefaultInterface: "true", // Limpa o código gerado
+			useTags: "true",     		  // Gera um arquivo por tag => um controller/interface por tag
 	]
 }
 
