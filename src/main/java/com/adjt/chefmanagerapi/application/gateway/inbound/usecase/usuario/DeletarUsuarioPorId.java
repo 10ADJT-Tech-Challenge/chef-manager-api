@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.application.gateway.inbound.usecase;
+package com.adjt.chefmanagerapi.application.gateway.inbound.usecase.usuario;
 
 import java.util.UUID;
 

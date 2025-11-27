@@ -514,13 +514,13 @@ components:
       properties:
         nome:
           type: string
-          example: João Tavares
+          example: John Doe
         email:
           type: string
-          example: joao@example.com
+          example: johndoe@example.com
         login:
           type: string
-          example: joaot
+          example: johndoe
         senha:
           type: string
           example: secret123
@@ -633,7 +633,7 @@ components:
       properties:
         login:
           type: string
-          example: joaot
+          example: joaod
         senha:
           type: string
           example: secret123

@@ -38,17 +38,22 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0' // Para você a UI em /swagger-ui.html
 
 	// 3. Ferramentas e Banco de Dados
+	implementation 'org.mapstruct:mapstruct:1.6.3'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// 4. Testes
+	// 4. Segurança
+	implementation 'org.springframework.security:spring-security-crypto'
+
+	// 5. Testes
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-// 5. Configuração da Geração Automática
+// Configuração da Geração Automática
 // Informa ao plugin como transformar o YAML em interfaces Java
 openApiGenerate {
 	generatorName = "spring"

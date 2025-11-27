@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.application.gateway.inbound.dto;
+package com.adjt.chefmanagerapi.application.gateway.inbound.dto.usuario;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
