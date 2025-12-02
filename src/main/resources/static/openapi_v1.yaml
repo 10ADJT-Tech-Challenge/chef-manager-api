@@ -1,0 +1,666 @@
+openapi: 3.0.3
+info:
+  description: 'API para o Tech Challenge da Fase 2 - Pós Tech.
+
+
+    Este serviço gerencia o cadastro usuários, tipos de usuários do sistema, restaurantes e  seus cardápios.'
+  title: ChefManagerApi
+  version: 2.0.0
+paths:
+  /auth/login:
+    post:
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+          description: Login válido
+        '401':
+          description: Credenciais inválidas
+      summary: Valida o login do usuário
+      tags:
+      - Auth
+  /itens-cardapio/{idRestaurante}:
+    get:
+      parameters:
+      - in: path
+        name: idRestaurante
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ItemCardapio'
+                type: array
+          description: Lista retornada
+      summary: Lista itens de cardápio
+      tags:
+      - ItemCardapio
+    post:
+      parameters:
+      - in: path
+        name: idRestaurante
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemCardapioRequest'
+        required: true
+      responses:
+        '201':
+          description: Item criado
+      summary: Cria item de cardápio
+      tags:
+      - ItemCardapio
+  /itens-cardapio/{id}:
+    delete:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Excluído
+      summary: Remove item do cardápio
+      tags:
+      - ItemCardapio
+    get:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemCardapio'
+          description: Item encontrado
+      summary: Consulta item por ID
+      tags:
+      - ItemCardapio
+    put:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemCardapioRequest'
+        required: true
+      responses:
+        '200':
+          description: Atualizado
+      summary: Atualiza item
+      tags:
+      - ItemCardapio
+  /restaurantes:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Restaurante'
+                type: array
+          description: Lista retornada
+      summary: Lista restaurantes
+      tags:
+      - Restaurante
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestauranteRequest'
+        required: true
+      responses:
+        '201':
+          description: Restaurante criado
+      summary: Cria restaurante
+      tags:
+      - Restaurante
+  /restaurantes/{id}:
+    delete:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Excluído
+      summary: Remove restaurante
+      tags:
+      - Restaurante
+    get:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restaurante'
+          description: Restaurante encontrado
+      summary: Consulta restaurante por ID
+      tags:
+      - Restaurante
+    put:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestauranteRequest'
+        required: true
+      responses:
+        '200':
+          description: Atualizado
+      summary: Atualiza restaurante
+      tags:
+      - Restaurante
+  /tipos-usuario:
+    get:
+      description: Retorna todos os tipos de usuário cadastrados.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TipoUsuario'
+                type: array
+          description: Lista de tipos retornada com sucesso
+      summary: Lista os tipos de usuário
+      tags:
+      - TipoUsuario
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TipoUsuarioRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TipoUsuario'
+          description: Tipo criado com sucesso
+      summary: Cadastra novo tipo de usuário
+      tags:
+      - TipoUsuario
+  /tipos-usuario/{id}:
+    delete:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Removido com sucesso
+      summary: Remove tipo de usuário
+      tags:
+      - TipoUsuario
+    get:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TipoUsuario'
+          description: Tipo encontrado
+      summary: Consulta tipo de usuário por ID
+      tags:
+      - TipoUsuario
+    put:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TipoUsuarioRequest'
+        required: true
+      responses:
+        '200':
+          description: Atualizado com sucesso
+      summary: Atualiza tipo de usuário
+      tags:
+      - TipoUsuario
+  /usuarios:
+    get:
+      operationId: buscarPorNome
+      parameters:
+      - description: Nome do usuário a ser buscado
+        in: query
+        name: nome
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: Usuário encontrado
+        '404':
+          description: Usuário não encontrado com o nome fornecido.
+      summary: Busca um usuário por nome
+      tags:
+      - Usuario
+    post:
+      operationId: criarUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: Usuário criado com sucesso
+      summary: Cadastra um novo usuário
+      tags:
+      - Usuario
+  /usuarios/{id}:
+    delete:
+      operationId: deletarUsuarioPorId
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: Usuário deletado com sucesso
+      summary: Deleta usuário por ID
+      tags:
+      - Usuario
+    get:
+      operationId: buscarUsuarioPorId
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: Usuário encontrado
+      summary: Busca usuário por ID
+      tags:
+      - Usuario
+    put:
+      operationId: atualizar
+      parameters:
+      - description: ID único do usuário (UUID)
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarUsuarioRequest'
+        description: Dados do usuário para atualização.
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: Usuário atualizado com sucesso.
+        '404':
+          description: Usuário não encontrado.
+      summary: Atualiza um usuário existente
+      tags:
+      - Usuario
+  /usuarios/{id}/senha:
+    patch:
+      operationId: alterarSenha
+      parameters:
+      - description: ID do usuário (UUID)
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlterarSenhaRequest'
+        description: Dados para alteração de senha.
+        required: true
+      responses:
+        '204':
+          description: Senha alterada com sucesso
+        '400':
+          description: Dados inválidos ou senha incorreta
+        '404':
+          description: Usuário não encontrado
+      summary: Altera a senha de um usuário específico
+      tags:
+      - Usuario
+  /usuarios/{id}/tipo:
+    patch:
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                idTipoUsuario:
+                  type: string
+                  format: uuid
+              required:
+              - idTipoUsuario
+              type: object
+        required: true
+      responses:
+        '200':
+          description: Tipo associado com sucesso
+      summary: Atribui tipo de usuário
+      tags:
+      - Usuario
+servers:
+- description: Servidor local de desenvolvimento
+  url: http://localhost:8080/api/v1
+tags:
+- description: Operações para gerenciar os tipos de usuário
+  name: TipoUsuario
+- description: CRUD de usuários
+  name: Usuario
+- description: CRUD de restaurantes
+  name: Restaurante
+- description: Gerenciamento de itens de cardápio
+  name: ItemCardapio
+- description: Gerenciamento da autenticação
+  name: Auth  
+components:
+  parameters:
+    IdParam:
+      description: Identificador único do recurso
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    ItemCardapio:
+      description: Item do cardápio.
+      properties:
+        caminhoFoto:
+          type: string
+        consumoLocal:
+          type: boolean
+        descricao:
+          type: string
+        id:
+          type: string
+          format: uuid
+        idRestaurante:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        preco:
+          type: number
+      type: object
+    ItemCardapioRequest:
+      properties:
+        caminhoFoto:
+          type: string
+        consumoLocal:
+          type: boolean
+        descricao:
+          type: string
+        nome:
+          type: string
+        preco:
+          type: number
+      required:
+      - nome
+      - preco
+      type: object
+    Restaurante:
+      description: Dados do restaurante.
+      properties:
+        endereco:
+          type: string
+        horarioFuncionamento:
+          type: string
+        id:
+          type: string
+          format: uuid
+        idDono:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        tipoCozinha:
+          type: string
+      type: object
+    RestauranteRequest:
+      properties:
+        endereco:
+          type: string
+        horarioFuncionamento:
+          type: string
+        idDono:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        tipoCozinha:
+          type: string
+      required:
+      - nome
+      - endereco
+      - idDono
+      type: object
+    TipoUsuario:
+      description: Representa um tipo de usuário no sistema.
+      properties:
+        id:
+          type: string
+          format: uuid
+        nome:
+          type: string
+      type: object
+    TipoUsuarioRequest:
+      properties:
+        nome:
+          type: string
+      required:
+      - nome
+      type: object
+    UsuarioRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: johndoe@example.com
+        login:
+          type: string
+          example: johndoe
+        senha:
+          type: string
+          example: secret123
+        tipo:
+          type: string
+          description: Tipo de usuário
+          enum:
+          - CLIENTE
+          - DONO_RESTAURANTE
+          - ADMIN
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+      required:
+      - nome
+      - email
+      - login
+      - senha
+      - tipo
+      - endereco
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        email:
+          type: string
+        login:
+          type: string
+        tipo:
+          type: string
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+        dataUltimaAlteracao:
+          type: string
+          format: date-time
+      required:
+      - id
+      - nome
+      - email
+      - login
+      - tipo
+      - endereco
+      - dataUltimaAlteracao
+    Endereco:
+      type: object
+      properties:
+        rua:
+          type: string
+          example: Rua das Flores
+        numero:
+          type: string
+          example: 123
+        cidade:
+          type: string
+          example: Barbacena
+        cep:
+          type: string
+          example: 36200-000
+        uf:
+          type: string
+          example: MG
+      required:
+      - rua
+      - numero
+      - cidade
+      - cep
+      - uf
+    AlterarSenhaRequest:
+      type: object
+      properties:
+        senhaAtual:
+          type: string
+          example: secret123
+        novaSenha:
+          type: string
+          example: novaSenha456
+      required:
+      - senhaAtual
+      - novaSenha
+    AtualizarUsuarioRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+          format: email
+        login:
+          type: string
+        tipo:
+          type: string
+          description: Tipo de perfil do usuário
+          enum:
+          - CLIENTE
+          - DONO_RESTAURANTE
+          - ADMIN
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+      required:
+      - nome
+      - email
+      - login
+      - tipo
+      - endereco
+    LoginRequest:
+      type: object
+      properties:
+        login:
+          type: string
+          example: joaod
+        senha:
+          type: string
+          example: secret123
+      required:
+      - login
+      - senha
+    Login:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        email:
+          type: string
+        tipo:
+          type: string
+          enum:
+          - CLIENTE
+          - DONO_RESTAURANTE
+          - ADMIN
+        token:
+          type: string
+          description: Token JWT gerado para autenticação
+      required:
+      - id
+      - nome
+      - email
+      - tipo

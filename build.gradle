@@ -1,0 +1,89 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.0.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+	// O plugin do gerador para ler o YAML
+	id 'org.openapi.generator' version '7.17.0'
+}
+
+group = 'com.adjt'
+version = '0.0.1-SNAPSHOT'
+description = 'Sistema de Gestão Gastronômica Compartilhada'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// 1. WEB E DADOS (Essencial para a API e Banco de Dados)
+	implementation 'org.springframework.boot:spring-boot-starter-web' // Necessário para expor os endpoints REST
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Necessário para persistência dos dados
+	implementation 'org.springframework.boot:spring-boot-starter-validation' // Necessário para validar @NotNull, @Size do OpenAPI
+
+	// 2. Dependências do Código Gerado (OpenAPI)
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.41' // O código gerado usa anotações do Swagger (ex: @Schema)
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.6' // O código gerado usa 'JsonNullable' para campos opcionais no PATCH
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0' // Para você a UI em /swagger-ui.html
+
+	// 3. Ferramentas e Banco de Dados
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0' // Para evitar que o MapStruct tente gerar o código de mapeamento (o MapperImpl) antes do Lombok ter terminado de criar os Getters e Setters no bytecode
+	implementation 'org.mapstruct:mapstruct:1.6.3'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// 4. Segurança
+	implementation 'org.springframework.security:spring-security-crypto'
+
+	// 5. Testes
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// Configuração da Geração Automática
+// Informa ao plugin como transformar o YAML em interfaces Java
+openApiGenerate {
+	generatorName = "spring"
+	inputSpec = "$rootDir/src/main/resources/static/openapi_v1.yaml".toString() // Caminho do arquivo da documentação
+	outputDir = layout.buildDirectory.dir("generated-sources/openapi").get().asFile.path
+	apiPackage = "com.adjt.chefmanagerapi"           // Onde ficam as Interfaces (Controllers)
+	modelPackage = "com.adjt.chefmanagerapi.model"   // Onde ficam os DTOs (Request/Response)
+	configOptions = [
+			interfaceOnly: "true",        // Gera apenas a interface, você implementa a lógica
+			useJakartaEe: "true",
+			skipDefaultInterface: "true", // Limpa o código gerado
+			useTags: "true",     		  // Gera um arquivo por tag => um controller/interface por tag
+	]
+}
+
+// Garante que o Java 25 enxergue as classes geradas
+sourceSets {
+	main {
+		java {
+			srcDir layout.buildDirectory.dir("generated-sources/openapi/src/main/java")
+		}
+	}
+}
+
+// Gera o código automaticamente antes de compilar o projeto
+tasks.named("compileJava") {
+	dependsOn tasks.named("openApiGenerate")
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
