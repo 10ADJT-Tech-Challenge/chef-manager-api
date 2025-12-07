@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.core.adapters.interfaces;
+package com.adjt.chefmanagerapi.core.adapters.interfaces.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.dtos.usuario.UsuarioOutput;
 

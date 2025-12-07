@@ -3,7 +3,7 @@ package com.adjt.chefmanagerapi.core.domain.usecases.usuarios;
 import com.adjt.chefmanagerapi.core.adapters.mappers.UsuarioMapper;
 import com.adjt.chefmanagerapi.core.domain.dtos.usuario.CadastrarUsuarioInput;
 import com.adjt.chefmanagerapi.core.domain.dtos.usuario.UsuarioOutput;
-import com.adjt.chefmanagerapi.core.adapters.interfaces.CadastrarUsuario;
+import com.adjt.chefmanagerapi.core.adapters.interfaces.usuario.CadastrarUsuario;
 import com.adjt.chefmanagerapi.core.adapters.gateways.UsuarioGateway;
 import com.adjt.chefmanagerapi.core.adapters.gateways.SenhaEncoderGateway;
 import com.adjt.chefmanagerapi.core.domain.entities.Endereco;

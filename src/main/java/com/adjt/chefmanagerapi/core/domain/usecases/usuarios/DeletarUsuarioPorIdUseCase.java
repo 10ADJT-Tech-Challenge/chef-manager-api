@@ -1,6 +1,6 @@
 package com.adjt.chefmanagerapi.core.domain.usecases.usuarios;
 
-import com.adjt.chefmanagerapi.core.adapters.interfaces.DeletarUsuarioPorId;
+import com.adjt.chefmanagerapi.core.adapters.interfaces.usuario.DeletarUsuarioPorId;
 import com.adjt.chefmanagerapi.core.adapters.gateways.UsuarioGateway;
 import org.springframework.stereotype.Service;
 

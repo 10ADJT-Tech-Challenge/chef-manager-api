@@ -4,7 +4,7 @@ import com.adjt.chefmanagerapi.core.domain.exceptions.EmailJaCadastradoException
 import com.adjt.chefmanagerapi.core.domain.dtos.usuario.AtualizarUsuarioInput;
 import com.adjt.chefmanagerapi.core.domain.dtos.usuario.EnderecoInput;
 import com.adjt.chefmanagerapi.core.domain.dtos.usuario.UsuarioOutput;
-import com.adjt.chefmanagerapi.core.adapters.interfaces.AtualizarUsuario;
+import com.adjt.chefmanagerapi.core.adapters.interfaces.usuario.AtualizarUsuario;
 import com.adjt.chefmanagerapi.core.adapters.gateways.UsuarioGateway;
 import com.adjt.chefmanagerapi.core.adapters.mappers.UsuarioMapper;
 import com.adjt.chefmanagerapi.core.domain.entities.Endereco;

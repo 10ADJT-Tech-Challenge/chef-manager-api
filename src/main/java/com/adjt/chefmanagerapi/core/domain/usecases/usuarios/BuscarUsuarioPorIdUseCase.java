@@ -2,7 +2,7 @@ package com.adjt.chefmanagerapi.core.domain.usecases.usuarios;
 
 import com.adjt.chefmanagerapi.core.adapters.mappers.UsuarioMapper;
 import com.adjt.chefmanagerapi.core.domain.dtos.usuario.UsuarioOutput;
-import com.adjt.chefmanagerapi.core.adapters.interfaces.BuscarUsuarioPorId;
+import com.adjt.chefmanagerapi.core.adapters.interfaces.usuario.BuscarUsuarioPorId;
 import com.adjt.chefmanagerapi.core.adapters.gateways.UsuarioGateway;
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
 import org.springframework.stereotype.Service;
