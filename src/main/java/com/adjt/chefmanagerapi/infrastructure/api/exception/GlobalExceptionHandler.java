@@ -1,7 +1,6 @@
 package com.adjt.chefmanagerapi.infrastructure.api.exception;
 
-import com.adjt.chefmanagerapi.application.exception.DomainException;
-import com.adjt.chefmanagerapi.application.exception.*;
+import com.adjt.chefmanagerapi.core.domain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;

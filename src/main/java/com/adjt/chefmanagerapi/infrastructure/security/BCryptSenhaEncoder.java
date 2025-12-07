@@ -1,11 +1,11 @@
 package com.adjt.chefmanagerapi.infrastructure.security;
 
-import com.adjt.chefmanagerapi.application.gateway.outbound.security.SenhaEncoder;
+import com.adjt.chefmanagerapi.core.adapters.gateways.SenhaEncoderGateway;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BCryptSenhaEncoder implements SenhaEncoder {
+public class BCryptSenhaEncoder implements SenhaEncoderGateway {
 
     private final BCryptPasswordEncoder encoder;
 
