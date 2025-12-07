@@ -1,9 +1,9 @@
 package com.adjt.chefmanagerapi.infrastructure.api.mapper;
 
-import com.adjt.chefmanagerapi.application.gateway.inbound.dto.usuario.AlterarSenhaInput;
-import com.adjt.chefmanagerapi.application.gateway.inbound.dto.usuario.AtualizarUsuarioInput;
-import com.adjt.chefmanagerapi.application.gateway.inbound.dto.usuario.CadastrarUsuarioInput;
-import com.adjt.chefmanagerapi.application.gateway.inbound.dto.usuario.UsuarioOutput;
+import com.adjt.chefmanagerapi.core.domain.dtos.usuario.AlterarSenhaInput;
+import com.adjt.chefmanagerapi.core.domain.dtos.usuario.AtualizarUsuarioInput;
+import com.adjt.chefmanagerapi.core.domain.dtos.usuario.CadastrarUsuarioInput;
+import com.adjt.chefmanagerapi.core.domain.dtos.usuario.UsuarioOutput;
 import com.adjt.chefmanagerapi.model.AlterarSenhaRequest;
 import com.adjt.chefmanagerapi.model.AtualizarUsuarioRequest;
 import com.adjt.chefmanagerapi.model.Usuario;
