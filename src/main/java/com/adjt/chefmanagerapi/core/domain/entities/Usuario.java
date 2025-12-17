@@ -1,5 +1,7 @@
 package com.adjt.chefmanagerapi.core.domain.entities;
 
+import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
 import lombok.Getter;
 import lombok.Setter;
 
