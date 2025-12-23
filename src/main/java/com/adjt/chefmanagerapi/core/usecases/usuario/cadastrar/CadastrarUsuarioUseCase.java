@@ -69,9 +69,10 @@ public class CadastrarUsuarioUseCase implements CadastrarUsuario {
     }
 
     private void validaEmail(String email) {
-        Optional.ofNullable(email).ifPresentOrElse(this::validaEmailExistente, () -> {
+        if (email == null || email.isBlank())
             throw new EmailObrigatorioException();
-        });
+
+        validaEmailExistente(email);
     }
 
     private void validaEmailExistente(String email) {
@@ -81,9 +82,10 @@ public class CadastrarUsuarioUseCase implements CadastrarUsuario {
     }
 
     private void validaLogin(String login) {
-        Optional.ofNullable(login).ifPresentOrElse(this::validaLoginExistente, () -> {
+        if (login == null || login.isBlank())
             throw new LoginObrigatorioException();
-        });
+
+        validaLoginExistente(login);
     }
 
     private void validaLoginExistente(String login) {
@@ -93,9 +95,8 @@ public class CadastrarUsuarioUseCase implements CadastrarUsuario {
     }
 
     private static void validaSenha(String senha) {
-        if (senha == null || senha.length() < 6) {
+        if (senha == null || senha.length() < 6)
             throw new SenhaInvalidaException();
-        }
     }
 
     /*private void validarPermissoesParaCriacao(String tipoRequisitado) {
