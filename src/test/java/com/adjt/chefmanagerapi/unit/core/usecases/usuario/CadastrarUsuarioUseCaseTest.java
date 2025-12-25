@@ -137,9 +137,7 @@ public class CadastrarUsuarioUseCaseTest {
                 .thenReturn(Optional.of(usuarioExistente));
 
         // act & assert
-        assertThrows(EmailJaCadastradoException.class, () -> {
-            cadastrarUsuarioUseCase.executar(input);
-        });
+        assertThrows(EmailJaCadastradoException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
         verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
         verifyNoMoreInteractions(usuarioGatewayRepositoryMock);
@@ -152,9 +150,7 @@ public class CadastrarUsuarioUseCaseTest {
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComEmailNull("CLIENTE");
 
         // act & assert
-        assertThrows(EmailObrigatorioException.class, () -> {
-            cadastrarUsuarioUseCase.executar(input);
-        });
+        assertThrows(EmailObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
         verifyNoInteractions(usuarioGatewayRepositoryMock, senhaEncoderGatewayMock);
     }
@@ -165,9 +161,7 @@ public class CadastrarUsuarioUseCaseTest {
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComEmailVazio("CLIENTE");
 
         // act & assert
-        assertThrows(EmailObrigatorioException.class, () -> {
-            cadastrarUsuarioUseCase.executar(input);
-        });
+        assertThrows(EmailObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
         verifyNoInteractions(usuarioGatewayRepositoryMock, senhaEncoderGatewayMock);
     }
@@ -183,9 +177,7 @@ public class CadastrarUsuarioUseCaseTest {
                 .thenReturn(Optional.of(usuarioExistente));
 
         // act & assert
-        assertThrows(LoginJaCadastradoException.class, () -> {
-            cadastrarUsuarioUseCase.executar(input);
-        });
+        assertThrows(LoginJaCadastradoException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
         verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
         verify(usuarioGatewayRepositoryMock).buscarPorLogin(input.login());
@@ -199,9 +191,7 @@ public class CadastrarUsuarioUseCaseTest {
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComLoginNull("CLIENTE");
 
         // act & assert
-        assertThrows(LoginObrigatorioException.class, () -> {
-            cadastrarUsuarioUseCase.executar(input);
-        });
+        assertThrows(LoginObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
         verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
         verifyNoMoreInteractions(usuarioGatewayRepositoryMock);
@@ -214,9 +204,7 @@ public class CadastrarUsuarioUseCaseTest {
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComLoginVazio("CLIENTE");
 
         // act & assert
-        assertThrows(LoginObrigatorioException.class, () -> {
-            cadastrarUsuarioUseCase.executar(input);
-        });
+        assertThrows(LoginObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
         verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
         verifyNoMoreInteractions(usuarioGatewayRepositoryMock);
@@ -233,9 +221,7 @@ public class CadastrarUsuarioUseCaseTest {
                 .thenReturn(Optional.empty());
 
         // act & assert
-        assertThrows(SenhaInvalidaException.class, () -> {
-            cadastrarUsuarioUseCase.executar(input);
-        });
+        assertThrows(SenhaInvalidaException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
         verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
         verify(usuarioGatewayRepositoryMock).buscarPorLogin(input.login());
@@ -253,9 +239,7 @@ public class CadastrarUsuarioUseCaseTest {
                 .thenReturn(Optional.empty());
 
         // act & assert
-        assertThrows(SenhaInvalidaException.class, () -> {
-            cadastrarUsuarioUseCase.executar(input);
-        });
+        assertThrows(SenhaInvalidaException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
         verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
         verify(usuarioGatewayRepositoryMock).buscarPorLogin(input.login());

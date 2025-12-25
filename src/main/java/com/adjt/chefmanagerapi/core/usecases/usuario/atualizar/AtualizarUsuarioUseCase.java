@@ -1,6 +1,7 @@
 package com.adjt.chefmanagerapi.core.usecases.usuario.atualizar;
 
 import com.adjt.chefmanagerapi.core.exceptions.EmailJaCadastradoException;
+import com.adjt.chefmanagerapi.core.exceptions.LoginJaCadastradoException;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioMapper;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
@@ -30,7 +31,10 @@ public class AtualizarUsuarioUseCase implements AtualizarUsuario {
             validaEmailExistente(email, usuario);
             usuario.setEmail(email);
         });
-        Optional.ofNullable(dto.login()).ifPresent(usuario::setLogin);
+        Optional.ofNullable(dto.login()).ifPresent(login -> {
+            validaLoginExistente(login, usuario);
+            usuario.setLogin(login);
+        });
         Optional.ofNullable(dto.tipo()).ifPresent(usuario::setTipo);
         Optional.ofNullable(dto.endereco()).ifPresent(enderecoInput -> atualizaEndereco(enderecoInput, usuario.getEndereco()));
 
@@ -47,7 +51,14 @@ public class AtualizarUsuarioUseCase implements AtualizarUsuario {
     }
 
     private void validaEmailExistente(String email, Usuario usuario) {
-        if (usuarioGateway.buscarPorEmail(email).isPresent() && !usuario.getEmail().equals(email))
+        Optional<Usuario> buscadoPorEmail = usuarioGateway.buscarPorEmail(email);
+        if (buscadoPorEmail.isPresent() && !usuario.getId().equals(buscadoPorEmail.get().getId()))
             throw new EmailJaCadastradoException(email);
+    }
+
+    private void validaLoginExistente(String login, Usuario usuario) {
+        Optional<Usuario> buscadoPorLogin = usuarioGateway.buscarPorLogin(login);
+        if (buscadoPorLogin.isPresent() && !usuario.getId().equals(buscadoPorLogin.get().getId()))
+            throw new LoginJaCadastradoException(login);
     }
 }

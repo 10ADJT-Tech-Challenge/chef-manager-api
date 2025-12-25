@@ -3,6 +3,7 @@ package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
+import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuarioInput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioInput;
 
 import java.util.UUID;
@@ -89,6 +90,55 @@ public abstract class UsuarioHelper {
         }
     }
 
+    public abstract static class AtualizarUsuarioHelper {
+
+        public static Usuario buscaUsuarioParaAtualizar(String tipo) {
+            return criarUsuarioSimulado(CadastrarUsuarioHelper.criarInputValido(tipo));
+        }
+
+        public static AtualizarUsuarioInput criarInputAtualizacaoCompleta(UUID id, String novoTipo) {
+            return new AtualizarUsuarioInput(
+                    id,
+                    "Novo Nome",
+                    "novo@email.com",
+                    "novo.login",
+                    novoTipo,
+                    getNovoEnderecoInput()
+            );
+        }
+
+        public static AtualizarUsuarioInput criarInputAtualizacaoComMesmoEmailELogin(UUID id, String novoTipo) {
+            return new AtualizarUsuarioInput(
+                    id,
+                    "Novo Nome",
+                    "joao@email.com",
+                    "joao.silva",
+                    novoTipo,
+                    getNovoEnderecoInput()
+            );
+        }
+
+        public static AtualizarUsuarioInput criarInputAtualizacaoApenasLogin(UUID id) {
+            return new AtualizarUsuarioInput(
+                    id,
+                    null,
+                    null,
+                    "novo.login",
+                    null,
+                    null
+            );
+        }
+
+        private static AtualizarUsuarioInput.EnderecoInput getNovoEnderecoInput() {
+            return new AtualizarUsuarioInput.EnderecoInput(
+                    "Nova Rua",
+                    "456",
+                    "Nova Cidade",
+                    "88000-000",
+                    "SC");
+        }
+    }
+
     public static Usuario criarUsuarioSimulado(CadastrarUsuarioInput input) {
         // Simula o objeto que o Gateway retornaria após salvar no banco (com ID gerado)
         Usuario usuario = new Usuario(
@@ -105,8 +155,6 @@ public abstract class UsuarioHelper {
                         input.endereco().uf()
                 )
         );
-        // Precisamos simular que o ID foi gerado (se sua entidade Usuario tiver setter ou reflexão,
-        // caso contrário, ajuste conforme seu construtor real)
          usuario.setId(UUID.randomUUID());
         return usuario;
     }
