@@ -23,9 +23,8 @@ public class AlterarSenhaUseCase implements AlterarSenha {
         Usuario usuario = gateway.buscarPorId(input.usuarioId())
                 .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
 
-        if (!senhaEncoderGateway.verifica(input.senhaAtual(), usuario.getSenha())) {
+        if (!senhaEncoderGateway.verifica(input.senhaAtual(), usuario.getSenha()))
             throw new IllegalArgumentException("Senha atual incorreta");
-        }
 
         String novaSenhaHash = senhaEncoderGateway.encode(input.novaSenha());
         usuario.alterarSenha(novaSenhaHash);

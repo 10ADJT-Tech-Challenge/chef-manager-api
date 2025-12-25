@@ -50,7 +50,7 @@ public class AtualizarUsuarioUseCaseTest {
     @Test
     void deveAtualizaUsuarioComSucesso() {
         // arrange
-        Usuario usuario = UsuarioHelper.AtualizarUsuarioHelper.buscaUsuarioParaAtualizar("CLIENTE");
+        Usuario usuario = UsuarioHelper.buscaUsuario("CLIENTE");
         AtualizarUsuarioInput input = UsuarioHelper.AtualizarUsuarioHelper.criarInputAtualizacaoCompleta(usuario.getId(), "ADMIN");
         when(usuarioGateway.buscarPorId(usuario.getId())).thenReturn(Optional.of(usuario));
         when(usuarioGateway.buscarPorEmail(any())).thenReturn(Optional.empty());
@@ -76,7 +76,7 @@ public class AtualizarUsuarioUseCaseTest {
     @Test
     void deveAtualizaUsuarioComSucessoSemAlterarEmailELogin() {
         // arrange
-        Usuario usuario = UsuarioHelper.AtualizarUsuarioHelper.buscaUsuarioParaAtualizar("CLIENTE");
+        Usuario usuario = UsuarioHelper.buscaUsuario("CLIENTE");
         AtualizarUsuarioInput input = UsuarioHelper.AtualizarUsuarioHelper.criarInputAtualizacaoComMesmoEmailELogin(usuario.getId(), "ADMIN");
         when(usuarioGateway.buscarPorId(usuario.getId())).thenReturn(Optional.of(usuario));
         when(usuarioGateway.buscarPorEmail(input.email())).thenReturn(Optional.of(usuario));
@@ -112,8 +112,8 @@ public class AtualizarUsuarioUseCaseTest {
     @Test
     void deveLancarErroQuandoEmailJaExistir() {
         // arrange
-        Usuario usuario = UsuarioHelper.AtualizarUsuarioHelper.buscaUsuarioParaAtualizar("CLIENTE");
-        Usuario outroUsuario = UsuarioHelper.AtualizarUsuarioHelper.buscaUsuarioParaAtualizar("ADMIN");
+        Usuario usuario = UsuarioHelper.buscaUsuario("CLIENTE");
+        Usuario outroUsuario = UsuarioHelper.buscaUsuario("ADMIN");
         AtualizarUsuarioInput input = UsuarioHelper.AtualizarUsuarioHelper.criarInputAtualizacaoCompleta(usuario.getId(), "ADMIN");
         when(usuarioGateway.buscarPorId(input.id())).thenReturn(Optional.of(usuario));
         when(usuarioGateway.buscarPorEmail(input.email())).thenReturn(Optional.of(outroUsuario));
@@ -125,8 +125,8 @@ public class AtualizarUsuarioUseCaseTest {
     @Test
     void deveLancarErroQuandoLoginJaExistir() {
         // arrange
-        Usuario usuario = UsuarioHelper.AtualizarUsuarioHelper.buscaUsuarioParaAtualizar("CLIENTE");
-        Usuario outroUsuario = UsuarioHelper.AtualizarUsuarioHelper.buscaUsuarioParaAtualizar("ADMIN");
+        Usuario usuario = UsuarioHelper.buscaUsuario("CLIENTE");
+        Usuario outroUsuario = UsuarioHelper.buscaUsuario("ADMIN");
         AtualizarUsuarioInput input = UsuarioHelper.AtualizarUsuarioHelper.criarInputAtualizacaoCompleta(usuario.getId(), "ADMIN");
         when(usuarioGateway.buscarPorId(input.id())).thenReturn(Optional.of(usuario));
         when(usuarioGateway.buscarPorEmail(input.email())).thenReturn(Optional.of(usuario));
@@ -139,7 +139,7 @@ public class AtualizarUsuarioUseCaseTest {
     @Test
     void deveAtualizarApenasOsCamposFornecidos() {
         // arrange
-        Usuario usuario = UsuarioHelper.AtualizarUsuarioHelper.buscaUsuarioParaAtualizar("CLIENTE");
+        Usuario usuario = UsuarioHelper.buscaUsuario("CLIENTE");
         AtualizarUsuarioInput input = UsuarioHelper.AtualizarUsuarioHelper.criarInputAtualizacaoApenasLogin(usuario.getId());
         when(usuarioGateway.buscarPorId(usuario.getId())).thenReturn(Optional.of(usuario));
         when(usuarioGateway.buscarPorEmail(any())).thenReturn(Optional.empty());

@@ -3,6 +3,7 @@ package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
+import com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha.AlterarSenhaInput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuarioInput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioInput;
 
@@ -92,10 +93,6 @@ public abstract class UsuarioHelper {
 
     public abstract static class AtualizarUsuarioHelper {
 
-        public static Usuario buscaUsuarioParaAtualizar(String tipo) {
-            return criarUsuarioSimulado(CadastrarUsuarioHelper.criarInputValido(tipo));
-        }
-
         public static AtualizarUsuarioInput criarInputAtualizacaoCompleta(UUID id, String novoTipo) {
             return new AtualizarUsuarioInput(
                     id,
@@ -139,6 +136,17 @@ public abstract class UsuarioHelper {
         }
     }
 
+    public abstract static class AlterarSenhaHelper {
+
+        public static AlterarSenhaInput criarInputAlteracaoSenha(UUID id) {
+            return new AlterarSenhaInput(id, "senha123", "novaSenha123");
+        }
+
+        public static AlterarSenhaInput criarInputAlteracaoSenhaIncorreta(UUID id) {
+            return new AlterarSenhaInput(id, "senhaErrada", "novaSenha123");
+        }
+    }
+
     public static Usuario criarUsuarioSimulado(CadastrarUsuarioInput input) {
         // Simula o objeto que o Gateway retornaria após salvar no banco (com ID gerado)
         Usuario usuario = new Usuario(
@@ -159,4 +167,7 @@ public abstract class UsuarioHelper {
         return usuario;
     }
 
+    public static Usuario buscaUsuario(String tipo) {
+        return criarUsuarioSimulado(CadastrarUsuarioHelper.criarInputValido(tipo));
+    }
 }
