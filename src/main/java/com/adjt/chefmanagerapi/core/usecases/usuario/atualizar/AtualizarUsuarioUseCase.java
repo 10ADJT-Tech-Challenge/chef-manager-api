@@ -10,9 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Supplier;
 
 @Service
 public class AtualizarUsuarioUseCase implements AtualizarUsuario {
+    private static final String MENSAGEM_USUARIO_NAO_ENCONTRADO = "Nenhum usuário encontrado com o id: ";
+
     private final UsuarioGateway usuarioGateway;
     private final UsuarioMapper mapper;
 
@@ -23,31 +27,62 @@ public class AtualizarUsuarioUseCase implements AtualizarUsuario {
 
     @Override
     public AtualizarUsuarioOutput executar(AtualizarUsuarioInput dto) {
-        Usuario usuario = usuarioGateway.buscarPorId(dto.id())
-                .orElseThrow(() -> new NoSuchElementException("Nenhum usuário encontrado com o id: " + dto.id()));
+        Usuario usuario = buscaUsuarioOuLancaErro(dto.id());
+        atualizarDadosUsuario(usuario, dto);
 
-        Optional.ofNullable(dto.nome()).ifPresent(usuario::setNome);
-        Optional.ofNullable(dto.email()).ifPresent(email -> {
-            validaEmailExistente(email, usuario);
-            usuario.setEmail(email);
-        });
-        Optional.ofNullable(dto.login()).ifPresent(login -> {
-            validaLoginExistente(login, usuario);
-            usuario.setLogin(login);
-        });
-        Optional.ofNullable(dto.tipo()).ifPresent(usuario::setTipo);
-        Optional.ofNullable(dto.endereco()).ifPresent(enderecoInput -> atualizaEndereco(enderecoInput, usuario.getEndereco()));
-
-        usuarioGateway.salvar(usuario);
-        return mapper.toAtualizarOutput(usuario);
+        return mapper.toAtualizarOutput(usuarioGateway.salvar(usuario));
     }
 
-    private static void atualizaEndereco(AtualizarUsuarioInput.EnderecoInput enderecoInput, Endereco endereco) {
-        Optional.ofNullable(enderecoInput.rua()).ifPresent(endereco::setRua);
-        Optional.ofNullable(enderecoInput.numero()).ifPresent(endereco::setNumero);
-        Optional.ofNullable(enderecoInput.cidade()).ifPresent(endereco::setCidade);
-        Optional.ofNullable(enderecoInput.cep()).ifPresent(endereco::setCep);
-        Optional.ofNullable(enderecoInput.uf()).ifPresent(endereco::setUf);
+    private void atualizarDadosUsuario(Usuario usuario, AtualizarUsuarioInput dto) {
+        atualizaNomeSePresenteEValido(usuario, dto.nome());
+        atualizaEmailSePresenteEValido(usuario, dto.email());
+        atualizaLoginSePresenteEValido(usuario, dto.login());
+        atualizaTipoSePresenteEValido(usuario, dto.tipo());
+        atualizaEnderecoSePresenteEValido(usuario, dto.endereco());
+    }
+
+    private void atualizaEnderecoSePresenteEValido(Usuario usuario, AtualizarUsuarioInput.EnderecoInput endereco) {
+        Optional.ofNullable(endereco).ifPresent(enderecoInput -> atualizaEndereco(enderecoInput, usuario));
+    }
+
+    private void atualizaTipoSePresenteEValido(Usuario usuario, String tipo) {
+        Optional.ofNullable(tipo).ifPresent(usuario::atualizarTipo);
+    }
+
+    private void atualizaLoginSePresenteEValido(Usuario usuario, String login) {
+        Optional.ofNullable(login).ifPresent(l -> {
+            validaLoginExistente(l, usuario);
+            usuario.atualizarLogin(l);
+        });
+    }
+
+    private void atualizaEmailSePresenteEValido(Usuario usuario, String email) {
+        Optional.ofNullable(email).ifPresent(e -> {
+            validaEmailExistente(e, usuario);
+            usuario.atualizarEmail(e);
+        });
+    }
+
+    private void atualizaNomeSePresenteEValido(Usuario usuario, String nome) {
+        Optional.ofNullable(nome).ifPresent(usuario::atualizarNome);
+    }
+
+    private Usuario buscaUsuarioOuLancaErro(UUID id) {
+        return usuarioGateway.buscarPorId(id)
+                .orElseThrow(() -> new NoSuchElementException(MENSAGEM_USUARIO_NAO_ENCONTRADO + id));
+    }
+
+    private static void atualizaEndereco(AtualizarUsuarioInput.EnderecoInput enderecoInput, Usuario usuario) {
+        Endereco enderecoAtual = usuario.getEndereco();
+        usuario.atualizarEndereco(
+                new Endereco(
+                        obterValorEndereco(enderecoInput::rua, enderecoAtual::rua),
+                        obterValorEndereco(enderecoInput::numero, enderecoAtual::numero),
+                        obterValorEndereco(enderecoInput::cidade, enderecoAtual::cidade),
+                        obterValorEndereco(enderecoInput::cep, enderecoAtual::cep),
+                        obterValorEndereco(enderecoInput::uf, enderecoAtual::uf)
+                )
+        );
     }
 
     private void validaEmailExistente(String email, Usuario usuario) {
@@ -60,5 +95,9 @@ public class AtualizarUsuarioUseCase implements AtualizarUsuario {
         Optional<Usuario> buscadoPorLogin = usuarioGateway.buscarPorLogin(login);
         if (buscadoPorLogin.isPresent() && !usuario.getId().equals(buscadoPorLogin.get().getId()))
             throw new LoginJaCadastradoException(login);
+    }
+
+    private static String obterValorEndereco(Supplier<String> novoValor, Supplier<String> valorAtual) {
+        return Optional.ofNullable(novoValor.get()).orElse(valorAtual.get());
     }
 }

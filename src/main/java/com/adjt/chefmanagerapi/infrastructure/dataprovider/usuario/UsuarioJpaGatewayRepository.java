@@ -45,6 +45,16 @@ public class UsuarioJpaGatewayRepository implements UsuarioGatewayRepository {
     }
 
     @Override
+    public boolean existePorEmail(String email) {
+        return repo.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existePorLogin(String login) {
+        return repo.existsByLogin(login);
+    }
+
+    @Override
     public void deletarPorId(UUID id) {
         repo.deleteById(id);
     }

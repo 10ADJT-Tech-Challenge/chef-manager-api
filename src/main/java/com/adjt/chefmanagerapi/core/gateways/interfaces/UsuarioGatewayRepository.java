@@ -16,6 +16,10 @@ public interface UsuarioGatewayRepository {
 
     boolean existePorId(UUID id);
 
+    boolean existePorEmail(String email);
+
+    boolean existePorLogin(String login);
+
     void deletarPorId(UUID id);
 
     Optional<UsuarioGatewayDTO> buscarPorLogin(String login);

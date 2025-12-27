@@ -8,8 +8,8 @@ import org.mapstruct.Mapping;
 public interface UsuarioGatewayMapper {
 
     @Mapping(target = "tipo", expression = "java(usuario.getTipo().name())")
+    @Mapping(target = "email", expression = "java(usuario.getEmail().toString())")
     UsuarioGatewayDTO toGatewayDTO(Usuario usuario);
 
-    @Mapping(target = "tipo", expression = "java(com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario.valueOf(usuarioGatewayDTO.tipo()))")
     Usuario toDomain(UsuarioGatewayDTO usuarioGatewayDTO);
 }

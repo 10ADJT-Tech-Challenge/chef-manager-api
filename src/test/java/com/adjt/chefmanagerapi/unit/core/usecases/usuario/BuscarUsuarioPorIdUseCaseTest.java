@@ -52,16 +52,16 @@ public class BuscarUsuarioPorIdUseCaseTest {
         assertNotNull(output);
         assertEquals(usuario.getId(), output.id());
         assertEquals(usuario.getNome(), output.nome());
-        assertEquals(usuario.getEmail(), output.email());
+        assertEquals(usuario.getEmail().toString(), output.email());
         assertEquals(usuario.getLogin(), output.login());
         assertEquals(usuario.getTipo().name(), output.tipo());
 
         assertNotNull(output.endereco());
-        assertEquals(usuario.getEndereco().getRua(), output.endereco().rua());
-        assertEquals(usuario.getEndereco().getNumero(), output.endereco().numero());
-        assertEquals(usuario.getEndereco().getCidade(), output.endereco().cidade());
-        assertEquals(usuario.getEndereco().getCep(), output.endereco().cep());
-        assertEquals(usuario.getEndereco().getUf(), output.endereco().uf());
+        assertEquals(usuario.getEndereco().rua(), output.endereco().rua());
+        assertEquals(usuario.getEndereco().numero(), output.endereco().numero());
+        assertEquals(usuario.getEndereco().cidade(), output.endereco().cidade());
+        assertEquals(usuario.getEndereco().cep(), output.endereco().cep());
+        assertEquals(usuario.getEndereco().uf(), output.endereco().uf());
 
         verify(usuarioGateway).buscarPorId(usuario.getId());
     }

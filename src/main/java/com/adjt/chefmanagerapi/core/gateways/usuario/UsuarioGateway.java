@@ -14,9 +14,13 @@ public interface UsuarioGateway {
 
     Optional<Usuario> buscarPorId(UUID id);
 
+    Optional<Usuario> buscarPorLogin(String login);
+
     boolean existePorId(UUID id);
 
-    void deletarPorId(UUID id);
+    boolean existePorEmail(String email);
 
-    Optional<Usuario> buscarPorLogin(String login);
+    boolean existePorLogin(String login);
+
+    void deletarPorId(UUID id);
 }

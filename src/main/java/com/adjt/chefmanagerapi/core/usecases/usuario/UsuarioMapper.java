@@ -11,11 +11,14 @@ import org.mapstruct.Mapping;
 public interface UsuarioMapper {
 
     @Mapping(target = "tipo", expression = "java(usuario.getTipo().name())")
+    @Mapping(target = "email", expression = "java(usuario.getEmail().toString())")
     BuscarUsuarioOutput toBuscarOutput(Usuario usuario);
 
     @Mapping(target = "tipo", expression = "java(usuario.getTipo().name())")
+    @Mapping(target = "email", expression = "java(usuario.getEmail().toString())")
     CadastrarUsuarioOutput toCadastrarOutput(Usuario usuario);
 
     @Mapping(target = "tipo", expression = "java(usuario.getTipo().name())")
+    @Mapping(target = "email", expression = "java(usuario.getEmail().toString())")
     AtualizarUsuarioOutput toAtualizarOutput(Usuario usuario);
 }

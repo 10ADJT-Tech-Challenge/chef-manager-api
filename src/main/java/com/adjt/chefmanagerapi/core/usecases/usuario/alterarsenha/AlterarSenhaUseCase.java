@@ -1,6 +1,7 @@
 package com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.Senha;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.SenhaEncoderGateway;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class AlterarSenhaUseCase implements AlterarSenha {
         if (!senhaEncoderGateway.verifica(input.senhaAtual(), usuario.getSenha()))
             throw new IllegalArgumentException("Senha atual incorreta");
 
-        String novaSenhaHash = senhaEncoderGateway.encode(input.novaSenha());
+        String novaSenhaHash = senhaEncoderGateway.encode(new Senha(input.novaSenha()).toString());
         usuario.alterarSenha(novaSenhaHash);
 
         gateway.salvar(usuario);

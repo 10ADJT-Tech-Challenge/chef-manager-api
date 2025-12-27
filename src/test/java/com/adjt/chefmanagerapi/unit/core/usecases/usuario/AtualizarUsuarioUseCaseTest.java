@@ -55,6 +55,7 @@ public class AtualizarUsuarioUseCaseTest {
         when(usuarioGateway.buscarPorId(usuario.getId())).thenReturn(Optional.of(usuario));
         when(usuarioGateway.buscarPorEmail(any())).thenReturn(Optional.empty());
         when(usuarioGateway.buscarPorLogin(any())).thenReturn(Optional.empty());
+        when(usuarioGateway.salvar(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         // act
         AtualizarUsuarioOutput outputAtualizacao = atualizarUsuario.executar(input);
@@ -81,6 +82,7 @@ public class AtualizarUsuarioUseCaseTest {
         when(usuarioGateway.buscarPorId(usuario.getId())).thenReturn(Optional.of(usuario));
         when(usuarioGateway.buscarPorEmail(input.email())).thenReturn(Optional.of(usuario));
         when(usuarioGateway.buscarPorLogin(input.login())).thenReturn(Optional.of(usuario));
+        when(usuarioGateway.salvar(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         // act
         AtualizarUsuarioOutput outputAtualizacao = atualizarUsuario.executar(input);
@@ -144,11 +146,12 @@ public class AtualizarUsuarioUseCaseTest {
         when(usuarioGateway.buscarPorId(usuario.getId())).thenReturn(Optional.of(usuario));
         when(usuarioGateway.buscarPorEmail(any())).thenReturn(Optional.empty());
         when(usuarioGateway.buscarPorLogin(any())).thenReturn(Optional.empty());
+        when(usuarioGateway.salvar(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         String nomeOriginal = usuario.getNome();
-        String emailOriginal = usuario.getEmail();
-        String ruaOriginal = usuario.getEndereco().getRua();
-        String cidadeOriginal = usuario.getEndereco().getCidade();
+        String emailOriginal = usuario.getEmail().toString();
+        String ruaOriginal = usuario.getEndereco().rua();
+        String cidadeOriginal = usuario.getEndereco().cidade();
 
         // act
         AtualizarUsuarioOutput outputAtualizacao = atualizarUsuario.executar(input);

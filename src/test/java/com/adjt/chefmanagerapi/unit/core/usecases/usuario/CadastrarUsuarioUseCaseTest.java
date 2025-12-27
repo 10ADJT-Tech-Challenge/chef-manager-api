@@ -14,8 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -27,7 +25,7 @@ public class CadastrarUsuarioUseCaseTest {
     private CadastrarUsuario cadastrarUsuarioUseCase;
 
     @Mock
-    private UsuarioGateway usuarioGatewayRepositoryMock;
+    private UsuarioGateway usuarioGatewayMock;
 
     @Mock
     private SenhaEncoderGateway senhaEncoderGatewayMock;
@@ -36,7 +34,7 @@ public class CadastrarUsuarioUseCaseTest {
     void setup() {
         openMocks = MockitoAnnotations.openMocks(this);
         cadastrarUsuarioUseCase = new CadastrarUsuarioUseCase(
-                usuarioGatewayRepositoryMock,
+                usuarioGatewayMock,
                 senhaEncoderGatewayMock,
                 new UsuarioMapperImpl()
         );
@@ -53,9 +51,9 @@ public class CadastrarUsuarioUseCaseTest {
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("CLIENTE");
         Usuario usuarioSimulado = UsuarioHelper.criarUsuarioSimulado(input);
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
-        when(usuarioGatewayRepositoryMock.buscarPorEmail(input.email())).thenReturn(Optional.empty());
-        when(usuarioGatewayRepositoryMock.buscarPorLogin(input.login())).thenReturn(Optional.empty());
-        when(usuarioGatewayRepositoryMock.salvar(any(Usuario.class))).thenReturn(usuarioSimulado);
+        when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
+        when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(false);
+        when(usuarioGatewayMock.salvar(any(Usuario.class))).thenReturn(usuarioSimulado);
 
         // act
         var output = cadastrarUsuarioUseCase.executar(input);
@@ -68,10 +66,10 @@ public class CadastrarUsuarioUseCaseTest {
         assertEquals(input.login(), output.login());
         assertEquals(input.tipo(), output.tipo());
 
-        verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
-        verify(usuarioGatewayRepositoryMock).buscarPorLogin(input.login());
+        verify(usuarioGatewayMock).existePorEmail(input.email());
+        verify(usuarioGatewayMock).existePorLogin(input.login());
         verify(senhaEncoderGatewayMock).encode(input.senha());
-        verify(usuarioGatewayRepositoryMock).salvar(any(Usuario.class));
+        verify(usuarioGatewayMock).salvar(any(Usuario.class));
     }
 
     @Test
@@ -80,9 +78,9 @@ public class CadastrarUsuarioUseCaseTest {
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("DONO_RESTAURANTE");
         Usuario usuarioSimulado = UsuarioHelper.criarUsuarioSimulado(input);
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
-        when(usuarioGatewayRepositoryMock.buscarPorEmail(input.email())).thenReturn(Optional.empty());
-        when(usuarioGatewayRepositoryMock.buscarPorLogin(input.login())).thenReturn(Optional.empty());
-        when(usuarioGatewayRepositoryMock.salvar(any(Usuario.class))).thenReturn(usuarioSimulado);
+        when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
+        when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(false);
+        when(usuarioGatewayMock.salvar(any(Usuario.class))).thenReturn(usuarioSimulado);
 
         // act
         var output = cadastrarUsuarioUseCase.executar(input);
@@ -95,10 +93,10 @@ public class CadastrarUsuarioUseCaseTest {
         assertEquals(input.login(), output.login());
         assertEquals(input.tipo(), output.tipo());
 
-        verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
-        verify(usuarioGatewayRepositoryMock).buscarPorLogin(input.login());
+        verify(usuarioGatewayMock).existePorEmail(input.email());
+        verify(usuarioGatewayMock).existePorLogin(input.login());
         verify(senhaEncoderGatewayMock).encode(input.senha());
-        verify(usuarioGatewayRepositoryMock).salvar(any(Usuario.class));
+        verify(usuarioGatewayMock).salvar(any(Usuario.class));
     }
 
     @Test
@@ -107,9 +105,9 @@ public class CadastrarUsuarioUseCaseTest {
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("ADMIN");
         Usuario usuarioSimulado = UsuarioHelper.criarUsuarioSimulado(input);
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
-        when(usuarioGatewayRepositoryMock.buscarPorEmail(input.email())).thenReturn(Optional.empty());
-        when(usuarioGatewayRepositoryMock.buscarPorLogin(input.login())).thenReturn(Optional.empty());
-        when(usuarioGatewayRepositoryMock.salvar(any(Usuario.class))).thenReturn(usuarioSimulado);
+        when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
+        when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(false);
+        when(usuarioGatewayMock.salvar(any(Usuario.class))).thenReturn(usuarioSimulado);
 
         // act
         var output = cadastrarUsuarioUseCase.executar(input);
@@ -122,110 +120,114 @@ public class CadastrarUsuarioUseCaseTest {
         assertEquals(input.login(), output.login());
         assertEquals(input.tipo(), output.tipo());
 
-        verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
-        verify(usuarioGatewayRepositoryMock).buscarPorLogin(input.login());
+        verify(usuarioGatewayMock).existePorEmail(input.email());
+        verify(usuarioGatewayMock).existePorLogin(input.login());
         verify(senhaEncoderGatewayMock).encode(input.senha());
-        verify(usuarioGatewayRepositoryMock).salvar(any(Usuario.class));
+        verify(usuarioGatewayMock).salvar(any(Usuario.class));
     }
 
     @Test
     void deveValidarEmailDuplicado() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("CLIENTE");
-        Usuario usuarioExistente = UsuarioHelper.criarUsuarioSimulado(input);
-        when(usuarioGatewayRepositoryMock.buscarPorEmail(input.email()))
-                .thenReturn(Optional.of(usuarioExistente));
+        when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
+        when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(true);
 
         // act & assert
         assertThrows(EmailJaCadastradoException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
-        verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
-        verifyNoMoreInteractions(usuarioGatewayRepositoryMock);
-        verifyNoInteractions(senhaEncoderGatewayMock);
+        verify(usuarioGatewayMock).existePorEmail(input.email());
+        verify(senhaEncoderGatewayMock).encode(input.senha());
+        verifyNoMoreInteractions(usuarioGatewayMock);
+        verifyNoMoreInteractions(senhaEncoderGatewayMock);
     }
 
     @Test
     void deveValidarEmailNullInformado() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComEmailNull("CLIENTE");
+        when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
 
         // act & assert
-        assertThrows(EmailObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
+        EmailObrigatorioException emailObrigatorioException = assertThrows(EmailObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
-        verifyNoInteractions(usuarioGatewayRepositoryMock, senhaEncoderGatewayMock);
+        assertEquals("E-mail é obrigatório.", emailObrigatorioException.getMessage());
+        verify(senhaEncoderGatewayMock).encode(input.senha());
+        verifyNoInteractions(usuarioGatewayMock);
     }
 
     @Test
     void deveValidarEmailVazioInformado() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComEmailVazio("CLIENTE");
+        when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
 
         // act & assert
-        assertThrows(EmailObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
+        EmailObrigatorioException emailObrigatorioException = assertThrows(EmailObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
+        assertEquals("E-mail é obrigatório.", emailObrigatorioException.getMessage());
 
-        verifyNoInteractions(usuarioGatewayRepositoryMock, senhaEncoderGatewayMock);
+        verify(senhaEncoderGatewayMock).encode(input.senha());
+        verifyNoInteractions(usuarioGatewayMock);
     }
 
     @Test
     void deveValidarLoginDuplicado() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("CLIENTE");
-        Usuario usuarioExistente = UsuarioHelper.criarUsuarioSimulado(input);
-        when(usuarioGatewayRepositoryMock.buscarPorEmail(input.email()))
-                .thenReturn(Optional.empty());
-        when(usuarioGatewayRepositoryMock.buscarPorLogin(input.login()))
-                .thenReturn(Optional.of(usuarioExistente));
+        when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
+        when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(true);
 
         // act & assert
-        assertThrows(LoginJaCadastradoException.class, () -> cadastrarUsuarioUseCase.executar(input));
+        LoginJaCadastradoException loginJaCadastradoException = assertThrows(LoginJaCadastradoException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
-        verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
-        verify(usuarioGatewayRepositoryMock).buscarPorLogin(input.login());
-        verifyNoMoreInteractions(usuarioGatewayRepositoryMock);
-        verifyNoInteractions(senhaEncoderGatewayMock);
+        assertEquals("Login já cadastrado: " + input.login(), loginJaCadastradoException.getMessage());
+        verify(usuarioGatewayMock).existePorEmail(input.email());
+        verify(usuarioGatewayMock).existePorLogin(input.login());
+        verifyNoMoreInteractions(usuarioGatewayMock);
+
+        verify(senhaEncoderGatewayMock).encode(input.senha());
+        verifyNoMoreInteractions(senhaEncoderGatewayMock);
     }
 
     @Test
     void deveValidarLoginNullInformado() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComLoginNull("CLIENTE");
+        when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
 
         // act & assert
-        assertThrows(LoginObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
+        LoginObrigatorioException loginObrigatorioException = assertThrows(LoginObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
-        verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
-        verifyNoMoreInteractions(usuarioGatewayRepositoryMock);
-        verifyNoInteractions(senhaEncoderGatewayMock);
+        assertEquals("Login é obrigatório", loginObrigatorioException.getMessage());
+        verifyNoInteractions(usuarioGatewayMock);
+        verify(senhaEncoderGatewayMock).encode(input.senha());
+        verifyNoMoreInteractions(senhaEncoderGatewayMock);
     }
 
     @Test
     void deveValidarLoginVazioInformado() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComLoginVazio("CLIENTE");
+        when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
 
         // act & assert
-        assertThrows(LoginObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
+        LoginObrigatorioException loginObrigatorioException = assertThrows(LoginObrigatorioException.class, () -> cadastrarUsuarioUseCase.executar(input));
+        assertEquals("Login é obrigatório", loginObrigatorioException.getMessage());
 
-        verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
-        verifyNoMoreInteractions(usuarioGatewayRepositoryMock);
-        verifyNoInteractions(senhaEncoderGatewayMock);
+        verifyNoInteractions(usuarioGatewayMock);
+        verify(senhaEncoderGatewayMock).encode(input.senha());
+        verifyNoMoreInteractions(senhaEncoderGatewayMock);
     }
 
     @Test
     void deveValidarSenhaCurta() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComSenhaCurta("CLIENTE");
-        when(usuarioGatewayRepositoryMock.buscarPorEmail(input.email()))
-                .thenReturn(Optional.empty());
-        when(usuarioGatewayRepositoryMock.buscarPorLogin(input.login()))
-                .thenReturn(Optional.empty());
 
         // act & assert
         assertThrows(SenhaInvalidaException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
-        verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
-        verify(usuarioGatewayRepositoryMock).buscarPorLogin(input.login());
-        verifyNoMoreInteractions(usuarioGatewayRepositoryMock);
+        verifyNoInteractions(usuarioGatewayMock);
         verifyNoInteractions(senhaEncoderGatewayMock);
     }
 
@@ -233,17 +235,11 @@ public class CadastrarUsuarioUseCaseTest {
     void deveValidarSenhaNull() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComSenhaNull("CLIENTE");
-        when(usuarioGatewayRepositoryMock.buscarPorEmail(input.email()))
-                .thenReturn(Optional.empty());
-        when(usuarioGatewayRepositoryMock.buscarPorLogin(input.login()))
-                .thenReturn(Optional.empty());
 
         // act & assert
         assertThrows(SenhaInvalidaException.class, () -> cadastrarUsuarioUseCase.executar(input));
 
-        verify(usuarioGatewayRepositoryMock).buscarPorEmail(input.email());
-        verify(usuarioGatewayRepositoryMock).buscarPorLogin(input.login());
-        verifyNoMoreInteractions(usuarioGatewayRepositoryMock);
+        verifyNoInteractions(usuarioGatewayMock);
         verifyNoInteractions(senhaEncoderGatewayMock);
     }
 }
