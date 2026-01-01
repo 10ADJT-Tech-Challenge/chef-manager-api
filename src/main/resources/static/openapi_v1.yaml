@@ -21,7 +21,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Login'
+                $ref: '#/components/schemas/LoginResponse'
           description: Login válido
         '401':
           description: Credenciais inválidas
@@ -43,7 +43,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/ItemCardapio'
+                  $ref: '#/components/schemas/ItemCardapioResponse'
                 type: array
           description: Lista retornada
       summary: Lista itens de cardápio
@@ -87,7 +87,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItemCardapio'
+                $ref: '#/components/schemas/ItemCardapioResponse'
           description: Item encontrado
       summary: Consulta item por ID
       tags:
@@ -115,7 +115,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Restaurante'
+                  $ref: '#/components/schemas/RestauranteResponse'
                 type: array
           description: Lista retornada
       summary: Lista restaurantes
@@ -152,7 +152,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Restaurante'
+                $ref: '#/components/schemas/RestauranteResponse'
           description: Restaurante encontrado
       summary: Consulta restaurante por ID
       tags:
@@ -181,7 +181,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/TipoUsuario'
+                  $ref: '#/components/schemas/TipoUsuarioResponse'
                 type: array
           description: Lista de tipos retornada com sucesso
       summary: Lista os tipos de usuário
@@ -199,7 +199,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TipoUsuario'
+                $ref: '#/components/schemas/TipoUsuarioResponse'
           description: Tipo criado com sucesso
       summary: Cadastra novo tipo de usuário
       tags:
@@ -222,7 +222,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TipoUsuario'
+                $ref: '#/components/schemas/TipoUsuarioResponse'
           description: Tipo encontrado
       summary: Consulta tipo de usuário por ID
       tags:
@@ -257,7 +257,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'
+                $ref: '#/components/schemas/UsuarioResponse'
           description: Usuário encontrado
         '404':
           description: Usuário não encontrado com o nome fornecido.
@@ -277,7 +277,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'
+                $ref: '#/components/schemas/UsuarioResponse'
           description: Usuário criado com sucesso
       summary: Cadastra um novo usuário
       tags:
@@ -312,7 +312,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'
+                $ref: '#/components/schemas/UsuarioResponse'
           description: Usuário encontrado
       summary: Busca usuário por ID
       tags:
@@ -339,7 +339,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'
+                $ref: '#/components/schemas/UsuarioResponse'
           description: Usuário atualizado com sucesso.
         '404':
           description: Usuário não encontrado.
@@ -421,7 +421,7 @@ components:
         type: string
         format: uuid
   schemas:
-    ItemCardapio:
+    ItemCardapioResponse:
       description: Item do cardápio.
       properties:
         caminhoFoto:
@@ -457,7 +457,7 @@ components:
       - nome
       - preco
       type: object
-    Restaurante:
+    RestauranteResponse:
       description: Dados do restaurante.
       properties:
         endereco:
@@ -493,7 +493,7 @@ components:
       - endereco
       - idDono
       type: object
-    TipoUsuario:
+    TipoUsuarioResponse:
       description: Representa um tipo de usuário no sistema.
       properties:
         id:
@@ -532,7 +532,7 @@ components:
           - DONO_RESTAURANTE
           - ADMIN
         endereco:
-          $ref: '#/components/schemas/Endereco'
+          $ref: '#/components/schemas/EnderecoRequest'
       required:
       - nome
       - email
@@ -540,7 +540,7 @@ components:
       - senha
       - tipo
       - endereco
-    Usuario:
+    UsuarioResponse:
       type: object
       properties:
         id:
@@ -555,7 +555,7 @@ components:
         tipo:
           type: string
         endereco:
-          $ref: '#/components/schemas/Endereco'
+          $ref: '#/components/schemas/EnderecoResponse'
         dataUltimaAlteracao:
           type: string
           format: date-time
@@ -567,7 +567,7 @@ components:
       - tipo
       - endereco
       - dataUltimaAlteracao
-    Endereco:
+    EnderecoRequest:
       type: object
       properties:
         rua:
@@ -591,6 +591,24 @@ components:
       - cidade
       - cep
       - uf
+    EnderecoResponse:
+      type: object
+      properties:
+        rua:
+          type: string
+          example: Rua das Flores
+        numero:
+          type: string
+          example: 123
+        cidade:
+          type: string
+          example: Barbacena
+        cep:
+          type: string
+          example: 36200-000
+        uf:
+          type: string
+          example: MG
     AlterarSenhaRequest:
       type: object
       properties:
@@ -621,7 +639,7 @@ components:
           - DONO_RESTAURANTE
           - ADMIN
         endereco:
-          $ref: '#/components/schemas/Endereco'
+          $ref: '#/components/schemas/EnderecoRequest'
       required:
       - nome
       - email
@@ -640,7 +658,7 @@ components:
       required:
       - login
       - senha
-    Login:
+    LoginResponse:
       type: object
       properties:
         id:

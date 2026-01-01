@@ -1,6 +1,6 @@
 package com.adjt.chefmanagerapi.infrastructure.api.exception;
 
-import com.adjt.chefmanagerapi.core.domain.exceptions.*;
+import com.adjt.chefmanagerapi.core.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +16,8 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(DomainException.class)
-    public ResponseEntity<ProblemDetail> handleDomainException(DomainException ex) {
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ProblemDetail> handleDomainException(BaseException ex) {
         HttpStatus status = mapStatus(ex);
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
         pd.setTitle(ex.getClass().getSimpleName());
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(pd);
     }
 
-    private HttpStatus mapStatus(DomainException ex) {
+    private HttpStatus mapStatus(BaseException ex) {
         if (ex instanceof PermissaoNegadaException) return HttpStatus.FORBIDDEN;
         if (ex instanceof EmailJaCadastradoException
                 || ex instanceof LoginJaCadastradoException
