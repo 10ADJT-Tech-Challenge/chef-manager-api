@@ -1,7 +1,7 @@
 package com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
+import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Senha;
 import com.adjt.chefmanagerapi.core.exceptions.EmailJaCadastradoException;
 import com.adjt.chefmanagerapi.core.exceptions.LoginJaCadastradoException;
@@ -32,19 +32,17 @@ public class CadastrarUsuarioUseCase implements CadastrarUsuario {
     @Transactional
     public CadastrarUsuarioOutput executar(CadastrarUsuarioInput input) {
         Senha senha = new Senha(input.senha());
-        Usuario usuario = new Usuario(
+        Usuario usuario = UsuarioFactory.criarUsuario(
                 input.nome(),
                 input.email(),
                 input.login(),
                 senhaEncoderGateway.encode(senha.toString()),
                 input.tipo(),
-                new Endereco(
-                        input.endereco().rua(),
-                        input.endereco().numero(),
-                        input.endereco().cidade(),
-                        input.endereco().cep(),
-                        input.endereco().uf()
-                )
+                input.endereco().rua(),
+                input.endereco().numero(),
+                input.endereco().cidade(),
+                input.endereco().cep(),
+                input.endereco().uf()
         );
 
         validaEmailExistente(input.email());

@@ -28,25 +28,24 @@ public class AtualizarUsuarioUseCase implements AtualizarUsuario {
     @Override
     public AtualizarUsuarioOutput executar(AtualizarUsuarioInput dto) {
         Usuario usuario = buscaUsuarioOuLancaErro(dto.id());
-        atualizarDadosUsuario(usuario, dto);
+        usuario = atualizarDadosUsuario(usuario, dto);
 
         return mapper.toAtualizarOutput(usuarioGateway.salvar(usuario));
     }
 
-    private void atualizarDadosUsuario(Usuario usuario, AtualizarUsuarioInput dto) {
+    private Usuario atualizarDadosUsuario(Usuario usuario, AtualizarUsuarioInput dto) {
+        if (dto.tipo() != null)
+            usuario = usuario.atualizarTipo(dto.tipo());
+
         atualizaNomeSePresenteEValido(usuario, dto.nome());
         atualizaEmailSePresenteEValido(usuario, dto.email());
         atualizaLoginSePresenteEValido(usuario, dto.login());
-        atualizaTipoSePresenteEValido(usuario, dto.tipo());
         atualizaEnderecoSePresenteEValido(usuario, dto.endereco());
+        return usuario;
     }
 
     private void atualizaEnderecoSePresenteEValido(Usuario usuario, AtualizarUsuarioInput.EnderecoInput endereco) {
         Optional.ofNullable(endereco).ifPresent(enderecoInput -> atualizaEndereco(enderecoInput, usuario));
-    }
-
-    private void atualizaTipoSePresenteEValido(Usuario usuario, String tipo) {
-        Optional.ofNullable(tipo).ifPresent(usuario::atualizarTipo);
     }
 
     private void atualizaLoginSePresenteEValido(Usuario usuario, String login) {

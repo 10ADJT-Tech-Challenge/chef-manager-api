@@ -1,7 +1,7 @@
 package com.adjt.chefmanagerapi.core.gateways.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
-import com.adjt.chefmanagerapi.core.gateways.interfaces.UsuarioGatewayRepository;
+import com.adjt.chefmanagerapi.core.gateways.interfaces.UsuarioRepositoryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -10,11 +10,11 @@ import java.util.UUID;
 @Component
 public class UsuarioGatewayImpl implements UsuarioGateway {
 
-    private final UsuarioGatewayRepository repo;
+    private final UsuarioRepositoryGateway repo;
 
     private final UsuarioGatewayMapper mapper;
 
-    public UsuarioGatewayImpl(UsuarioGatewayRepository repo, UsuarioGatewayMapper mapper) {
+    public UsuarioGatewayImpl(UsuarioRepositoryGateway repo, UsuarioGatewayMapper mapper) {
         this.repo = repo;
         this.mapper = mapper;
     }

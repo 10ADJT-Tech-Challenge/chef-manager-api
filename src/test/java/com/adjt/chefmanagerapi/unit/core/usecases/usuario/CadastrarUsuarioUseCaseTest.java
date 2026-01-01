@@ -1,6 +1,8 @@
 package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.Administrador;
+import com.adjt.chefmanagerapi.core.domain.entities.Cliente;
+import com.adjt.chefmanagerapi.core.domain.entities.DonoRestaurante;
 import com.adjt.chefmanagerapi.core.exceptions.*;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.SenhaEncoderGateway;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
@@ -49,11 +51,10 @@ public class CadastrarUsuarioUseCaseTest {
     void deveCriarUsuarioClienteComDadosValidos() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("CLIENTE");
-        Usuario usuarioSimulado = UsuarioHelper.criarUsuarioSimulado(input);
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
         when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
         when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(false);
-        when(usuarioGatewayMock.salvar(any(Usuario.class))).thenReturn(usuarioSimulado);
+        when(usuarioGatewayMock.salvar(any(Cliente.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // act
         var output = cadastrarUsuarioUseCase.executar(input);
@@ -69,18 +70,17 @@ public class CadastrarUsuarioUseCaseTest {
         verify(usuarioGatewayMock).existePorEmail(input.email());
         verify(usuarioGatewayMock).existePorLogin(input.login());
         verify(senhaEncoderGatewayMock).encode(input.senha());
-        verify(usuarioGatewayMock).salvar(any(Usuario.class));
+        verify(usuarioGatewayMock).salvar(any(Cliente.class));
     }
 
     @Test
     void deveCriarUsuarioDonoRestauranteComDadosValidos() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("DONO_RESTAURANTE");
-        Usuario usuarioSimulado = UsuarioHelper.criarUsuarioSimulado(input);
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
         when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
         when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(false);
-        when(usuarioGatewayMock.salvar(any(Usuario.class))).thenReturn(usuarioSimulado);
+        when(usuarioGatewayMock.salvar(any(DonoRestaurante.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // act
         var output = cadastrarUsuarioUseCase.executar(input);
@@ -96,18 +96,17 @@ public class CadastrarUsuarioUseCaseTest {
         verify(usuarioGatewayMock).existePorEmail(input.email());
         verify(usuarioGatewayMock).existePorLogin(input.login());
         verify(senhaEncoderGatewayMock).encode(input.senha());
-        verify(usuarioGatewayMock).salvar(any(Usuario.class));
+        verify(usuarioGatewayMock).salvar(any(DonoRestaurante.class));
     }
 
     @Test
     void deveCriarUsuarioAdministradorComDadosValidos() {
         // arrange
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("ADMIN");
-        Usuario usuarioSimulado = UsuarioHelper.criarUsuarioSimulado(input);
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
         when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
         when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(false);
-        when(usuarioGatewayMock.salvar(any(Usuario.class))).thenReturn(usuarioSimulado);
+        when(usuarioGatewayMock.salvar(any(Administrador.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // act
         var output = cadastrarUsuarioUseCase.executar(input);
@@ -123,7 +122,7 @@ public class CadastrarUsuarioUseCaseTest {
         verify(usuarioGatewayMock).existePorEmail(input.email());
         verify(usuarioGatewayMock).existePorLogin(input.login());
         verify(senhaEncoderGatewayMock).encode(input.senha());
-        verify(usuarioGatewayMock).salvar(any(Usuario.class));
+        verify(usuarioGatewayMock).salvar(any(Administrador.class));
     }
 
     @Test
@@ -176,6 +175,7 @@ public class CadastrarUsuarioUseCaseTest {
         CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("CLIENTE");
         when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
         when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(true);
+        when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
 
         // act & assert
         LoginJaCadastradoException loginJaCadastradoException = assertThrows(LoginJaCadastradoException.class, () -> cadastrarUsuarioUseCase.executar(input));

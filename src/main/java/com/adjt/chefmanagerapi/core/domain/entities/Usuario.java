@@ -1,5 +1,6 @@
 package com.adjt.chefmanagerapi.core.domain.entities;
 
+import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Email;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
@@ -10,22 +11,24 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Getter
-public class Usuario {
+public abstract class Usuario {
     private final UUID id;
     private String nome;
     private Email email;
     private String login;
     private String senha;
-    private TipoUsuario tipo;
     private Endereco endereco;
     private OffsetDateTime dataUltimaAlteracao;
 
-    public Usuario(String nome, String email, String login, String senha, String tipo, Endereco endereco) {
-        this.id = UUID.randomUUID();
+    public Usuario(String nome, String email, String login, String senha, Endereco endereco) {
+        this(UUID.randomUUID(), nome, email, login, senha, endereco);
+    }
+
+    public Usuario(UUID id, String nome, String email, String login, String senha, Endereco endereco) {
+        this.id = id;
         setNome(nome);
         setEmail(email);
         setLogin(login);
-        setTipo(tipo);
         setSenha(senha);
         this.endereco = endereco;
         atualizarDataAlteracao();
@@ -46,14 +49,11 @@ public class Usuario {
             throw new IllegalArgumentException("Nova senha não pode ser nula");
     }
 
-    private void setTipo(String tipo) {
-        this.tipo = TipoUsuario.valueOf(tipo);
+    public Usuario atualizarTipo(String novoTipo) {
+        return UsuarioFactory.converter(this, TipoUsuario.valueOf(novoTipo));
     }
 
-    public void atualizarTipo(String tipo) {
-        setTipo(tipo);
-        atualizarDataAlteracao();
-    }
+    public abstract TipoUsuario getTipo();
 
     public void atualizarNome(String nome) {
         setNome(nome);

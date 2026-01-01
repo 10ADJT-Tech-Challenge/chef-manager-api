@@ -1,7 +1,7 @@
 package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
+import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
 import com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha.AlterarSenhaInput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuarioInput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioInput;
@@ -149,19 +149,17 @@ public abstract class UsuarioHelper {
     public static Usuario criarUsuarioSimulado(CadastrarUsuarioInput input) {
         // Simula o objeto que o Gateway retornaria após salvar no banco (com ID gerado)
         // A senha salva já estaria hasheada
-        return new Usuario(
+        return UsuarioFactory.criarUsuario(
                 input.nome(),
                 input.email(),
                 input.login(),
                 "HASH_SENHA_MOCK", // A senha salva já estaria hasheada
                 input.tipo(),
-                new Endereco(
-                        input.endereco().rua(),
-                        input.endereco().numero(),
-                        input.endereco().cidade(),
-                        input.endereco().cep(),
-                        input.endereco().uf()
-                )
+                input.endereco().rua(),
+                input.endereco().numero(),
+                input.endereco().cidade(),
+                input.endereco().cep(),
+                input.endereco().uf()
         );
     }
 

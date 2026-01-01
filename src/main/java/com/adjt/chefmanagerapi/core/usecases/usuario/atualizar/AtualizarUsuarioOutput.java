@@ -9,7 +9,6 @@ public record AtualizarUsuarioOutput(
         String email,
         String login,
         String tipo,
-        String token,
         EnderecoOutput endereco,
         OffsetDateTime dataUltimaAlteracao
 ) {

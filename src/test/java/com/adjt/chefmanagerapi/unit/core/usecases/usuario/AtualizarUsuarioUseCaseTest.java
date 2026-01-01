@@ -1,5 +1,8 @@
 package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
 
+import com.adjt.chefmanagerapi.core.domain.entities.Administrador;
+import com.adjt.chefmanagerapi.core.domain.entities.Cliente;
+import com.adjt.chefmanagerapi.core.domain.entities.DonoRestaurante;
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
 import com.adjt.chefmanagerapi.core.exceptions.EmailJaCadastradoException;
 import com.adjt.chefmanagerapi.core.exceptions.LoginJaCadastradoException;
@@ -71,7 +74,34 @@ public class AtualizarUsuarioUseCaseTest {
         assertEquals(input.endereco().cidade(), outputAtualizacao.endereco().cidade());
         assertEquals(input.endereco().cep(), outputAtualizacao.endereco().cep());
         assertEquals(input.endereco().uf(), outputAtualizacao.endereco().uf());
-        verify(usuarioGateway).salvar(any(Usuario.class));
+        verify(usuarioGateway).salvar(any(Administrador.class));
+    }
+
+    @Test
+    void deveAtualizaUsuarioDonoRestauranteComSucesso() {
+        // arrange
+        Usuario usuario = UsuarioHelper.buscaUsuario("CLIENTE");
+        AtualizarUsuarioInput input = UsuarioHelper.AtualizarUsuarioHelper.criarInputAtualizacaoCompleta(usuario.getId(), "DONO_RESTAURANTE");
+        when(usuarioGateway.buscarPorId(usuario.getId())).thenReturn(Optional.of(usuario));
+        when(usuarioGateway.buscarPorEmail(any())).thenReturn(Optional.empty());
+        when(usuarioGateway.buscarPorLogin(any())).thenReturn(Optional.empty());
+        when(usuarioGateway.salvar(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // act
+        AtualizarUsuarioOutput outputAtualizacao = atualizarUsuario.executar(input);
+
+        // assert
+        assertNotNull(outputAtualizacao);
+        assertEquals(input.nome(), outputAtualizacao.nome());
+        assertEquals(input.email(), outputAtualizacao.email());
+        assertEquals(input.login(), outputAtualizacao.login());
+        assertEquals(input.tipo(), outputAtualizacao.tipo());
+        assertEquals(input.endereco().rua(), outputAtualizacao.endereco().rua());
+        assertEquals(input.endereco().numero(), outputAtualizacao.endereco().numero());
+        assertEquals(input.endereco().cidade(), outputAtualizacao.endereco().cidade());
+        assertEquals(input.endereco().cep(), outputAtualizacao.endereco().cep());
+        assertEquals(input.endereco().uf(), outputAtualizacao.endereco().uf());
+        verify(usuarioGateway).salvar(any(DonoRestaurante.class));
     }
 
     @Test
@@ -98,7 +128,7 @@ public class AtualizarUsuarioUseCaseTest {
         assertEquals(input.endereco().cidade(), outputAtualizacao.endereco().cidade());
         assertEquals(input.endereco().cep(), outputAtualizacao.endereco().cep());
         assertEquals(input.endereco().uf(), outputAtualizacao.endereco().uf());
-        verify(usuarioGateway).salvar(any(Usuario.class));
+        verify(usuarioGateway).salvar(any(Administrador.class));
     }
 
     @Test
@@ -162,6 +192,6 @@ public class AtualizarUsuarioUseCaseTest {
         assertEquals(ruaOriginal, outputAtualizacao.endereco().rua());
         assertEquals(cidadeOriginal, outputAtualizacao.endereco().cidade());
         assertEquals("novo.login", outputAtualizacao.login());
-        verify(usuarioGateway).salvar(any(Usuario.class));
+        verify(usuarioGateway).salvar(any(Cliente.class));
     }
 }

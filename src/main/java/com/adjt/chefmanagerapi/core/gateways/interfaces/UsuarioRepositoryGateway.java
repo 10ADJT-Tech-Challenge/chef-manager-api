@@ -5,7 +5,7 @@ import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGatewayDTO;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UsuarioGatewayRepository {
+public interface UsuarioRepositoryGateway {
     UsuarioGatewayDTO salvar(UsuarioGatewayDTO usuario);
 
     Optional<UsuarioGatewayDTO> buscarPorEmail(String email);
