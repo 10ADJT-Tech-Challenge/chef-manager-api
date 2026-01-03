@@ -16,23 +16,26 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    public static final String TIMESTAMP = "timestamp";
+
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ProblemDetail> handleDomainException(BaseException ex) {
         HttpStatus status = mapStatus(ex);
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
         pd.setTitle(ex.getClass().getSimpleName());
         pd.setType(URI.create("https://example.com/problems/" + ex.getClass().getSimpleName()));
-        pd.setProperty("timestamp", OffsetDateTime.now());
+        pd.setProperty(TIMESTAMP, OffsetDateTime.now());
         return ResponseEntity.status(status).body(pd);
     }
 
     private HttpStatus mapStatus(BaseException ex) {
         if (ex instanceof PermissaoNegadaException) return HttpStatus.FORBIDDEN;
-        if (ex instanceof EmailJaCadastradoException
+        if (ex instanceof SenhaInvalidaException
                 || ex instanceof LoginJaCadastradoException
-                || ex instanceof EmailObrigatorioException
                 || ex instanceof LoginObrigatorioException
-                || ex instanceof SenhaInvalidaException) {
+                || ex instanceof EmailJaCadastradoException
+                || ex instanceof EmailInvalidoException
+                || ex instanceof EmailObrigatorioException) {
             return HttpStatus.BAD_REQUEST;
         }
         return HttpStatus.INTERNAL_SERVER_ERROR;
@@ -43,7 +46,7 @@ public class GlobalExceptionHandler {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
         pd.setTitle("Bad Request");
         pd.setType(URI.create("https://example.com/problems/bad-request"));
-        pd.setProperty("timestamp", OffsetDateTime.now());
+        pd.setProperty(TIMESTAMP, OffsetDateTime.now());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
     }
 
@@ -58,7 +61,7 @@ public class GlobalExceptionHandler {
                 .toList();
         pd.setProperty("errors", errors);
         pd.setType(URI.create("https://example.com/problems/validation-error"));
-        pd.setProperty("timestamp", OffsetDateTime.now());
+        pd.setProperty(TIMESTAMP, OffsetDateTime.now());
         return ResponseEntity.badRequest().body(pd);
     }
 
@@ -67,7 +70,7 @@ public class GlobalExceptionHandler {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         pd.setTitle("Not Found");
         pd.setType(URI.create("https://example.com/problems/not-found"));
-        pd.setProperty("timestamp", OffsetDateTime.now());
+        pd.setProperty(TIMESTAMP, OffsetDateTime.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pd);
     }
 
@@ -76,7 +79,7 @@ public class GlobalExceptionHandler {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         pd.setTitle("Erro Interno do Servidor");
         pd.setType(URI.create("https://example.com/problems/internal-server-error"));
-        pd.setProperty("timestamp", OffsetDateTime.now());
+        pd.setProperty(TIMESTAMP, OffsetDateTime.now());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(pd);
     }
 }

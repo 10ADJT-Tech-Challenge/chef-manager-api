@@ -25,13 +25,13 @@ class DeletarUsuarioPorIdUseCaseTest {
     private UsuarioGateway usuarioGateway;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         openMocks = MockitoAnnotations.openMocks(this);
         deletarUsuarioPorId = new DeletarUsuarioPorIdUseCase(usuarioGateway);
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         openMocks.close();
     }
 

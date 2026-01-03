@@ -2,6 +2,7 @@ package com.adjt.chefmanagerapi.core.gateways.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -19,11 +20,11 @@ public interface UsuarioGatewayMapper {
                 usuarioGatewayDTO.login(),
                 usuarioGatewayDTO.senha(),
                 usuarioGatewayDTO.tipo(),
-                usuarioGatewayDTO.endereco().rua(),
-                usuarioGatewayDTO.endereco().numero(),
-                usuarioGatewayDTO.endereco().cidade(),
-                usuarioGatewayDTO.endereco().cep(),
-                usuarioGatewayDTO.endereco().uf()
+                new Endereco(usuarioGatewayDTO.endereco().rua(),
+                        usuarioGatewayDTO.endereco().numero(),
+                        usuarioGatewayDTO.endereco().cidade(),
+                        usuarioGatewayDTO.endereco().cep(),
+                        usuarioGatewayDTO.endereco().uf())
         );
     }
 }
