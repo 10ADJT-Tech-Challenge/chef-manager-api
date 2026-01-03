@@ -1,6 +1,6 @@
 package com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Senha;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.SenhaEncoderGateway;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;

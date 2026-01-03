@@ -5,7 +5,7 @@ import com.adjt.chefmanagerapi.core.exceptions.LoginJaCadastradoException;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioMapper;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;

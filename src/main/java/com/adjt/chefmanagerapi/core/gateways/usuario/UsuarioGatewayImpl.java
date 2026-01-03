@@ -1,6 +1,6 @@
 package com.adjt.chefmanagerapi.core.gateways.usuario;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.UsuarioRepositoryGateway;
 import org.springframework.stereotype.Component;
 

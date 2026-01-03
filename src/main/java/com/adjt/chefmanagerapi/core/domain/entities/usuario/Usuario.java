@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.core.domain.entities;
+package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Email;
@@ -20,11 +20,11 @@ public abstract class Usuario {
     private Endereco endereco;
     private OffsetDateTime dataUltimaAlteracao;
 
-    public Usuario(String nome, String email, String login, String senha, Endereco endereco) {
+    protected Usuario(String nome, String email, String login, String senha, Endereco endereco) {
         this(UUID.randomUUID(), nome, email, login, senha, endereco);
     }
 
-    public Usuario(UUID id, String nome, String email, String login, String senha, Endereco endereco) {
+    protected Usuario(UUID id, String nome, String email, String login, String senha, Endereco endereco) {
         this.id = id;
         setNome(nome);
         setEmail(email);

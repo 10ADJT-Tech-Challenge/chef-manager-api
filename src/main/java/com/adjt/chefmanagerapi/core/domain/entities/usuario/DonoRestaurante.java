@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.core.domain.entities;
+package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;

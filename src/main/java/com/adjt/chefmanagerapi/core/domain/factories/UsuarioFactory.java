@@ -1,9 +1,9 @@
 package com.adjt.chefmanagerapi.core.domain.factories;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Administrador;
-import com.adjt.chefmanagerapi.core.domain.entities.Cliente;
-import com.adjt.chefmanagerapi.core.domain.entities.DonoRestaurante;
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Administrador;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Cliente;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.DonoRestaurante;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
 import lombok.Builder;

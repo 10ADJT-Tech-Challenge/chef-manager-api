@@ -1,6 +1,6 @@
 package com.adjt.chefmanagerapi.core.usecases.usuario.buscar;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioHelper;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioMapperImpl;
