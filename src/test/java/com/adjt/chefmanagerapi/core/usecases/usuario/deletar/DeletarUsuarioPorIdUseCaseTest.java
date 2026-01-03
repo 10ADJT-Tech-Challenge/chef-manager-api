@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class DeletarUsuarioPorIdUseCaseTest {
+class DeletarUsuarioPorIdUseCaseTest {
 
     private AutoCloseable openMocks;
 

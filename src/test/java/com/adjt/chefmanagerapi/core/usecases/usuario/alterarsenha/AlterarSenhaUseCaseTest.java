@@ -17,7 +17,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class AlterarSenhaUseCaseTest {
+class AlterarSenhaUseCaseTest {
     private AutoCloseable openMocks;
 
     private AlterarSenhaUseCase alterarSenha;
@@ -29,13 +29,13 @@ public class AlterarSenhaUseCaseTest {
     private SenhaEncoderGateway senhaEncoderGateway;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         openMocks = MockitoAnnotations.openMocks(this);
         alterarSenha = new AlterarSenhaUseCase(usuarioGateway, senhaEncoderGateway);
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         openMocks.close();
     }
 

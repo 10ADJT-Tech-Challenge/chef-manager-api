@@ -11,7 +11,7 @@ import static com.adjt.chefmanagerapi.core.exceptions.EmailObrigatorioException.
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class EmailTest {
+class EmailTest {
 
     @ParameterizedTest
     @ValueSource(strings = {

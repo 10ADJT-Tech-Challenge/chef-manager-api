@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class BuscarUsuarioPorIdUseCaseTest {
+class BuscarUsuarioPorIdUseCaseTest {
     private AutoCloseable openMocks;
 
     private BuscarUsuarioPorId buscarUsuarioPorId;
@@ -28,13 +28,13 @@ public class BuscarUsuarioPorIdUseCaseTest {
     private UsuarioGateway usuarioGateway;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         openMocks = MockitoAnnotations.openMocks(this);
         buscarUsuarioPorId = new BuscarUsuarioPorIdUseCase(usuarioGateway, new UsuarioMapperImpl());
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         openMocks.close();
     }
 
