@@ -19,7 +19,6 @@ public record Endereco(String rua, String numero, String cidade, String cep, Str
     public static final String MSG_CEP_FORMATO_INVALIDO = "CEP inválido. Use o formato: 12345-678";
     public static final String MSG_UF_FORMATO_INVALIDO = "A UF deve ter exatamente 2 caracteres";
 
-
     public Endereco {
         validarCamposObrigatorios(rua, numero, cidade, cep, uf);
         validarCep(cep);

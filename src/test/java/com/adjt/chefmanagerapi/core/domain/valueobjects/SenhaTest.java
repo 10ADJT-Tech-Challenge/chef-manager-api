@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static com.adjt.chefmanagerapi.core.exceptions.SenhaInvalidaException.MSG_SENHA_INVALIDA_MINIMO_CARACTERES;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SenhaTest {
+class SenhaTest {
     @Test
     void deveCriarSenhaValida() {
         // Arrange & Act
