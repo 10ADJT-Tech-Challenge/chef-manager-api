@@ -1,11 +1,9 @@
-package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
+package com.adjt.chefmanagerapi.core.usecases.usuario.buscar;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
+import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioHelper;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioMapperImpl;
-import com.adjt.chefmanagerapi.core.usecases.usuario.buscar.BuscarUsuarioOutput;
-import com.adjt.chefmanagerapi.core.usecases.usuario.buscar.BuscarUsuarioPorId;
-import com.adjt.chefmanagerapi.core.usecases.usuario.buscar.BuscarUsuarioPorIdUseCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,17 +12,16 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class BuscarUsuarioPorIdUseCaseTest {
+public class BuscarUsuarioPorNomeUseCaseTest {
     private AutoCloseable openMocks;
 
-    private BuscarUsuarioPorId buscarUsuarioPorId;
+    private BuscarUsuarioPorNome buscarUsuarioPorNome;
 
     @Mock
     private UsuarioGateway usuarioGateway;
@@ -32,7 +29,7 @@ public class BuscarUsuarioPorIdUseCaseTest {
     @BeforeEach
     public void setUp() {
         openMocks = MockitoAnnotations.openMocks(this);
-        buscarUsuarioPorId = new BuscarUsuarioPorIdUseCase(usuarioGateway, new UsuarioMapperImpl());
+        buscarUsuarioPorNome = new BuscarUsuarioPorNomeUseCase(usuarioGateway, new UsuarioMapperImpl());
     }
 
     @AfterEach
@@ -44,9 +41,9 @@ public class BuscarUsuarioPorIdUseCaseTest {
     void deveBuscarUsuarioPorIdComSucesso() {
         // arrange
         Usuario usuario = UsuarioHelper.buscaUsuario("CLIENTE");
-        when(usuarioGateway.buscarPorId(usuario.getId())).thenReturn(Optional.of(usuario));
+        when(usuarioGateway.buscarPorNome(usuario.getNome())).thenReturn(Optional.of(usuario));
         // act
-        BuscarUsuarioOutput output = buscarUsuarioPorId.executar(usuario.getId());
+        BuscarUsuarioOutput output = buscarUsuarioPorNome.executar(usuario.getNome());
 
         // assert
         assertNotNull(output);
@@ -63,21 +60,21 @@ public class BuscarUsuarioPorIdUseCaseTest {
         assertEquals(usuario.getEndereco().cep(), output.endereco().cep());
         assertEquals(usuario.getEndereco().uf(), output.endereco().uf());
 
-        verify(usuarioGateway).buscarPorId(usuario.getId());
+        verify(usuarioGateway).buscarPorNome(usuario.getNome());
     }
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoExistir() {
         // arrange
-        when(usuarioGateway.buscarPorId(any(UUID.class))).thenReturn(Optional.empty());
-        UUID input = UUID.randomUUID();
+        when(usuarioGateway.buscarPorNome(any())).thenReturn(Optional.empty());
+        String nome = "nome";
 
         // act e assert
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class,
-                () -> buscarUsuarioPorId.executar(input));
+                () -> buscarUsuarioPorNome.executar(nome));
 
-        assertEquals("Nenhum usuário encontrado com o id: " + input,
+        assertEquals("Nenhum usuário encontrado com esse nome: " + nome,
                 noSuchElementException.getMessage());
-        verify(usuarioGateway).buscarPorId(input);
+        verify(usuarioGateway).buscarPorNome(nome);
     }
 }

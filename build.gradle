@@ -4,6 +4,9 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.7'
 	// O plugin do gerador para ler o YAML
 	id 'org.openapi.generator' version '7.17.0'
+	// Cobertura de Testes
+	id 'jacoco'
+	id 'org.sonarqube' version "7.2.2.6593"
 }
 
 group = 'com.adjt'
@@ -79,11 +82,42 @@ sourceSets {
 	}
 }
 
+jacoco {
+	toolVersion = "0.8.13"
+	reportsDirectory = layout.buildDirectory.dir('jacocoReportDir')
+}
+
+// Garante que o relatório XML seja gerado para o Sonar ler
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true // Obrigatório para o SonarQube
+		html.required = true // Opcional, para você ver localmente em build/reports/jacoco/test/html/index.html
+		csv.required = false
+
+	}
+}
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport // report é sempre gerado após os testes
+}
+
+sonar {
+	properties {
+		property "sonar.projectName", rootProject.name
+		property "sonar.projectKey", "chef-manager-api"
+		property "sonar.host.url", "http://localhost:9000" // URL do seu SonarQube
+
+		// Caminho para o relatório do JaCoCo
+		property "sonar.coverage.jacoco.xmlReportPaths", layout.buildDirectory.file("jacocoReportDir/test/jacocoTestReport.xml").get().asFile.absolutePath
+
+		// Opcional: Excluir classes de configuração ou DTOs da métrica
+		property "sonar.exclusions", "**/config/**, **/dto/**, **Input**, **Output**, **Mapper**"
+	}
+}
+
 // Gera o código automaticamente antes de compilar o projeto
 tasks.named("compileJava") {
 	dependsOn tasks.named("openApiGenerate")
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
 }

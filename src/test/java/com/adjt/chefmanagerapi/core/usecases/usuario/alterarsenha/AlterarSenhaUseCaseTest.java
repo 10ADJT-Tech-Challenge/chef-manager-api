@@ -1,11 +1,9 @@
-package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
+package com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.SenhaEncoderGateway;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
-import com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha.AlterarSenha;
-import com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha.AlterarSenhaInput;
-import com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha.AlterarSenhaUseCase;
+import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +20,7 @@ import static org.mockito.Mockito.*;
 public class AlterarSenhaUseCaseTest {
     private AutoCloseable openMocks;
 
-    private AlterarSenha alterarSenha;
+    private AlterarSenhaUseCase alterarSenha;
 
     @Mock
     private UsuarioGateway usuarioGateway;

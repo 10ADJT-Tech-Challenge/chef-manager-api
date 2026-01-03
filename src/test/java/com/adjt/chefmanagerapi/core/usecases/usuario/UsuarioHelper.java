@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
+package com.adjt.chefmanagerapi.core.usecases.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
 import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
