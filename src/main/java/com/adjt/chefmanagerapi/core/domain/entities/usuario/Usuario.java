@@ -5,6 +5,8 @@ import com.adjt.chefmanagerapi.core.domain.valueobjects.Email;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.LoginObrigatorioException;
+import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
+import com.adjt.chefmanagerapi.core.exceptions.SenhaObrigatoriaException;
 import lombok.Getter;
 
 import java.time.OffsetDateTime;
@@ -12,6 +14,7 @@ import java.util.UUID;
 
 @Getter
 public abstract class Usuario {
+
     private final UUID id;
     private String nome;
     private Email email;
@@ -31,7 +34,6 @@ public abstract class Usuario {
         setLogin(login);
         setSenha(senha);
         this.endereco = endereco;
-        atualizarDataAlteracao();
     }
 
     public void alterarSenha(String novaSenha) {
@@ -45,8 +47,8 @@ public abstract class Usuario {
     }
 
     private static void validaSenhaObrigatoria(String novaSenha) {
-        if (novaSenha == null)
-            throw new IllegalArgumentException("Nova senha não pode ser nula");
+        if (novaSenha == null || novaSenha.trim().isEmpty())
+            throw new SenhaObrigatoriaException();
     }
 
     public Usuario atualizarTipo(String novoTipo) {
@@ -67,7 +69,7 @@ public abstract class Usuario {
 
     private static void validaNomeObrigatorio(String nome) {
         if (nome == null || nome.trim().isEmpty())
-            throw new IllegalArgumentException("Nome não pode ser nulo ou vazio");
+            throw new NomeObrigatorioException();
     }
 
     public void atualizarEmail(String email) {

@@ -47,6 +47,27 @@ public class UsuarioFactory {
         );
     }
 
+    public static Usuario criarUsuario(
+            UUID id,
+            String nome,
+            String email,
+            String login,
+            String senha,
+            String tipo,
+            Endereco endereco
+    ) {
+        return getUsuario(UsuarioDTO.builder()
+                .id(id)
+                .nome(nome)
+                .email(email)
+                .login(login)
+                .senha(senha)
+                .tipo(TipoUsuario.valueOf(tipo))
+                .endereco(endereco)
+                .build()
+        );
+    }
+
     public static Usuario converter(Usuario usuarioAtual, TipoUsuario novoTipo) {
         if (novoTipo == usuarioAtual.getTipo())
             return usuarioAtual;

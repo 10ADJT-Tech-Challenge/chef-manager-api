@@ -55,6 +55,8 @@ dependencies {
 	// 5. Testes
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'io.rest-assured:rest-assured:6.0.0'
+	testImplementation("org.hamcrest:hamcrest:3.0")
 }
 
 // Configuração da Geração Automática

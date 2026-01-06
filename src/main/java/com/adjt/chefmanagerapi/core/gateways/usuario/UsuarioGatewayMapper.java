@@ -15,6 +15,7 @@ public interface UsuarioGatewayMapper {
 
     default Usuario toDomain(UsuarioGatewayDTO usuarioGatewayDTO) {
         return UsuarioFactory.criarUsuario(
+                usuarioGatewayDTO.id(),
                 usuarioGatewayDTO.nome(),
                 usuarioGatewayDTO.email(),
                 usuarioGatewayDTO.login(),
