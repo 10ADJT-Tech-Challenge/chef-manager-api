@@ -40,7 +40,7 @@ public class UsuarioEntity {
     private String cep;
     private String uf;
 
-    @Column(nullable = false)
+    @Column
     private OffsetDateTime dataUltimaAlteracao;
 }
 
