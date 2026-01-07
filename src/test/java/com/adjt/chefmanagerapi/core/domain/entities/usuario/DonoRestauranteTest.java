@@ -1,7 +1,7 @@
 package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.LoginObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.SenhaObrigatoriaException;
@@ -75,7 +75,7 @@ class DonoRestauranteTest {
         Usuario donoRestaurante = new DonoRestaurante(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
 
         // act & assert
-        assertEquals(TipoUsuario.DONO_RESTAURANTE, donoRestaurante.getTipo());
+        assertEquals(CategoriaUsuario.DONO_RESTAURANTE, donoRestaurante.getTipo());
     }
 
     @ParameterizedTest

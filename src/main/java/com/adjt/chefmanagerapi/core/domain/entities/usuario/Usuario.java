@@ -3,7 +3,7 @@ package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Email;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.LoginObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.SenhaObrigatoriaException;
@@ -52,10 +52,10 @@ public abstract class Usuario {
     }
 
     public Usuario atualizarTipo(String novoTipo) {
-        return UsuarioFactory.converter(this, TipoUsuario.valueOf(novoTipo));
+        return UsuarioFactory.converter(this, CategoriaUsuario.valueOf(novoTipo));
     }
 
-    public abstract TipoUsuario getTipo();
+    public abstract CategoriaUsuario getTipo();
 
     public void atualizarNome(String nome) {
         setNome(nome);

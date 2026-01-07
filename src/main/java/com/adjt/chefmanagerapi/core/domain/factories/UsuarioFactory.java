@@ -5,7 +5,7 @@ import com.adjt.chefmanagerapi.core.domain.entities.usuario.Cliente;
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.DonoRestaurante;
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class UsuarioFactory {
         private String email;
         private String login;
         private String senha;
-        private TipoUsuario tipo;
+        private CategoriaUsuario tipo;
         private Endereco endereco;
     }
 
@@ -41,7 +41,7 @@ public class UsuarioFactory {
                 .email(email)
                 .login(login)
                 .senha(senha)
-                .tipo(TipoUsuario.valueOf(tipo))
+                .tipo(CategoriaUsuario.valueOf(tipo))
                 .endereco(endereco)
                 .build()
         );
@@ -62,13 +62,13 @@ public class UsuarioFactory {
                 .email(email)
                 .login(login)
                 .senha(senha)
-                .tipo(TipoUsuario.valueOf(tipo))
+                .tipo(CategoriaUsuario.valueOf(tipo))
                 .endereco(endereco)
                 .build()
         );
     }
 
-    public static Usuario converter(Usuario usuarioAtual, TipoUsuario novoTipo) {
+    public static Usuario converter(Usuario usuarioAtual, CategoriaUsuario novoTipo) {
         if (novoTipo == usuarioAtual.getTipo())
             return usuarioAtual;
 

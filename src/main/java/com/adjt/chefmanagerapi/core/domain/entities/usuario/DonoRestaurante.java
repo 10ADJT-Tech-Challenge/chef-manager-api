@@ -1,7 +1,7 @@
 package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 
 import java.util.UUID;
 
@@ -15,7 +15,7 @@ public class DonoRestaurante extends Usuario {
     }
 
     @Override
-    public TipoUsuario getTipo() {
-        return TipoUsuario.DONO_RESTAURANTE;
+    public CategoriaUsuario getTipo() {
+        return CategoriaUsuario.DONO_RESTAURANTE;
     }
 }

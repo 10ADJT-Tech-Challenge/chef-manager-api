@@ -2,7 +2,7 @@
 package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.LoginObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.SenhaObrigatoriaException;
@@ -76,7 +76,7 @@ class AdministradorTest {
         Usuario admin = new Administrador(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
 
         // act & assert
-        assertEquals(TipoUsuario.ADMIN, admin.getTipo());
+        assertEquals(CategoriaUsuario.ADMIN, admin.getTipo());
     }
 
     @ParameterizedTest
