@@ -1,17 +1,14 @@
-package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
+package com.adjt.chefmanagerapi.core.usecases.usuario.atualizar;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Administrador;
-import com.adjt.chefmanagerapi.core.domain.entities.Cliente;
-import com.adjt.chefmanagerapi.core.domain.entities.DonoRestaurante;
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Administrador;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Cliente;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.DonoRestaurante;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.exceptions.EmailJaCadastradoException;
 import com.adjt.chefmanagerapi.core.exceptions.LoginJaCadastradoException;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
+import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioHelper;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioMapperImpl;
-import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuario;
-import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuarioInput;
-import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuarioOutput;
-import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuarioUseCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class AtualizarUsuarioUseCaseTest {
+class AtualizarUsuarioUseCaseTest {
 
     private AutoCloseable openMocks;
 

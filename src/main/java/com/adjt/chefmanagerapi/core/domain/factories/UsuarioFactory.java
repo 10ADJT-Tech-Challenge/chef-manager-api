@@ -1,9 +1,9 @@
 package com.adjt.chefmanagerapi.core.domain.factories;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Administrador;
-import com.adjt.chefmanagerapi.core.domain.entities.Cliente;
-import com.adjt.chefmanagerapi.core.domain.entities.DonoRestaurante;
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Administrador;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Cliente;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.DonoRestaurante;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
 import lombok.Builder;
@@ -12,6 +12,10 @@ import lombok.Data;
 import java.util.UUID;
 
 public class UsuarioFactory {
+    private UsuarioFactory() {
+        throw new IllegalStateException("Classe de utilitário não deve ser instanciada");
+    }
+
     @Data
     @Builder
     private static class UsuarioDTO {
@@ -30,11 +34,7 @@ public class UsuarioFactory {
             String login,
             String senha,
             String tipo,
-            String rua,
-            String numero,
-            String cidade,
-            String cep,
-            String uf
+            Endereco endereco
     ) {
         return getUsuario(UsuarioDTO.builder()
                 .nome(nome)
@@ -42,7 +42,28 @@ public class UsuarioFactory {
                 .login(login)
                 .senha(senha)
                 .tipo(TipoUsuario.valueOf(tipo))
-                .endereco(new Endereco(rua, numero, cidade, cep, uf))
+                .endereco(endereco)
+                .build()
+        );
+    }
+
+    public static Usuario criarUsuario(
+            UUID id,
+            String nome,
+            String email,
+            String login,
+            String senha,
+            String tipo,
+            Endereco endereco
+    ) {
+        return getUsuario(UsuarioDTO.builder()
+                .id(id)
+                .nome(nome)
+                .email(email)
+                .login(login)
+                .senha(senha)
+                .tipo(TipoUsuario.valueOf(tipo))
+                .endereco(endereco)
                 .build()
         );
     }

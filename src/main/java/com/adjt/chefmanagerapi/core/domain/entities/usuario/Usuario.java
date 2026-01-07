@@ -1,10 +1,12 @@
-package com.adjt.chefmanagerapi.core.domain.entities;
+package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Email;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.LoginObrigatorioException;
+import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
+import com.adjt.chefmanagerapi.core.exceptions.SenhaObrigatoriaException;
 import lombok.Getter;
 
 import java.time.OffsetDateTime;
@@ -12,6 +14,7 @@ import java.util.UUID;
 
 @Getter
 public abstract class Usuario {
+
     private final UUID id;
     private String nome;
     private Email email;
@@ -20,18 +23,17 @@ public abstract class Usuario {
     private Endereco endereco;
     private OffsetDateTime dataUltimaAlteracao;
 
-    public Usuario(String nome, String email, String login, String senha, Endereco endereco) {
+    protected Usuario(String nome, String email, String login, String senha, Endereco endereco) {
         this(UUID.randomUUID(), nome, email, login, senha, endereco);
     }
 
-    public Usuario(UUID id, String nome, String email, String login, String senha, Endereco endereco) {
+    protected Usuario(UUID id, String nome, String email, String login, String senha, Endereco endereco) {
         this.id = id;
         setNome(nome);
         setEmail(email);
         setLogin(login);
         setSenha(senha);
         this.endereco = endereco;
-        atualizarDataAlteracao();
     }
 
     public void alterarSenha(String novaSenha) {
@@ -45,8 +47,8 @@ public abstract class Usuario {
     }
 
     private static void validaSenhaObrigatoria(String novaSenha) {
-        if (novaSenha == null)
-            throw new IllegalArgumentException("Nova senha não pode ser nula");
+        if (novaSenha == null || novaSenha.trim().isEmpty())
+            throw new SenhaObrigatoriaException();
     }
 
     public Usuario atualizarTipo(String novoTipo) {
@@ -67,7 +69,7 @@ public abstract class Usuario {
 
     private static void validaNomeObrigatorio(String nome) {
         if (nome == null || nome.trim().isEmpty())
-            throw new IllegalArgumentException("Nome não pode ser nulo ou vazio");
+            throw new NomeObrigatorioException();
     }
 
     public void atualizarEmail(String email) {

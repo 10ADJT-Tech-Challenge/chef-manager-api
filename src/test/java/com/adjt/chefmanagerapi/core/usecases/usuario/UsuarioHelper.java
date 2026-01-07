@@ -1,7 +1,8 @@
-package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
+package com.adjt.chefmanagerapi.core.usecases.usuario;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha.AlterarSenhaInput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuarioInput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioInput;
@@ -155,11 +156,11 @@ public abstract class UsuarioHelper {
                 input.login(),
                 "HASH_SENHA_MOCK", // A senha salva já estaria hasheada
                 input.tipo(),
-                input.endereco().rua(),
-                input.endereco().numero(),
-                input.endereco().cidade(),
-                input.endereco().cep(),
-                input.endereco().uf()
+                new Endereco(input.endereco().rua(),
+                        input.endereco().numero(),
+                        input.endereco().cidade(),
+                        input.endereco().cep(),
+                        input.endereco().uf())
         );
     }
 

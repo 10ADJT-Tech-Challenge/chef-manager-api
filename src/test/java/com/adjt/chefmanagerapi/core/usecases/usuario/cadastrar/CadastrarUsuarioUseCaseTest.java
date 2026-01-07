@@ -1,15 +1,13 @@
-package com.adjt.chefmanagerapi.unit.core.usecases.usuario;
+package com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Administrador;
-import com.adjt.chefmanagerapi.core.domain.entities.Cliente;
-import com.adjt.chefmanagerapi.core.domain.entities.DonoRestaurante;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Administrador;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Cliente;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.DonoRestaurante;
 import com.adjt.chefmanagerapi.core.exceptions.*;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.SenhaEncoderGateway;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
+import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioHelper;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioMapperImpl;
-import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuario;
-import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioInput;
-import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioUseCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class CadastrarUsuarioUseCaseTest {
+class CadastrarUsuarioUseCaseTest {
 
     private AutoCloseable openMocks;
 

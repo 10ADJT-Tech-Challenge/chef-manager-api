@@ -1,6 +1,6 @@
 package com.adjt.chefmanagerapi.core.usecases.usuario;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuarioOutput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.buscar.BuscarUsuarioOutput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioOutput;
