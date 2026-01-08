@@ -29,7 +29,6 @@ public class GlobalExceptionHandler {
     }
 
     private HttpStatus mapStatus(BaseException ex) {
-        if (ex instanceof PermissaoNegadaException) return HttpStatus.FORBIDDEN;
         if (ex instanceof SenhaInvalidaException
                 || ex instanceof LoginJaCadastradoException
                 || ex instanceof LoginObrigatorioException

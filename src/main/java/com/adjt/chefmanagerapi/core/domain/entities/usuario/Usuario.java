@@ -55,8 +55,6 @@ public abstract class Usuario {
         return UsuarioFactory.converter(this, CategoriaUsuario.valueOf(novoTipo));
     }
 
-    public abstract CategoriaUsuario getTipo();
-
     public void atualizarNome(String nome) {
         setNome(nome);
         atualizarDataAlteracao();
@@ -104,5 +102,7 @@ public abstract class Usuario {
     public void atualizarDataAlteracao() {
         this.dataUltimaAlteracao = OffsetDateTime.now();
     }
+
+    public abstract CategoriaUsuario getTipo();
 }
 
