@@ -8,12 +8,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class UsuarioJpaRepositoryGateway implements UsuarioRepositoryGateway {
+public class UsuarioJPARepositoryGateway implements UsuarioRepositoryGateway {
 
     private final UsuarioJPARepository repo;
     private final UsuarioPersistenceMapper mapper;
 
-    public UsuarioJpaRepositoryGateway(UsuarioJPARepository repo, UsuarioPersistenceMapper mapper) {
+    public UsuarioJPARepositoryGateway(UsuarioJPARepository repo, UsuarioPersistenceMapper mapper) {
         this.repo = repo;
         this.mapper = mapper;
     }
@@ -22,21 +22,21 @@ public class UsuarioJpaRepositoryGateway implements UsuarioRepositoryGateway {
     public UsuarioGatewayDTO salvar(UsuarioGatewayDTO usuario) {
         UsuarioEntity e = mapper.toEntity(usuario);
         e = repo.save(e);
-        return mapper.toDomain(e);
+        return mapper.toDto(e);
     }
 
     @Override
     public Optional<UsuarioGatewayDTO> buscarPorEmail(String email) {
-        return repo.findByEmail(email).map(mapper::toDomain);
+        return repo.findByEmail(email).map(mapper::toDto);
     }
 
     @Override
     public Optional<UsuarioGatewayDTO> buscarPorId(UUID id) {
-        return repo.findById(id).map(mapper::toDomain);
+        return repo.findById(id).map(mapper::toDto);
     }
 
     public Optional<UsuarioGatewayDTO> buscarPorNome(String nome) {
-        return repo.findByNome(nome).map(mapper::toDomain);
+        return repo.findByNome(nome).map(mapper::toDto);
     }
 
     @Override
@@ -61,6 +61,6 @@ public class UsuarioJpaRepositoryGateway implements UsuarioRepositoryGateway {
 
     @Override
     public Optional<UsuarioGatewayDTO> buscarPorLogin(String login) {
-        return repo.findByLogin(login).map(mapper::toDomain);
+        return repo.findByLogin(login).map(mapper::toDto);
     }
 }

@@ -239,6 +239,10 @@ paths:
       responses:
         '200':
           description: Atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TipoUsuarioResponse'
       summary: Atualiza tipo de usuário
       tags:
       - TipoUsuario
@@ -501,13 +505,26 @@ components:
           format: uuid
         nome:
           type: string
+        categoriaUsuario:
+          type: string
+      required:
+        - categoriaUsuario
+        - nome
       type: object
     TipoUsuarioRequest:
       properties:
         nome:
           type: string
+        categoriaUsuario:
+          type: string
+          description: Tipo de usuário
+          enum:
+            - CLIENTE
+            - DONO_RESTAURANTE
+            - ADMIN
       required:
-      - nome
+        - categoriaUsuario
+        - nome
       type: object
     UsuarioRequest:
       type: object

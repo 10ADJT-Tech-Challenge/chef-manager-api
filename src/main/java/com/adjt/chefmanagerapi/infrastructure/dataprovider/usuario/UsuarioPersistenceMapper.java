@@ -25,5 +25,5 @@ public interface UsuarioPersistenceMapper {
             @Mapping(source = "uf", target = "endereco.uf"),
             @Mapping(source = "senha", target = "senha")
     })
-    UsuarioGatewayDTO toDomain(UsuarioEntity entity);
+    UsuarioGatewayDTO toDto(UsuarioEntity entity);
 }
