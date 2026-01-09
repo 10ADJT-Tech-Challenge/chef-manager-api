@@ -657,12 +657,6 @@ components:
           format: uuid
         endereco:
           $ref: '#/components/schemas/EnderecoRequest'
-      required:
-      - nome
-      - email
-      - login
-      - tipo
-      - endereco
     LoginRequest:
       type: object
       properties:
