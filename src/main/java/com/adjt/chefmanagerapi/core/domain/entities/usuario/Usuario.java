@@ -1,9 +1,9 @@
 package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 
+import com.adjt.chefmanagerapi.core.domain.entities.TipoUsuario;
 import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Email;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.LoginObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.SenhaObrigatoriaException;
@@ -21,19 +21,21 @@ public abstract class Usuario {
     private String login;
     private String senha;
     private Endereco endereco;
+    private TipoUsuario tipo;
     private OffsetDateTime dataUltimaAlteracao;
 
-    protected Usuario(String nome, String email, String login, String senha, Endereco endereco) {
-        this(UUID.randomUUID(), nome, email, login, senha, endereco);
+    protected Usuario(String nome, String email, String login, String senha, Endereco endereco, TipoUsuario tipo) {
+        this(UUID.randomUUID(), nome, email, login, senha, endereco, tipo);
     }
 
-    protected Usuario(UUID id, String nome, String email, String login, String senha, Endereco endereco) {
-        this.id = id;
+    protected Usuario(UUID id, String nome, String email, String login, String senha, Endereco endereco, TipoUsuario tipo) {
         setNome(nome);
         setEmail(email);
         setLogin(login);
         setSenha(senha);
-        this.endereco = endereco;
+        setTipo(tipo);
+        setEndereco(endereco);
+        this.id = id;
     }
 
     public void alterarSenha(String novaSenha) {
@@ -50,12 +52,6 @@ public abstract class Usuario {
         if (novaSenha == null || novaSenha.trim().isEmpty())
             throw new SenhaObrigatoriaException();
     }
-
-    public Usuario atualizarTipo(String novoTipo) {
-        return UsuarioFactory.converter(this, TipoUsuario.valueOf(novoTipo));
-    }
-
-    public abstract TipoUsuario getTipo();
 
     public void atualizarNome(String nome) {
         setNome(nome);
@@ -97,8 +93,25 @@ public abstract class Usuario {
     }
 
     public void atualizarEndereco(Endereco endereco) {
-        this.endereco = endereco;
+        setEndereco(endereco);
         atualizarDataAlteracao();
+    }
+
+    private void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    private void setTipo(TipoUsuario tipo) {
+        this.tipo = tipo;
+    }
+
+    public Usuario atualizarTipo(TipoUsuario novoTipo) {
+        if (!getTipo().equals(novoTipo))
+            return UsuarioFactory.converter(this, novoTipo);
+
+        tipo = novoTipo;
+        atualizarDataAlteracao();
+        return this;
     }
 
     public void atualizarDataAlteracao() {

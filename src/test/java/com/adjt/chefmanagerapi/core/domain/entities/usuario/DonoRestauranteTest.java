@@ -1,10 +1,11 @@
 package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.LoginObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.SenhaObrigatoriaException;
+import com.adjt.chefmanagerapi.core.usecases.tipousuario.TipoUsuarioHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -37,7 +38,7 @@ class DonoRestauranteTest {
     @Test
     void deveCriarDonoRestauranteComSucesso() {
         // arrange & act
-        Usuario donoRestaurante = new DonoRestaurante(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario donoRestaurante = new DonoRestaurante(NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_DONO);
 
         // assert
         assertNotNull(donoRestaurante);
@@ -56,7 +57,7 @@ class DonoRestauranteTest {
         UUID id = UUID.randomUUID();
 
         // act
-        Usuario donoRestaurante = new DonoRestaurante(id, NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario donoRestaurante = new DonoRestaurante(id, NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_DONO);
 
         // assert
         assertNotNull(donoRestaurante);
@@ -72,10 +73,10 @@ class DonoRestauranteTest {
     @Test
     void deveRetornarTipoUsuarioDonoRestaurante() {
         // arrange
-        Usuario donoRestaurante = new DonoRestaurante(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario donoRestaurante = new DonoRestaurante(NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_DONO);
 
         // act & assert
-        assertEquals(TipoUsuario.DONO_RESTAURANTE, donoRestaurante.getTipo());
+        assertEquals(CategoriaUsuario.DONO_RESTAURANTE, donoRestaurante.getTipo().getCategoriaUsuario());
     }
 
     @ParameterizedTest
@@ -84,7 +85,7 @@ class DonoRestauranteTest {
     void deveValidarNomeObrigatorio(String nomeInvalido) {
         // act & assert
         NomeObrigatorioException nomeObrigatorio = assertThrows(NomeObrigatorioException.class,
-                () -> new DonoRestaurante(nomeInvalido, EMAIL, LOGIN, SENHA, ENDERECO));
+                () -> new DonoRestaurante(nomeInvalido, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_DONO));
         assertEquals(MSG_NOME_OBRIGATORIO, nomeObrigatorio.getMessage());
     }
 
@@ -94,7 +95,7 @@ class DonoRestauranteTest {
     void deveValidarLoginObrigatorio(String loginInvalido) {
         // act & assert
         LoginObrigatorioException loginObrigatorio = assertThrows(LoginObrigatorioException.class,
-                () -> new DonoRestaurante(NOME, EMAIL, loginInvalido, SENHA, ENDERECO));
+                () -> new DonoRestaurante(NOME, EMAIL, loginInvalido, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_DONO));
         assertEquals(MSG_LOGIN_OBRIGATORIO, loginObrigatorio.getMessage());
     }
 
@@ -104,14 +105,14 @@ class DonoRestauranteTest {
     void deveValidarSenhaObrigatoria(String senhaInvalida) {
         // act & assert
         SenhaObrigatoriaException senhaObrigatoria = assertThrows(SenhaObrigatoriaException.class,
-                () -> new DonoRestaurante(NOME, EMAIL, LOGIN, senhaInvalida, ENDERECO));
+                () -> new DonoRestaurante(NOME, EMAIL, LOGIN, senhaInvalida, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_DONO));
         assertEquals(MSG_NOVA_SENHA_OBRIGATORIA, senhaObrigatoria.getMessage());
     }
 
     @Test
     void deveAtualizarInformacoesComSucesso() {
         // arrange
-        Usuario donoRestaurante = new DonoRestaurante(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario donoRestaurante = new DonoRestaurante(NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_DONO);
         String novoNome = "Novo Nome";
         String novoEmail = "novo@email.com";
         String novoLogin = "novo.login";

@@ -1,7 +1,9 @@
 package com.adjt.chefmanagerapi.core.usecases.usuario.atualizar;
 
+import com.adjt.chefmanagerapi.core.domain.entities.TipoUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.EmailJaCadastradoException;
 import com.adjt.chefmanagerapi.core.exceptions.LoginJaCadastradoException;
+import com.adjt.chefmanagerapi.core.gateways.tipousuario.TipoUsuarioGateway;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioMapper;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
@@ -18,10 +20,12 @@ public class AtualizarUsuarioUseCase implements AtualizarUsuario {
     private static final String MENSAGEM_USUARIO_NAO_ENCONTRADO = "Nenhum usuário encontrado com o id: ";
 
     private final UsuarioGateway usuarioGateway;
+    private final TipoUsuarioGateway tipoUsuarioGateway;
     private final UsuarioMapper mapper;
 
-    public AtualizarUsuarioUseCase(UsuarioGateway usuarioGateway, UsuarioMapper mapper) {
+    public AtualizarUsuarioUseCase(UsuarioGateway usuarioGateway, TipoUsuarioGateway tipoUsuarioGateway, UsuarioMapper mapper) {
         this.usuarioGateway = usuarioGateway;
+        this.tipoUsuarioGateway = tipoUsuarioGateway;
         this.mapper = mapper;
     }
 
@@ -34,14 +38,25 @@ public class AtualizarUsuarioUseCase implements AtualizarUsuario {
     }
 
     private Usuario atualizarDadosUsuario(Usuario usuario, AtualizarUsuarioInput dto) {
-        if (dto.tipo() != null)
-            usuario = usuario.atualizarTipo(dto.tipo());
-
+        usuario = atualizaTipoSePresenteEValido(usuario, dto.tipo());
         atualizaNomeSePresenteEValido(usuario, dto.nome());
         atualizaEmailSePresenteEValido(usuario, dto.email());
         atualizaLoginSePresenteEValido(usuario, dto.login());
         atualizaEnderecoSePresenteEValido(usuario, dto.endereco());
         return usuario;
+    }
+
+    private Usuario atualizaTipoSePresenteEValido(Usuario usuario, UUID tipoId) {
+        if (tipoId == null)
+            return usuario;
+
+        TipoUsuario novoTipoUsuario = buscarEValidarTipoUsuario(tipoId);
+        return usuario.atualizarTipo(novoTipoUsuario);
+    }
+
+    private TipoUsuario buscarEValidarTipoUsuario(UUID tipoId) {
+        return tipoUsuarioGateway.buscaPorId(tipoId)
+                .orElseThrow(() -> new NoSuchElementException("Nenhum tipo de usuário encontrado com o id: " + tipoId));
     }
 
     private void atualizaEnderecoSePresenteEValido(Usuario usuario, AtualizarUsuarioInput.EnderecoInput endereco) {

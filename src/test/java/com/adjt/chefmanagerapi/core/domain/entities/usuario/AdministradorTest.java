@@ -2,10 +2,11 @@
 package com.adjt.chefmanagerapi.core.domain.entities.usuario;
 
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.TipoUsuario;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.LoginObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.SenhaObrigatoriaException;
+import com.adjt.chefmanagerapi.core.usecases.tipousuario.TipoUsuarioHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -38,7 +39,7 @@ class AdministradorTest {
     @Test
     void deveCriarAdministradorComSucesso() {
         // arrange & act
-        Usuario admin = new Administrador(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario admin = new Administrador(NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_ADMIN);
 
         // assert
         assertNotNull(admin);
@@ -57,7 +58,7 @@ class AdministradorTest {
         UUID id = UUID.randomUUID();
 
         // act
-        Usuario admin = new Administrador(id, NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario admin = new Administrador(id, NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_ADMIN);
 
         // assert
         assertNotNull(admin);
@@ -73,10 +74,10 @@ class AdministradorTest {
     @Test
     void deveRetornarTipoUsuarioAdmin() {
         // arrange
-        Usuario admin = new Administrador(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario admin = new Administrador(NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_ADMIN);
 
         // act & assert
-        assertEquals(TipoUsuario.ADMIN, admin.getTipo());
+        assertEquals(CategoriaUsuario.ADMIN, admin.getTipo().getCategoriaUsuario());
     }
 
     @ParameterizedTest
@@ -85,7 +86,7 @@ class AdministradorTest {
     void deveValidarNomeObrigatorio(String nomeInvalido) {
         // act & assert
         NomeObrigatorioException nomeObrigatorio = assertThrows(NomeObrigatorioException.class,
-                () -> new Administrador(nomeInvalido, EMAIL, LOGIN, SENHA, ENDERECO));
+                () -> new Administrador(nomeInvalido, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_ADMIN));
         assertEquals(MSG_NOME_OBRIGATORIO, nomeObrigatorio.getMessage());
     }
 
@@ -95,7 +96,7 @@ class AdministradorTest {
     void deveValidarLoginObrigatorio(String loginInvalido) {
         // act & assert
         LoginObrigatorioException loginObrigatorio = assertThrows(LoginObrigatorioException.class,
-                () -> new Administrador(NOME, EMAIL, loginInvalido, SENHA, ENDERECO));
+                () -> new Administrador(NOME, EMAIL, loginInvalido, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_ADMIN));
         assertEquals(MSG_LOGIN_OBRIGATORIO, loginObrigatorio.getMessage());
 
     }
@@ -106,14 +107,14 @@ class AdministradorTest {
     void deveValidarSenhaObrigatoria(String senhaInvalida) {
         // act & assert
         SenhaObrigatoriaException senhaObrigatoria = assertThrows(SenhaObrigatoriaException.class,
-                () -> new Administrador(NOME, EMAIL, LOGIN, senhaInvalida, ENDERECO));
+                () -> new Administrador(NOME, EMAIL, LOGIN, senhaInvalida, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_ADMIN));
         assertEquals(MSG_NOVA_SENHA_OBRIGATORIA, senhaObrigatoria.getMessage());
     }
 
     @Test
     void deveAtualizarInformacoesComSucesso() {
         // arrange
-        Usuario admin = new Administrador(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario admin = new Administrador(NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_ADMIN);
         String novoNome = "Novo Nome";
         String novoEmail = "novo@email.com";
         String novoLogin = "novo.login";

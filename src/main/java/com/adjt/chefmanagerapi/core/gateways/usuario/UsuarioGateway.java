@@ -23,4 +23,6 @@ public interface UsuarioGateway {
     boolean existePorLogin(String login);
 
     void deletarPorId(UUID id);
+
+    boolean existeComTipoUsuario(UUID id);
 }

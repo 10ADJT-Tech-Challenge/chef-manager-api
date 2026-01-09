@@ -62,6 +62,11 @@ public class UsuarioGatewayImpl implements UsuarioGateway {
     }
 
     @Override
+    public boolean existeComTipoUsuario(UUID id) {
+        return repo.existeComTipoUsuario(id);
+    }
+
+    @Override
     public Optional<Usuario> buscarPorLogin(String login) {
         return repo.buscarPorLogin(login).map(mapper::toDomain);
     }

@@ -7,7 +7,7 @@ public record AtualizarUsuarioInput(
         String nome,
         String email,
         String login,
-        String tipo,
+        UUID tipo,
         EnderecoInput endereco
 ) {
     public record EnderecoInput(

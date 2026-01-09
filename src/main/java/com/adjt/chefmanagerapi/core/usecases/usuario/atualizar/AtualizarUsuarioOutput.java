@@ -8,7 +8,7 @@ public record AtualizarUsuarioOutput(
         String nome,
         String email,
         String login,
-        String tipo,
+        TipoUsuarioOutput tipo,
         EnderecoOutput endereco,
         OffsetDateTime dataUltimaAlteracao
 ) {
@@ -18,5 +18,11 @@ public record AtualizarUsuarioOutput(
             String cidade,
             String cep,
             String uf
+    ) {}
+
+    public record TipoUsuarioOutput(
+            UUID id,
+            String nome,
+            String categoriaUsuario
     ) {}
 }

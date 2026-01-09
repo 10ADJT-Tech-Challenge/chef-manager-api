@@ -5,6 +5,7 @@ import com.adjt.chefmanagerapi.core.domain.entities.usuario.Cliente;
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.DonoRestaurante;
 import com.adjt.chefmanagerapi.core.exceptions.*;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.SenhaEncoderGateway;
+import com.adjt.chefmanagerapi.core.gateways.tipousuario.TipoUsuarioGateway;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioHelper;
 import com.adjt.chefmanagerapi.core.usecases.usuario.UsuarioMapperImpl;
@@ -14,6 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Optional;
+import java.util.UUID;
+
+import static com.adjt.chefmanagerapi.core.usecases.tipousuario.TipoUsuarioHelper.*;
+import static com.adjt.chefmanagerapi.infraestructure.api.controller.tipousuario.TipoUsuarioRequestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -28,6 +34,9 @@ class CadastrarUsuarioUseCaseTest {
     private UsuarioGateway usuarioGatewayMock;
 
     @Mock
+    private TipoUsuarioGateway tipoUsuarioGatewayMock;
+
+    @Mock
     private SenhaEncoderGateway senhaEncoderGatewayMock;
 
     @BeforeEach
@@ -35,6 +44,7 @@ class CadastrarUsuarioUseCaseTest {
         openMocks = MockitoAnnotations.openMocks(this);
         cadastrarUsuarioUseCase = new CadastrarUsuarioUseCase(
                 usuarioGatewayMock,
+                tipoUsuarioGatewayMock,
                 senhaEncoderGatewayMock,
                 new UsuarioMapperImpl()
         );
@@ -48,7 +58,8 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveCriarUsuarioClienteComDadosValidos() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("CLIENTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido(UUID_TIPO_USUARIO_CLIENTE);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE))).thenReturn(Optional.of(TIPO_USUARIO_CLIENTE));
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
         when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
         when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(false);
@@ -63,7 +74,7 @@ class CadastrarUsuarioUseCaseTest {
         assertEquals(input.nome(), output.nome());
         assertEquals(input.email(), output.email());
         assertEquals(input.login(), output.login());
-        assertEquals(input.tipo(), output.tipo());
+        assertEquals(input.tipo(), output.tipo().id());
 
         verify(usuarioGatewayMock).existePorEmail(input.email());
         verify(usuarioGatewayMock).existePorLogin(input.login());
@@ -74,7 +85,8 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveCriarUsuarioDonoRestauranteComDadosValidos() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("DONO_RESTAURANTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido(UUID_TIPO_USUARIO_DONO_RESTAURANTE);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_DONO_RESTAURANTE))).thenReturn(Optional.of(TIPO_USUARIO_DONO));
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
         when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
         when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(false);
@@ -89,7 +101,7 @@ class CadastrarUsuarioUseCaseTest {
         assertEquals(input.nome(), output.nome());
         assertEquals(input.email(), output.email());
         assertEquals(input.login(), output.login());
-        assertEquals(input.tipo(), output.tipo());
+        assertEquals(input.tipo(), output.tipo().id());
 
         verify(usuarioGatewayMock).existePorEmail(input.email());
         verify(usuarioGatewayMock).existePorLogin(input.login());
@@ -100,7 +112,8 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveCriarUsuarioAdministradorComDadosValidos() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("ADMIN");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido(UUID_TIPO_USUARIO_ADMIN);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_ADMIN))).thenReturn(Optional.of(TIPO_USUARIO_ADMIN));
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
         when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
         when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(false);
@@ -115,7 +128,7 @@ class CadastrarUsuarioUseCaseTest {
         assertEquals(input.nome(), output.nome());
         assertEquals(input.email(), output.email());
         assertEquals(input.login(), output.login());
-        assertEquals(input.tipo(), output.tipo());
+        assertEquals(input.tipo(), output.tipo().id());
 
         verify(usuarioGatewayMock).existePorEmail(input.email());
         verify(usuarioGatewayMock).existePorLogin(input.login());
@@ -126,7 +139,8 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveValidarEmailDuplicado() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("CLIENTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido(UUID_TIPO_USUARIO_CLIENTE);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE))).thenReturn(Optional.of(TIPO_USUARIO_CLIENTE));
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
         when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(true);
 
@@ -142,7 +156,8 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveValidarEmailNullInformado() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComEmailNull("CLIENTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComEmailNull(UUID_TIPO_USUARIO_CLIENTE);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE))).thenReturn(Optional.of(TIPO_USUARIO_CLIENTE));
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
 
         // act & assert
@@ -156,7 +171,8 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveValidarEmailVazioInformado() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComEmailVazio("CLIENTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComEmailVazio(UUID_TIPO_USUARIO_CLIENTE);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE))).thenReturn(Optional.of(TIPO_USUARIO_CLIENTE));
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
 
         // act & assert
@@ -170,7 +186,8 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveValidarLoginDuplicado() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido("CLIENTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputValido(UUID_TIPO_USUARIO_CLIENTE);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE))).thenReturn(Optional.of(TIPO_USUARIO_CLIENTE));
         when(usuarioGatewayMock.existePorEmail(input.email())).thenReturn(false);
         when(usuarioGatewayMock.existePorLogin(input.login())).thenReturn(true);
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
@@ -190,7 +207,8 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveValidarLoginNullInformado() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComLoginNull("CLIENTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComLoginNull(UUID_TIPO_USUARIO_CLIENTE);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE))).thenReturn(Optional.of(TIPO_USUARIO_CLIENTE));
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
 
         // act & assert
@@ -205,7 +223,8 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveValidarLoginVazioInformado() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComLoginVazio("CLIENTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComLoginVazio(UUID_TIPO_USUARIO_CLIENTE);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE))).thenReturn(Optional.of(TIPO_USUARIO_CLIENTE));
         when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
 
         // act & assert
@@ -218,9 +237,26 @@ class CadastrarUsuarioUseCaseTest {
     }
 
     @Test
+    void deveValidarTipoUsuarioNaoEncontrado() {
+        // arrange
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComLoginVazio(UUID_TIPO_USUARIO_CLIENTE);
+        when(tipoUsuarioGatewayMock.buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE))).thenReturn(Optional.empty());
+        when(senhaEncoderGatewayMock.encode(input.senha())).thenReturn("HASH_SENHA_MOCK");
+
+        // act & assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> cadastrarUsuarioUseCase.executar(input));
+        assertEquals("Tipo de usuário inválido com id: " + UUID_TIPO_USUARIO_CLIENTE, exception.getMessage());
+
+        verifyNoInteractions(usuarioGatewayMock);
+        verify(senhaEncoderGatewayMock).encode(input.senha());
+        verify(tipoUsuarioGatewayMock).buscaPorId(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE));
+        verifyNoMoreInteractions(senhaEncoderGatewayMock);
+    }
+
+    @Test
     void deveValidarSenhaCurta() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComSenhaCurta("CLIENTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComSenhaCurta(UUID_TIPO_USUARIO_CLIENTE);
 
         // act & assert
         assertThrows(SenhaInvalidaException.class, () -> cadastrarUsuarioUseCase.executar(input));
@@ -232,7 +268,7 @@ class CadastrarUsuarioUseCaseTest {
     @Test
     void deveValidarSenhaNull() {
         // arrange
-        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComSenhaNull("CLIENTE");
+        CadastrarUsuarioInput input = UsuarioHelper.CadastrarUsuarioHelper.criarInputComSenhaNull(UUID_TIPO_USUARIO_CLIENTE);
 
         // act & assert
         assertThrows(SenhaInvalidaException.class, () -> cadastrarUsuarioUseCase.executar(input));

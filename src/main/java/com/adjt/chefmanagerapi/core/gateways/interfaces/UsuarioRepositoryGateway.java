@@ -23,4 +23,6 @@ public interface UsuarioRepositoryGateway {
     void deletarPorId(UUID id);
 
     Optional<UsuarioGatewayDTO> buscarPorLogin(String login);
+
+    boolean existeComTipoUsuario(UUID id);
 }

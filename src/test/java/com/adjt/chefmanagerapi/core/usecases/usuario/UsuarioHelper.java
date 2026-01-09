@@ -1,13 +1,17 @@
 package com.adjt.chefmanagerapi.core.usecases.usuario;
 
+import com.adjt.chefmanagerapi.core.domain.entities.TipoUsuario;
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.usecases.usuario.alterarsenha.AlterarSenhaInput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.atualizar.AtualizarUsuarioInput;
 import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioInput;
 
 import java.util.UUID;
+
+import static com.adjt.chefmanagerapi.infraestructure.api.controller.tipousuario.TipoUsuarioRequestHelper.*;
 
 public abstract class UsuarioHelper {
 
@@ -19,7 +23,7 @@ public abstract class UsuarioHelper {
                     "joao@email.com",
                     "joao.silva",
                     "senha123",
-                    tipo,
+                    UUID.fromString(tipo),
                     new CadastrarUsuarioInput.EnderecoInput("Rua A", "123", "Cidade", "87000-000", "PR")
             );
         }
@@ -30,7 +34,7 @@ public abstract class UsuarioHelper {
                     null,
                     "joao.silva",
                     "senha123",
-                    tipo,
+                    UUID.fromString(tipo),
                     new CadastrarUsuarioInput.EnderecoInput("Rua A", "123", "Cidade", "87000-000", "PR")
             );
         }
@@ -41,7 +45,7 @@ public abstract class UsuarioHelper {
                     "",
                     "joao.silva",
                     "senha123",
-                    tipo,
+                    UUID.fromString(tipo),
                     new CadastrarUsuarioInput.EnderecoInput("Rua A", "123", "Cidade", "87000-000", "PR")
             );
         }
@@ -52,7 +56,7 @@ public abstract class UsuarioHelper {
                     "joao@email.com",
                     null,
                     "senha123",
-                    tipo,
+                    UUID.fromString(tipo),
                     new CadastrarUsuarioInput.EnderecoInput("Rua A", "123", "Cidade", "87000-000", "PR")
             );
         }
@@ -63,7 +67,7 @@ public abstract class UsuarioHelper {
                     "joao@email.com",
                     "  ",
                     "senha123",
-                    tipo,
+                    UUID.fromString(tipo),
                     new CadastrarUsuarioInput.EnderecoInput("Rua A", "123", "Cidade", "87000-000", "PR")
             );
         }
@@ -74,7 +78,7 @@ public abstract class UsuarioHelper {
                     "joao@email.com",
                     "joao.silva",
                     "senha",
-                    tipo,
+                    UUID.fromString(tipo),
                     new CadastrarUsuarioInput.EnderecoInput("Rua A", "123", "Cidade", "87000-000", "PR")
             );
         }
@@ -85,7 +89,7 @@ public abstract class UsuarioHelper {
                     "joao@email.com",
                     "joao.silva",
                     "senha",
-                    tipo,
+                    UUID.fromString(tipo),
                     new CadastrarUsuarioInput.EnderecoInput("Rua A", "123", "Cidade", "87000-000", "PR")
             );
         }
@@ -99,12 +103,12 @@ public abstract class UsuarioHelper {
                     "Novo Nome",
                     "novo@email.com",
                     "novo.login",
-                    novoTipo,
+                    UUID.fromString(novoTipo),
                     getNovoEnderecoInput()
             );
         }
 
-        public static AtualizarUsuarioInput criarInputAtualizacaoComMesmoEmailELogin(UUID id, String novoTipo) {
+        public static AtualizarUsuarioInput criarInputAtualizacaoComMesmoEmailELogin(UUID id, UUID novoTipo) {
             return new AtualizarUsuarioInput(
                     id,
                     "Novo Nome",
@@ -147,7 +151,7 @@ public abstract class UsuarioHelper {
         }
     }
 
-    public static Usuario criarUsuarioSimulado(CadastrarUsuarioInput input) {
+    public static Usuario criarUsuarioSimulado(CadastrarUsuarioInput input, CategoriaUsuario categoriaUsuarioMock) {
         // Simula o objeto que o Gateway retornaria após salvar no banco (com ID gerado)
         // A senha salva já estaria hasheada
         return UsuarioFactory.criarUsuario(
@@ -155,7 +159,7 @@ public abstract class UsuarioHelper {
                 input.email(),
                 input.login(),
                 "HASH_SENHA_MOCK", // A senha salva já estaria hasheada
-                input.tipo(),
+                new TipoUsuario(input.tipo(), "TIPO_MOCK", categoriaUsuarioMock),
                 new Endereco(input.endereco().rua(),
                         input.endereco().numero(),
                         input.endereco().cidade(),
@@ -165,6 +169,14 @@ public abstract class UsuarioHelper {
     }
 
     public static Usuario buscaUsuario(String tipo) {
-        return criarUsuarioSimulado(CadastrarUsuarioHelper.criarInputValido(tipo));
+        String tipoId;
+        switch (tipo) {
+            case "ADMIN" -> tipoId = UUID_TIPO_USUARIO_ADMIN;
+            case "DONO_RESTAURANTE" -> tipoId = UUID_TIPO_USUARIO_DONO_RESTAURANTE;
+            case "CLIENTE" -> tipoId = UUID_TIPO_USUARIO_CLIENTE;
+            default -> throw new IllegalArgumentException("Tipo de usuário inválido: " + tipo);
+        }
+
+        return criarUsuarioSimulado(CadastrarUsuarioHelper.criarInputValido(tipoId), CategoriaUsuario.valueOf(tipo));
     }
 }

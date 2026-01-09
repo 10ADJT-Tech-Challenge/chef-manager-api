@@ -37,3 +37,5 @@ springdoc:
     path: /swagger-ui.html
     url: /openapi_v1.yaml
     disable-swagger-default-url: true
+  cache:
+    disabled: true

@@ -25,4 +25,6 @@ public interface UsuarioJPARepository extends JpaRepository<UsuarioEntity, UUID>
     boolean existsByLogin(@NonNull String login);
 
     Optional<UsuarioEntity> findByLogin(String login);
+
+    boolean existsByTipoUsuarioId(UUID tipoUsuarioId);
 }

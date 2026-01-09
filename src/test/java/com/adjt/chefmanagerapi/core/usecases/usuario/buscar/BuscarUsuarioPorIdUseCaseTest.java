@@ -52,7 +52,8 @@ class BuscarUsuarioPorIdUseCaseTest {
         assertEquals(usuario.getNome(), output.nome());
         assertEquals(usuario.getEmail().toString(), output.email());
         assertEquals(usuario.getLogin(), output.login());
-        assertEquals(usuario.getTipo().name(), output.tipo());
+        assertEquals(usuario.getTipo().getNome(), output.tipo().nome());
+        assertEquals(usuario.getTipo().getCategoriaUsuario().name(), output.tipo().categoriaUsuario());
 
         assertNotNull(output.endereco());
         assertEquals(usuario.getEndereco().rua(), output.endereco().rua());
