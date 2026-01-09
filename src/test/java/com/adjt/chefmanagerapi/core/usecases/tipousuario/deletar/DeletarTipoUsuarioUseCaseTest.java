@@ -1,6 +1,7 @@
 package com.adjt.chefmanagerapi.core.usecases.tipousuario.deletar;
 
 import com.adjt.chefmanagerapi.core.gateways.tipousuario.TipoUsuarioGateway;
+import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,10 +23,13 @@ class DeletarTipoUsuarioUseCaseTest {
     @Mock
     private TipoUsuarioGateway tipoUsuarioGatewayMock;
 
+    @Mock
+    private UsuarioGateway usuarioGatewayMock;
+
     @BeforeEach
     void setup() {
         openMocks = org.mockito.MockitoAnnotations.openMocks(this);
-        useCase = new DeletarTipoUsuarioUseCase(tipoUsuarioGatewayMock);
+        useCase = new DeletarTipoUsuarioUseCase(tipoUsuarioGatewayMock, usuarioGatewayMock);
     }
 
     @AfterEach
@@ -33,24 +37,20 @@ class DeletarTipoUsuarioUseCaseTest {
         openMocks.close();
     }
 
-    /**
-     * The `DeletarTipoUsuarioUseCase` is responsible for deleting a TipoUsuario entity by its UUID.
-     * The `executar` method ensures that the TipoUsuario exists before deletion and throws a
-     * `NoSuchElementException` if the entity does not exist.
-     */
-
     @Test
     void deveDeletarTipoUsuarioQuandoIdExistir() {
         // Arrange
         UUID id = UUID.randomUUID();
         when(tipoUsuarioGatewayMock.isExistePorId(id)).thenReturn(true);
+        when(usuarioGatewayMock.existeComTipoUsuario(id)).thenReturn(false);
 
         // Act
         useCase.executar(id);
 
         // Assert
-        verify(tipoUsuarioGatewayMock, times(1)).isExistePorId(id);
-        verify(tipoUsuarioGatewayMock, times(1)).deletarPorId(id);
+        verify(tipoUsuarioGatewayMock).isExistePorId(id);
+        verify(usuarioGatewayMock).existeComTipoUsuario(id);
+        verify(tipoUsuarioGatewayMock).deletarPorId(id);
     }
 
     @Test
@@ -65,7 +65,26 @@ class DeletarTipoUsuarioUseCaseTest {
         );
 
         assertEquals(DeletarTipoUsuarioUseCase.MSG_NENHUM_TIPO_USUARIO_ENCONTRADO + id, exception.getMessage());
-        verify(tipoUsuarioGatewayMock, times(1)).isExistePorId(id);
+        verify(tipoUsuarioGatewayMock).isExistePorId(id);
+        verify(usuarioGatewayMock, never()).existeComTipoUsuario(id);
+        verify(tipoUsuarioGatewayMock, never()).deletarPorId(any());
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoExistirUsuarioVinculadoAoTipo() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        when(tipoUsuarioGatewayMock.isExistePorId(id)).thenReturn(true);
+        when(usuarioGatewayMock.existeComTipoUsuario(id)).thenReturn(true);
+
+       // Act & Assert
+        IllegalStateException exception = assertThrows(IllegalStateException.class,
+                () -> useCase.executar(id)
+        );
+
+        assertEquals("Não é possível deletar o tipo de usuário, pois existem usuários associados a ele.", exception.getMessage());
+        verify(tipoUsuarioGatewayMock).isExistePorId(id);
+        verify(usuarioGatewayMock).existeComTipoUsuario(id);
         verify(tipoUsuarioGatewayMock, never()).deletarPorId(any());
     }
 }

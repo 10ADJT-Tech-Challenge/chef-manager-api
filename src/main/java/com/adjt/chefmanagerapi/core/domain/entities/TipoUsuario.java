@@ -20,8 +20,8 @@ public class TipoUsuario {
 
     public TipoUsuario(UUID id, String nome, CategoriaUsuario categoriaUsuario) {
         this.id = id;
-        setNome(nome);
         this.categoriaUsuario = categoriaUsuario;
+        setNome(nome);
     }
 
     public void atualizarNome(String novoNome) {

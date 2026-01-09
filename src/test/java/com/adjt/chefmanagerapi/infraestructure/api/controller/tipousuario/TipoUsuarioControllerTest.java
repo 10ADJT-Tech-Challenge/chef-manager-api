@@ -64,33 +64,37 @@ class TipoUsuarioControllerTest extends BaseIntegrationTest {
                 .get("/tipos-usuario")
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("size()", equalTo(3))
+                .body("size()", equalTo(4))
 
                 .body("[0].id", equalTo(UUID_TIPO_USUARIO_ADMIN))
                 .body("[0].nome", equalTo("ADMIN"))
                 .body("[0].categoriaUsuario", equalTo("ADMIN"))
 
-                .body("[1].id", equalTo(UUID_TIPO_USUARIO_CLIENTE))
-                .body("[1].nome", equalTo("CLIENTE"))
+                .body("[1].id", equalTo(UUID_TIPO_USUARIO_CLIENTE_TESTE))
+                .body("[1].nome", equalTo("CLIENTE_TESTE"))
                 .body("[1].categoriaUsuario", equalTo("CLIENTE"))
 
-                .body("[2].id", equalTo(UUID_TIPO_USUARIO_DONO_RESTAURANTE))
-                .body("[2].nome", equalTo("DONO_RESTAURANTE"))
-                .body("[2].categoriaUsuario", equalTo("DONO_RESTAURANTE"));
+                .body("[2].id", equalTo(UUID_TIPO_USUARIO_CLIENTE))
+                .body("[2].nome", equalTo("CLIENTE"))
+                .body("[2].categoriaUsuario", equalTo("CLIENTE"))
+
+                .body("[3].id", equalTo(UUID_TIPO_USUARIO_DONO_RESTAURANTE))
+                .body("[3].nome", equalTo("DONO_RESTAURANTE"))
+                .body("[3].categoriaUsuario", equalTo("DONO_RESTAURANTE"));
     }
 
     @Test
     void deveDeletarTipoUsuarioComSucesso() {
         given()
                 .when()
-                .delete("/tipos-usuario/{id}", UUID_TIPO_USUARIO_ADMIN)
+                .delete("/tipos-usuario/{id}", UUID_TIPO_USUARIO_CLIENTE_TESTE)
                 .then()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Verifica se o tipo usuário foi realmente deletado
         given()
                 .when()
-                .get("/tipos-usuario/{id}", UUID_TIPO_USUARIO_ADMIN)
+                .get("/tipos-usuario/{id}", UUID_TIPO_USUARIO_CLIENTE_TESTE)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }

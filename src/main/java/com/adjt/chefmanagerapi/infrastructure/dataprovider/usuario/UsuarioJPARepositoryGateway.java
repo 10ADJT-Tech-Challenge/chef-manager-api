@@ -63,4 +63,9 @@ public class UsuarioJPARepositoryGateway implements UsuarioRepositoryGateway {
     public Optional<UsuarioGatewayDTO> buscarPorLogin(String login) {
         return repo.findByLogin(login).map(mapper::toDto);
     }
+
+    @Override
+    public boolean existeComTipoUsuario(UUID id) {
+        return repo.existsByTipoUsuarioId(id);
+    }
 }

@@ -5,6 +5,11 @@ import com.adjt.chefmanagerapi.model.AtualizarUsuarioRequest;
 import com.adjt.chefmanagerapi.model.EnderecoRequest;
 import com.adjt.chefmanagerapi.model.UsuarioRequest;
 
+import java.util.UUID;
+
+import static com.adjt.chefmanagerapi.infraestructure.api.controller.tipousuario.TipoUsuarioRequestHelper.UUID_TIPO_USUARIO_CLIENTE;
+import static com.adjt.chefmanagerapi.infraestructure.api.controller.tipousuario.TipoUsuarioRequestHelper.UUID_TIPO_USUARIO_DONO_RESTAURANTE;
+
 public abstract class UsuarioRequestHelper {
 
     static final String UUID_MARIA_SILVA = "cec64cf0-6dc9-4b4e-b0b8-405870ae1b43";
@@ -17,7 +22,7 @@ public abstract class UsuarioRequestHelper {
                 .email("joao@email.com")
                 .senha("senha123")
                 .login("joao.silva")
-                .tipo(UsuarioRequest.TipoEnum.CLIENTE)
+                .tipo(UUID.fromString(UUID_TIPO_USUARIO_CLIENTE))
                 .endereco(
                         new EnderecoRequest()
                                 .cep("12345000")
@@ -32,7 +37,7 @@ public abstract class UsuarioRequestHelper {
                 .nome("Maria Silva Oliveira")
                 .email("maria.silva.oliveira@email.com")
                 .login("maria.silva.oliveira")
-                .tipo(AtualizarUsuarioRequest.TipoEnum.DONO_RESTAURANTE)
+                .tipo(UUID.fromString(UUID_TIPO_USUARIO_DONO_RESTAURANTE))
                 .endereco(
                         new EnderecoRequest()
                                 .cep("12345-000")

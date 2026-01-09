@@ -1,11 +1,11 @@
 package com.adjt.chefmanagerapi.core.domain.factories;
 
+import com.adjt.chefmanagerapi.core.domain.entities.TipoUsuario;
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.Administrador;
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.Cliente;
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.DonoRestaurante;
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
-import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class UsuarioFactory {
         private String email;
         private String login;
         private String senha;
-        private CategoriaUsuario tipo;
+        private TipoUsuario tipo;
         private Endereco endereco;
     }
 
@@ -33,7 +33,7 @@ public class UsuarioFactory {
             String email,
             String login,
             String senha,
-            String tipo,
+            TipoUsuario tipo,
             Endereco endereco
     ) {
         return getUsuario(UsuarioDTO.builder()
@@ -41,7 +41,7 @@ public class UsuarioFactory {
                 .email(email)
                 .login(login)
                 .senha(senha)
-                .tipo(CategoriaUsuario.valueOf(tipo))
+                .tipo(tipo)
                 .endereco(endereco)
                 .build()
         );
@@ -53,7 +53,7 @@ public class UsuarioFactory {
             String email,
             String login,
             String senha,
-            String tipo,
+            TipoUsuario tipo,
             Endereco endereco
     ) {
         return getUsuario(UsuarioDTO.builder()
@@ -62,16 +62,13 @@ public class UsuarioFactory {
                 .email(email)
                 .login(login)
                 .senha(senha)
-                .tipo(CategoriaUsuario.valueOf(tipo))
+                .tipo(tipo)
                 .endereco(endereco)
                 .build()
         );
     }
 
-    public static Usuario converter(Usuario usuarioAtual, CategoriaUsuario novoTipo) {
-        if (novoTipo == usuarioAtual.getTipo())
-            return usuarioAtual;
-
+    public static Usuario converter(Usuario usuarioAtual, TipoUsuario novoTipo) {
         return getUsuario(UsuarioDTO.builder()
                 .id(usuarioAtual.getId())
                 .nome(usuarioAtual.getNome())
@@ -85,16 +82,16 @@ public class UsuarioFactory {
     }
 
     private static Usuario getUsuario(UsuarioDTO usuarioDTO) {
-        return switch (usuarioDTO.getTipo()) {
+        return switch (usuarioDTO.getTipo().getCategoriaUsuario()) {
             case ADMIN -> usuarioDTO.getId() == null
-                    ? new Administrador(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco())
-                    : new Administrador(usuarioDTO.getId(), usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco());
+                    ? new Administrador(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco(), usuarioDTO.getTipo())
+                    : new Administrador(usuarioDTO.getId(), usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco(), usuarioDTO.getTipo());
             case CLIENTE -> usuarioDTO.getId() == null
-                    ? new Cliente(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco())
-                    : new Cliente(usuarioDTO.getId(), usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco());
+                    ? new Cliente(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco(), usuarioDTO.getTipo())
+                    : new Cliente(usuarioDTO.getId(), usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco(), usuarioDTO.getTipo());
             case DONO_RESTAURANTE -> usuarioDTO.getId() == null
-                    ? new DonoRestaurante(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco())
-                    : new DonoRestaurante(usuarioDTO.getId(), usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco());
+                    ? new DonoRestaurante(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco(), usuarioDTO.getTipo())
+                    : new DonoRestaurante(usuarioDTO.getId(), usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getLogin(), usuarioDTO.getSenha(), usuarioDTO.getEndereco(), usuarioDTO.getTipo());
         };
     }
 }

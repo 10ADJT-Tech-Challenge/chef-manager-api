@@ -18,5 +18,4 @@ public interface TipoUsuarioRepositoryGateway {
     boolean isExistePorId(UUID id);
 
     void deletarPorId(UUID id);
-
 }

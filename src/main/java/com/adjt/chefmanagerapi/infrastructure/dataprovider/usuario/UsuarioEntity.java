@@ -1,5 +1,6 @@
 package com.adjt.chefmanagerapi.infrastructure.dataprovider.usuario;
 
+import com.adjt.chefmanagerapi.infrastructure.dataprovider.tipousuario.TipoUsuarioEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,8 +32,12 @@ public class UsuarioEntity {
     @Column(name = "senha", nullable = false)
     private String senha;
 
-    @Column(nullable = false, length = 32)
-    private String tipo;
+    @Column(name = "tipo_usuario_id", insertable = false, updatable = false)
+    private UUID tipoUsuarioId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tipo_usuario_id")
+    private TipoUsuarioEntity tipo;
 
     private String rua;
     private String numero;

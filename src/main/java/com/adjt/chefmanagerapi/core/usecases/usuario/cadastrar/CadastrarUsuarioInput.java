@@ -1,11 +1,13 @@
 package com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar;
 
+import java.util.UUID;
+
 public record CadastrarUsuarioInput(
         String nome,
         String email,
         String login,
         String senha,
-        String tipo,
+        UUID tipo,
         EnderecoInput endereco
 ) {
     public record EnderecoInput(

@@ -5,6 +5,7 @@ import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import com.adjt.chefmanagerapi.core.exceptions.LoginObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.SenhaObrigatoriaException;
+import com.adjt.chefmanagerapi.core.usecases.tipousuario.TipoUsuarioHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -37,7 +38,7 @@ class ClienteTest {
     @Test
     void deveCriarClienteComSucesso() {
         // arrange & act
-        Usuario cliente = new Cliente(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario cliente = new Cliente(NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_CLIENTE);
 
         // assert
         assertNotNull(cliente);
@@ -56,7 +57,7 @@ class ClienteTest {
         UUID id = UUID.randomUUID();
 
         // act
-        Usuario cliente = new Cliente(id, NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario cliente = new Cliente(id, NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_CLIENTE);
 
         // assert
         assertNotNull(cliente);
@@ -72,10 +73,10 @@ class ClienteTest {
     @Test
     void deveRetornarTipoUsuarioCliente() {
         // arrange
-        Usuario cliente = new Cliente(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario cliente = new Cliente(NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_CLIENTE);
 
         // act & assert
-        assertEquals(CategoriaUsuario.CLIENTE, cliente.getTipo());
+        assertEquals(CategoriaUsuario.CLIENTE, cliente.getTipo().getCategoriaUsuario());
     }
 
     @ParameterizedTest
@@ -84,7 +85,7 @@ class ClienteTest {
     void deveValidarNomeObrigatorio(String nomeInvalido) {
         // act & assert
         NomeObrigatorioException nomeObrigatorio = assertThrows(NomeObrigatorioException.class,
-                () -> new Cliente(nomeInvalido, EMAIL, LOGIN, SENHA, ENDERECO));
+                () -> new Cliente(nomeInvalido, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_CLIENTE));
         assertEquals(MSG_NOME_OBRIGATORIO, nomeObrigatorio.getMessage());
     }
 
@@ -94,7 +95,7 @@ class ClienteTest {
     void deveValidarLoginObrigatorio(String loginInvalido) {
         // act & assert
         LoginObrigatorioException loginObrigatorio = assertThrows(LoginObrigatorioException.class,
-                () -> new Cliente(NOME, EMAIL, loginInvalido, SENHA, ENDERECO));
+                () -> new Cliente(NOME, EMAIL, loginInvalido, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_CLIENTE));
         assertEquals(MSG_LOGIN_OBRIGATORIO, loginObrigatorio.getMessage());
     }
 
@@ -104,14 +105,14 @@ class ClienteTest {
     void deveValidarSenhaObrigatoria(String senhaInvalida) {
         // act & assert
         SenhaObrigatoriaException senhaObrigatoria = assertThrows(SenhaObrigatoriaException.class,
-                () -> new Cliente(NOME, EMAIL, LOGIN, senhaInvalida, ENDERECO));
+                () -> new Cliente(NOME, EMAIL, LOGIN, senhaInvalida, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_CLIENTE));
         assertEquals(MSG_NOVA_SENHA_OBRIGATORIA, senhaObrigatoria.getMessage());
     }
 
     @Test
     void deveAtualizarInformacoesComSucesso() {
         // arrange
-        Usuario cliente = new Cliente(NOME, EMAIL, LOGIN, SENHA, ENDERECO);
+        Usuario cliente = new Cliente(NOME, EMAIL, LOGIN, SENHA, ENDERECO, TipoUsuarioHelper.TIPO_USUARIO_CLIENTE);
         String novoNome = "Novo Nome";
         String novoEmail = "novo@email.com";
         String novoLogin = "novo.login";

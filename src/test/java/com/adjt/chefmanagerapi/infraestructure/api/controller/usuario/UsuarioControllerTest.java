@@ -8,6 +8,7 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import static com.adjt.chefmanagerapi.infraestructure.api.controller.tipousuario.TipoUsuarioRequestHelper.UUID_TIPO_USUARIO_CLIENTE;
 import static com.adjt.chefmanagerapi.infraestructure.api.controller.usuario.UsuarioRequestHelper.UUID_JOAO_SILVA;
 import static com.adjt.chefmanagerapi.infraestructure.api.controller.usuario.UsuarioRequestHelper.UUID_PEDRO_SILVA;
 import static io.restassured.RestAssured.given;
@@ -45,7 +46,7 @@ class UsuarioControllerTest extends BaseIntegrationTest {
                 .body("nome", equalTo("João Silva"))
                 .body("email", equalTo("joaosilva@email.com"))
                 .body("login", equalTo("joaosilva"))
-                .body("tipo", equalTo("CLIENTE"))
+                .body("tipo.id", equalTo(UUID_TIPO_USUARIO_CLIENTE))
                 .body("endereco.rua", equalTo("Rua A"))
                 .body("endereco.numero", equalTo("100"))
                 .body("endereco.cidade", equalTo("São Paulo"))
@@ -67,7 +68,7 @@ class UsuarioControllerTest extends BaseIntegrationTest {
                 .body("nome", equalTo(nome))
                 .body("email", equalTo("joaosilva@email.com"))
                 .body("login", equalTo("joaosilva"))
-                .body("tipo", equalTo("CLIENTE"))
+                .body("tipo.id", equalTo(UUID_TIPO_USUARIO_CLIENTE))
                 .body("endereco.rua", equalTo("Rua A"))
                 .body("endereco.numero", equalTo("100"))
                 .body("endereco.cidade", equalTo("São Paulo"))
@@ -89,7 +90,7 @@ class UsuarioControllerTest extends BaseIntegrationTest {
                 .body("nome", equalTo(atualizarRequest.getNome()))
                 .body("email", equalTo(atualizarRequest.getEmail()))
                 .body("login", equalTo(atualizarRequest.getLogin()))
-                .body("tipo", equalTo(atualizarRequest.getTipo().toString()))
+                .body("tipo.id", equalTo(atualizarRequest.getTipo().toString()))
                 .body("endereco.rua", equalTo(atualizarRequest.getEndereco().getRua()))
                 .body("endereco.numero", equalTo(atualizarRequest.getEndereco().getNumero()))
                 .body("endereco.cidade", equalTo(atualizarRequest.getEndereco().getCidade()))

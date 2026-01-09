@@ -8,7 +8,7 @@ public record BuscarUsuarioOutput(
         String nome,
         String email,
         String login,
-        String tipo,
+        TipoUsuarioOutput tipo,
         EnderecoOutput endereco,
         OffsetDateTime dataUltimaAlteracao
 ) {
@@ -18,5 +18,11 @@ public record BuscarUsuarioOutput(
             String cidade,
             String cep,
             String uf
+    ) {}
+
+    public record TipoUsuarioOutput(
+            UUID id,
+            String nome,
+            String categoriaUsuario
     ) {}
 }

@@ -1,5 +1,7 @@
 package com.adjt.chefmanagerapi.core.gateways.usuario;
 
+import com.adjt.chefmanagerapi.core.gateways.tipousuario.TipoUsuarioGatewayDTO;
+
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -9,7 +11,7 @@ public record UsuarioGatewayDTO(
     String email,
     String login,
     String senha,
-    String tipo,
+    TipoUsuarioGatewayDTO tipo,
     EnderecoGatewayDTO endereco,
     OffsetDateTime dataUltimaAlteracao
 ) {

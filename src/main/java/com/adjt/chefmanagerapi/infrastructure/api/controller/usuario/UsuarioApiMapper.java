@@ -8,8 +8,8 @@ import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioI
 import com.adjt.chefmanagerapi.core.usecases.usuario.cadastrar.CadastrarUsuarioOutput;
 import com.adjt.chefmanagerapi.model.AlterarSenhaRequest;
 import com.adjt.chefmanagerapi.model.AtualizarUsuarioRequest;
-import com.adjt.chefmanagerapi.model.UsuarioResponse;
 import com.adjt.chefmanagerapi.model.UsuarioRequest;
+import com.adjt.chefmanagerapi.model.UsuarioResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
