@@ -80,9 +80,4 @@ public class UsuarioController implements UsuarioApi {
         deletar.executar(id);
         return ResponseEntity.noContent().build();
     }
-
-    @Override
-    public ResponseEntity<Void> usuariosIdTipoPatch(UUID id, UsuariosIdTipoPatchRequest usuariosIdTipoPatchRequest) {
-        return null;
-    }
 }

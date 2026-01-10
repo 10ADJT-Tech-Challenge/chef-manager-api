@@ -378,28 +378,6 @@ paths:
       summary: Altera a senha de um usuário específico
       tags:
       - Usuario
-  /usuarios/{id}/tipo:
-    patch:
-      parameters:
-      - $ref: '#/components/parameters/IdParam'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                idTipoUsuario:
-                  type: string
-                  format: uuid
-              required:
-              - idTipoUsuario
-              type: object
-        required: true
-      responses:
-        '200':
-          description: Tipo associado com sucesso
-      summary: Atribui tipo de usuário
-      tags:
-      - Usuario
 servers:
 - description: Servidor local de desenvolvimento
   url: http://localhost:8080/api/v1
