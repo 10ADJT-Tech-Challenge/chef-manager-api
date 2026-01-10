@@ -7,27 +7,6 @@ info:
   title: ChefManagerApi
   version: 2.0.0
 paths:
-  /auth/login:
-    post:
-      operationId: login
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-          description: Login válido
-        '401':
-          description: Credenciais inválidas
-      summary: Valida o login do usuário
-      tags:
-      - Auth
   /itens-cardapio/{idRestaurante}:
     get:
       parameters:
@@ -390,8 +369,6 @@ tags:
   name: Restaurante
 - description: Gerenciamento de itens de cardápio
   name: ItemCardapio
-- description: Gerenciamento da autenticação
-  name: Auth  
 components:
   parameters:
     IdParam:
@@ -635,39 +612,3 @@ components:
           format: uuid
         endereco:
           $ref: '#/components/schemas/EnderecoRequest'
-    LoginRequest:
-      type: object
-      properties:
-        login:
-          type: string
-          example: joaod
-        senha:
-          type: string
-          example: secret123
-      required:
-      - login
-      - senha
-    LoginResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        nome:
-          type: string
-        email:
-          type: string
-        tipo:
-          type: string
-          enum:
-          - CLIENTE
-          - DONO_RESTAURANTE
-          - ADMIN
-        token:
-          type: string
-          description: Token JWT gerado para autenticação
-      required:
-      - id
-      - nome
-      - email
-      - tipo
