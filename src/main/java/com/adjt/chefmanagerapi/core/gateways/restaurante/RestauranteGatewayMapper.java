@@ -1,7 +1,9 @@
 package com.adjt.chefmanagerapi.core.gateways.restaurante;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
+import com.adjt.chefmanagerapi.core.domain.entities.TipoUsuario;
 import com.adjt.chefmanagerapi.core.domain.factories.UsuarioFactory;
+import com.adjt.chefmanagerapi.core.domain.valueobjects.CategoriaUsuario;
 import com.adjt.chefmanagerapi.core.domain.valueobjects.Endereco;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGatewayDTO;
 import org.mapstruct.Mapper;
@@ -27,7 +29,9 @@ public interface RestauranteGatewayMapper {
                         responsavel.email(),
                         responsavel.login(),
                         responsavel.senha(),
-                        responsavel.tipo(),
+                        new TipoUsuario(responsavel.tipo().id(),
+                                responsavel.tipo().nome(),
+                                CategoriaUsuario.valueOf(responsavel.tipo().categoriaUsuario())),
                         new Endereco(responsavel.endereco().rua(),
                                 responsavel.endereco().numero(),
                                 responsavel.endereco().cidade(),
@@ -36,5 +40,4 @@ public interface RestauranteGatewayMapper {
                 )
         );
     }
-
 }
