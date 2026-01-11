@@ -2,6 +2,7 @@ package com.adjt.chefmanagerapi.infrastructure.dataprovider.restaurante;
 
 import com.adjt.chefmanagerapi.core.gateways.interfaces.RestauranteRepositoryGateway;
 import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGatewayDto;
+import com.adjt.chefmanagerapi.infrastructure.dataprovider.usuario.UsuarioJPARepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -12,15 +13,21 @@ public class RestauranteJpaRepositoryGateway implements RestauranteRepositoryGat
 
     private final RestauranteJPARepository repo;
     private final RestaurantePersistenceMapper mapper;
+    private final UsuarioJPARepository usuarioRepository;
 
-    public RestauranteJpaRepositoryGateway(RestauranteJPARepository repo, RestaurantePersistenceMapper mapper) {
+    public RestauranteJpaRepositoryGateway(RestauranteJPARepository repo, RestaurantePersistenceMapper mapper, UsuarioJPARepository usuarioRepository) {
         this.repo = repo;
         this.mapper = mapper;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
     public RestauranteGatewayDto salvar(RestauranteGatewayDto restaurante) {
         RestauranteEntity e = mapper.toEntity(restaurante);
+        if (restaurante.responsavelId() != null) {
+            usuarioRepository.findById(restaurante.responsavelId())
+                    .ifPresent(e::setResponsavel);
+        }
         e = repo.save(e);
         return mapper.toDomain(e);
     }
