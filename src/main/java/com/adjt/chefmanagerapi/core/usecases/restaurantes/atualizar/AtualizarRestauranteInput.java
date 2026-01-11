@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.core.domain.dtos.restaurante;
+package com.adjt.chefmanagerapi.core.usecases.restaurantes.atualizar;
 
 import java.util.UUID;
 

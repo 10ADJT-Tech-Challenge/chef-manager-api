@@ -1,9 +1,8 @@
-package com.adjt.chefmanagerapi.core.domain.dtos.restaurante;
+package com.adjt.chefmanagerapi.core.usecases.restaurantes.cadastrar;
 
 import java.util.UUID;
 
 public record CadastrarRestauranteInput(
-    UUID id,
     String nome,
     String endereco,
     String tipoCozinha,

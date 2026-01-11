@@ -1,37 +1,36 @@
 package com.adjt.chefmanagerapi.infrastructure.dataprovider.restaurante;
 
-import com.adjt.chefmanagerapi.core.adapters.gateways.RestauranteGateway;
-import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
-import com.adjt.chefmanagerapi.infrastructure.dataprovider.mapper.RestaurantePersistenceMapper;
+import com.adjt.chefmanagerapi.core.gateways.interfaces.RestauranteRepositoryGateway;
+import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGatewayDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class RestauranteJpaGateway implements RestauranteGateway {
+public class RestauranteJpaRepositoryGateway implements RestauranteRepositoryGateway {
 
     private final RestauranteJPARepository repo;
     private final RestaurantePersistenceMapper mapper;
 
-    public RestauranteJpaGateway(RestauranteJPARepository repo, RestaurantePersistenceMapper mapper) {
+    public RestauranteJpaRepositoryGateway(RestauranteJPARepository repo, RestaurantePersistenceMapper mapper) {
         this.repo = repo;
         this.mapper = mapper;
     }
 
     @Override
-    public Restaurante salvar(Restaurante restaurante) {
+    public RestauranteGatewayDto salvar(RestauranteGatewayDto restaurante) {
         RestauranteEntity e = mapper.toEntity(restaurante);
         e = repo.save(e);
         return mapper.toDomain(e);
     }
 
-    public Optional<Restaurante> buscarPorNome(String nome) {
+    public Optional<RestauranteGatewayDto> buscarPorNome(String nome) {
         return repo.findByNome(nome).map(mapper::toDomain);
     }
 
     @Override
-    public Optional<Restaurante> buscarPorId(UUID id) {
+    public Optional<RestauranteGatewayDto> buscarPorId(UUID id) {
         return repo.findById(id).map(mapper::toDomain);
     }
 

@@ -1,10 +1,9 @@
-package com.adjt.chefmanagerapi.core.domain.usecases.restaurantes;
+package com.adjt.chefmanagerapi.core.usecases.restaurantes.buscar;
 
-import com.adjt.chefmanagerapi.core.adapters.gateways.RestauranteGateway;
-import com.adjt.chefmanagerapi.core.adapters.interfaces.restaurante.BuscarRestaurantePorId;
-import com.adjt.chefmanagerapi.core.adapters.mappers.RestauranteMapper;
-import com.adjt.chefmanagerapi.core.domain.dtos.restaurante.RestauranteOutput;
+import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGateway;
+import com.adjt.chefmanagerapi.core.usecases.restaurantes.RestauranteMapper;
 import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
+import com.adjt.chefmanagerapi.core.usecases.restaurantes.RestauranteOutput;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;

@@ -1,5 +1,6 @@
 package com.adjt.chefmanagerapi.core.domain.entities;
 
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,11 @@ public class Restaurante {
     private OffsetDateTime dataUltimaAlteracao;
 
     public Restaurante(String nome, String endereco, String tipoCozinha, String horarioFuncionamento, Usuario responsavel) {
-        this.id = UUID.randomUUID();
+        this(UUID.randomUUID(), nome, endereco, tipoCozinha, horarioFuncionamento, responsavel);
+    }
+
+    public Restaurante(UUID id, String nome, String endereco, String tipoCozinha, String horarioFuncionamento, Usuario responsavel) {
+        this.id = id;
         this.nome = nome;
         this.endereco = endereco;
         this.tipoCozinha = tipoCozinha;
@@ -26,6 +31,4 @@ public class Restaurante {
         this.responsavel = responsavel;
         this.dataUltimaAlteracao = OffsetDateTime.now();
     }
-
-    public Restaurante() {}
 }

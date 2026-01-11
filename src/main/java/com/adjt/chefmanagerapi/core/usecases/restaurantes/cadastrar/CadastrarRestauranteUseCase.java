@@ -1,13 +1,11 @@
-package com.adjt.chefmanagerapi.core.domain.usecases.restaurantes;
+package com.adjt.chefmanagerapi.core.usecases.restaurantes.cadastrar;
 
-import com.adjt.chefmanagerapi.core.adapters.gateways.RestauranteGateway;
-import com.adjt.chefmanagerapi.core.adapters.gateways.UsuarioGateway;
-import com.adjt.chefmanagerapi.core.adapters.interfaces.restaurante.CadastrarRestaurante;
-import com.adjt.chefmanagerapi.core.adapters.mappers.RestauranteMapper;
-import com.adjt.chefmanagerapi.core.domain.dtos.restaurante.CadastrarRestauranteInput;
-import com.adjt.chefmanagerapi.core.domain.dtos.restaurante.RestauranteOutput;
+import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGateway;
+import com.adjt.chefmanagerapi.core.usecases.restaurantes.RestauranteMapper;
 import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
-import com.adjt.chefmanagerapi.core.domain.entities.Usuario;
+import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
+import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
+import com.adjt.chefmanagerapi.core.usecases.restaurantes.RestauranteOutput;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +21,8 @@ public class CadastrarRestauranteUseCase implements CadastrarRestaurante {
     public CadastrarRestauranteUseCase(
         RestauranteGateway restauranteGateway,
         RestauranteMapper mapper,
-        UsuarioGateway usuarioGateway) {
+        UsuarioGateway usuarioGateway
+    ) {
         this.restauranteGateway = restauranteGateway;
         this.usuarioGateway = usuarioGateway;
         this.mapper = mapper;

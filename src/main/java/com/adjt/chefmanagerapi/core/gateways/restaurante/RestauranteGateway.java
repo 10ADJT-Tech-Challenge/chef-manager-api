@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.core.adapters.gateways;
+package com.adjt.chefmanagerapi.core.gateways.restaurante;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
 

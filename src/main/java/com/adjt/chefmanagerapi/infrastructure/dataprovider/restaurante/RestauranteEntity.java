@@ -1,9 +1,7 @@
 package com.adjt.chefmanagerapi.infrastructure.dataprovider.restaurante;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.adjt.chefmanagerapi.infrastructure.dataprovider.usuario.UsuarioEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,7 +29,12 @@ public class RestauranteEntity {
     @Column(nullable = false)
     private String horarioFuncionamento;
 
-    private UUID responsavel;
+    @Column(name = "responsavel_id", insertable = false, updatable = false)
+    private UUID responsavelId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "responsavel_id")
+    private UsuarioEntity responsavel;
 
     @Column(nullable = false)
     private String endereco;

@@ -1,16 +1,13 @@
-package com.adjt.chefmanagerapi.core.domain.usecases.restaurantes;
+package com.adjt.chefmanagerapi.core.usecases.restaurantes.atualizar;
 
-import com.adjt.chefmanagerapi.core.adapters.gateways.RestauranteGateway;
-import com.adjt.chefmanagerapi.core.adapters.interfaces.restaurante.AtualizarRestaurante;
-import com.adjt.chefmanagerapi.core.adapters.mappers.RestauranteMapper;
-import com.adjt.chefmanagerapi.core.domain.dtos.restaurante.AtualizarRestauranteInput;
-import com.adjt.chefmanagerapi.core.domain.dtos.restaurante.RestauranteOutput;
+import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGateway;
+import com.adjt.chefmanagerapi.core.usecases.restaurantes.RestauranteMapper;
 import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
+import com.adjt.chefmanagerapi.core.usecases.restaurantes.RestauranteOutput;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AtualizarRestauranteUseCase implements AtualizarRestaurante {
@@ -23,9 +20,9 @@ public class AtualizarRestauranteUseCase implements AtualizarRestaurante {
     }
 
     @Override
-    public RestauranteOutput executar(UUID id, AtualizarRestauranteInput dto) {
-        Restaurante restaurante = restauranteGateway.buscarPorId(id)
-                .orElseThrow(() -> new NoSuchElementException("Nenhum restaurante encontrado com o id: " + id));
+    public RestauranteOutput executar(AtualizarRestauranteInput dto) {
+        Restaurante restaurante = restauranteGateway.buscarPorId(dto.id())
+                .orElseThrow(() -> new NoSuchElementException("Nenhum restaurante encontrado com o id: " + dto.id()));
 
         Optional.ofNullable(dto.nome()).ifPresent(restaurante::setNome);
         Optional.ofNullable(dto.endereco()).ifPresent(restaurante::setEndereco);
