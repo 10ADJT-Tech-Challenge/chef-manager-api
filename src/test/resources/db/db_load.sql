@@ -18,3 +18,8 @@ INSERT INTO USUARIO (cep, cidade, data_ultima_alteracao, email, login, nome, num
     '$2a$10$B/WXJb6OA9sCy1T492JDc.JPvjSUTXADCLQGAaJDMYZ5b3JiSq9/.',
     'f6f2a623-b22b-4494-bb35-cff956c86e5c', 'MG', 'e98915ad-2a2f-4463-ac5f-38258d3ffa5d');
 
+INSERT INTO RESTAURANTE (nome, endereco, data_ultima_alteracao, tipo_cozinha, horario_funcionamento, responsavel_id, id) VALUES
+('Camarões', 'Rua Principal', '2024-01-01 10:00:00',
+'Nordestina', '10h às 22h', 'e98915ad-2a2f-4463-ac5f-38258d3ffa5d', 'cec64cf0-6dc9-4b4e-b0b8-405870ae1b43'),
+('Braz Elettrica', 'Av. Paulista', '2024-01-01 10:00:00',
+ 'Italiana', '10h às 22h', 'e98915ad-2a2f-4463-ac5f-38258d3ffa5d', 'f6f2a623-b22b-4494-bb35-cff956c86e5c');
