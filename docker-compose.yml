@@ -35,7 +35,6 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
 
 # Serviço banco de dados PostgreSQL para o SonarQube
   sonar-db:
