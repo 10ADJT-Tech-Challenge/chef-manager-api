@@ -88,6 +88,14 @@ paths:
       - ItemCardapio
   /restaurantes:
     get:
+      operationId: buscarRestaurantePorNome
+      parameters:
+        - description: Nome do restaurante a ser buscado
+          in: query
+          name: nome
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -97,10 +105,13 @@ paths:
                   $ref: '#/components/schemas/RestauranteResponse'
                 type: array
           description: Lista retornada
+        '404':
+          description: Restaurante não encontrado com o nome fornecido.
       summary: Lista restaurantes
       tags:
       - Restaurante
     post:
+      operationId: criarRestaurante
       requestBody:
         content:
           application/json:
@@ -109,23 +120,39 @@ paths:
         required: true
       responses:
         '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestauranteResponse'
           description: Restaurante criado
-      summary: Cria restaurante
+      summary: Cadastra restaurante
       tags:
       - Restaurante
   /restaurantes/{id}:
     delete:
+      operationId: deletarRestaurantePorId
       parameters:
-      - $ref: '#/components/parameters/IdParam'
+        - in: path
+          name: id
+          required: true
+          schema:
+            format: uuid
+            type: string
       responses:
         '204':
-          description: Excluído
-      summary: Remove restaurante
+          description: Restaurante deletado com sucesso
+      summary: Deleta restaurante por ID
       tags:
       - Restaurante
     get:
+      operationId: buscarRestaurantePorId
       parameters:
-      - $ref: '#/components/parameters/IdParam'
+        - in: path
+          name: id
+          required: true
+          schema:
+            format: uuid
+            type: string
       responses:
         '200':
           content:
@@ -137,17 +164,31 @@ paths:
       tags:
       - Restaurante
     put:
+      operationId: atualizarRestaurante
       parameters:
-      - $ref: '#/components/parameters/IdParam'
+      - description: ID único do usuário (UUID)
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RestauranteRequest'
+              $ref: '#/components/schemas/AtualizarRestauranteRequest'
+        description: Dados do restaurante para atualização.
         required: true
       responses:
         '200':
-          description: Atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestauranteResponse'
+          description: Usuário atualizado com sucesso.
+        '404':
+          description: Restaurante não encontrado.
       summary: Atualiza restaurante
       tags:
       - Restaurante
@@ -435,6 +476,24 @@ components:
           type: string
       type: object
     RestauranteRequest:
+      properties:
+        endereco:
+          type: string
+        horarioFuncionamento:
+          type: string
+        idDono:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        tipoCozinha:
+          type: string
+      required:
+      - nome
+      - endereco
+      - idDono
+      type: object
+    AtualizarRestauranteRequest:
       properties:
         endereco:
           type: string
