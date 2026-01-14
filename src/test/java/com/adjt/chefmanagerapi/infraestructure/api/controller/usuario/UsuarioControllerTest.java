@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 
 import static com.adjt.chefmanagerapi.infraestructure.api.controller.tipousuario.TipoUsuarioRequestHelper.UUID_TIPO_USUARIO_CLIENTE;
 import static com.adjt.chefmanagerapi.infraestructure.api.controller.usuario.UsuarioRequestHelper.UUID_JOAO_SILVA;
-import static com.adjt.chefmanagerapi.infraestructure.api.controller.usuario.UsuarioRequestHelper.UUID_PEDRO_SILVA;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -102,14 +101,14 @@ class UsuarioControllerTest extends BaseIntegrationTest {
     void deveDeletarUsuarioComSucesso() {
         given()
                 .when()
-                .delete("/usuarios/{id}", UUID_PEDRO_SILVA)
+                .delete("/usuarios/{id}", UUID_JOAO_SILVA)
                 .then()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Verifica se o usuário foi realmente deletado
         given()
                 .when()
-                .get("/usuarios/{id}", UUID_PEDRO_SILVA)
+                .get("/usuarios/{id}", UUID_JOAO_SILVA)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
