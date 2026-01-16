@@ -3,15 +3,16 @@ info:
   description: 'API para o Tech Challenge da Fase 2 - Pós Tech.
 
 
-    Este serviço gerencia o cadastro usuários, tipos de usuários do sistema, restaurantes e  seus cardápios.'
+Este serviço gerencia o cadastro usuários, tipos de usuários do sistema, restaurantes e  seus cardápios.'
   title: ChefManagerApi
   version: 2.0.0
 paths:
-  /itens-cardapio/{idRestaurante}:
+  /restaurantes/{id}/itens-cardapio:
     get:
+      operationId: buscarItensCardapioPorRestauranteId
       parameters:
       - in: path
-        name: idRestaurante
+        name: id
         required: true
         schema:
           type: string
@@ -21,17 +22,20 @@ paths:
           content:
             application/json:
               schema:
+                type: array
                 items:
                   $ref: '#/components/schemas/ItemCardapioResponse'
-                type: array
-          description: Lista retornada
-      summary: Lista itens de cardápio
+          description: Itens de cardápio do restaurante retornada com sucesso
+        '204':
+          description: Nenhum item encontrado
+      summary: Retorna lista de itens de cardápio a partir de id de restaurante
       tags:
       - ItemCardapio
     post:
+      operationId: criarItemCardapio
       parameters:
       - in: path
-        name: idRestaurante
+        name: id
         required: true
         schema:
           type: string
@@ -44,21 +48,32 @@ paths:
         required: true
       responses:
         '201':
-          description: Item criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemCardapioResponse'
+          description: Itens de cardápio criado com com sucesso
       summary: Cria item de cardápio
       tags:
       - ItemCardapio
   /itens-cardapio/{id}:
     delete:
+      operationId: removerItemCardapioPorId
       parameters:
-      - $ref: '#/components/parameters/IdParam'
+        - in: path
+          name: id
+          required: true
+          schema:
+            format: uuid
+            type: string
       responses:
         '204':
-          description: Excluído
-      summary: Remove item do cardápio
+          description: Item de cardápio deletado com sucesso
+      summary: Remove item de cardápio por ID
       tags:
-      - ItemCardapio
+        - ItemCardapio
     get:
+      operationId: buscarItemCardapioPorId
       parameters:
       - $ref: '#/components/parameters/IdParam'
       responses:
@@ -67,11 +82,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemCardapioResponse'
-          description: Item encontrado
+          description: Item de cardápio localizado com sucesso
       summary: Consulta item por ID
       tags:
       - ItemCardapio
     put:
+      operationId: atualizarItemCardapio
       parameters:
       - $ref: '#/components/parameters/IdParam'
       requestBody:
@@ -82,8 +98,14 @@ paths:
         required: true
       responses:
         '200':
-          description: Atualizado
-      summary: Atualiza item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemCardapioResponse'
+          description: Item de cardápio atualizado com sucesso
+        '404':
+          description: Item de cardápio não encontrado.
+      summary: Atualiza item de cardápio
       tags:
       - ItemCardapio
   /restaurantes:
@@ -440,6 +462,9 @@ components:
           type: string
         preco:
           type: number
+        dataUltimaAlteracao:
+          type: string
+          format: date-time
       type: object
     ItemCardapioRequest:
       properties:
@@ -453,6 +478,9 @@ components:
           type: string
         preco:
           type: number
+        idRestaurante:
+          type: string
+          format: uuid
       required:
       - nome
       - preco
