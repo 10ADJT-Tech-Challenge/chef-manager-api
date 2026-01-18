@@ -1,25 +1,27 @@
+
 package com.adjt.chefmanagerapi.infrastructure.dataprovider.cardapio;
 
-import com.adjt.chefmanagerapi.core.domain.entities.cardapio.ItemCardapio;
-import com.adjt.chefmanagerapi.infrastructure.dataprovider.cardapio.ItemCardapioEntity;
+import com.adjt.chefmanagerapi.core.gateways.cardapio.ItemCardapioGatewayDto;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ItemCardapioPersistenceMapper {
 
-    public static ItemCardapioEntity toEntity(ItemCardapio d) {
+    public ItemCardapioEntity toEntity(ItemCardapioGatewayDto dto) {
         ItemCardapioEntity e = new ItemCardapioEntity();
-        e.setId(d.getId());
-        e.setNome(d.getNome());
-        e.setDescricao(d.getDescricao());
-        e.setPreco(d.getPreco());
-        e.setApenasNoRestaurante(d.isConsumoLocal());
-        e.setCaminhoFoto(d.getCaminhoFoto());
-        e.setIdRestaurante(d.getIdRestaurante());
-        e.setDataUltimaAlteracao(d.getDataUltimaAlteracao());
+        e.setId(dto.id());
+        e.setNome(dto.nome());
+        e.setDescricao(dto.descricao());
+        e.setPreco(dto.preco());
+        e.setApenasNoRestaurante(dto.consumoLocal());
+        e.setCaminhoFoto(dto.caminhoFoto());
+        e.setIdRestaurante(dto.idRestaurante());
+        e.setDataUltimaAlteracao(dto.dataUltimaAlteracao());
         return e;
     }
 
-    public static ItemCardapio toDomain(ItemCardapioEntity e) {
-        return new ItemCardapio(
+    public ItemCardapioGatewayDto toDto(ItemCardapioEntity e) {
+        return new ItemCardapioGatewayDto(
                 e.getId(),
                 e.getNome(),
                 e.getDescricao(),
@@ -31,4 +33,3 @@ public class ItemCardapioPersistenceMapper {
         );
     }
 }
-

@@ -14,16 +14,16 @@ import java.util.UUID;
 @Service
 public class ListarItensCardapioPorIdRestauranteUseCase {
 
-    private final ItemCardapioGateway repository;
+    private final ItemCardapioGateway gateway;
     private final ItemCardapioMapper mapper;
 
-    public ListarItensCardapioPorIdRestauranteUseCase(ItemCardapioGateway repository, ItemCardapioMapper mapper) {
-        this.repository = repository;
+    public ListarItensCardapioPorIdRestauranteUseCase(ItemCardapioGateway gateway, ItemCardapioMapper mapper) {
+        this.gateway = gateway;
         this.mapper = mapper;
     }
 
     public List<ItemCardapioOutput> executar(UUID idRestaurante) {
-        var itens = repository.findAllByIdRestauranteOrderByNomeAsc(idRestaurante);
+        var itens = gateway.findAllByIdRestauranteOrderByNomeAsc(idRestaurante);
         return mapper.toOutputList(itens);
     }
 

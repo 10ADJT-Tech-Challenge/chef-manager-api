@@ -2,12 +2,11 @@ package com.adjt.chefmanagerapi.core.gateways.restaurante;
 
 import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.RestauranteRepositoryGateway;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+
 public class RestauranteGatewayImpl implements RestauranteGateway {
     private final RestauranteRepositoryGateway repo;
 
