@@ -24,9 +24,9 @@ public class ItemCardapioEntity {
     @Column(nullable = false)
     private String nome;
 
-        private String descricao;
+    private String descricao;
 
-     @Column(precision = 12, scale = 2,nullable = false)
+    @Column(precision = 12, scale = 2,nullable = false)
     private BigDecimal preco;
 
     @Column(nullable = false)

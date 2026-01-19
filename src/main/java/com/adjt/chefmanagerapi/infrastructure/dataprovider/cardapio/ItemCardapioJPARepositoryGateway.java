@@ -3,6 +3,7 @@ package com.adjt.chefmanagerapi.infrastructure.dataprovider.cardapio;
 
 import com.adjt.chefmanagerapi.core.gateways.cardapio.ItemCardapioGatewayDto;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.ItemCardapioRepositoryGateway;
+import com.adjt.chefmanagerapi.infrastructure.dataprovider.restaurante.RestauranteJPARepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,16 +15,22 @@ public class ItemCardapioJPARepositoryGateway implements ItemCardapioRepositoryG
 
     private final ItemCardapioJPARepository repo;
     private final ItemCardapioPersistenceMapper mapper;
+    private final RestauranteJPARepository restauranteJPARepository;
 
     public ItemCardapioJPARepositoryGateway(ItemCardapioJPARepository repo,
-                                            ItemCardapioPersistenceMapper mapper) {
+                                            ItemCardapioPersistenceMapper mapper, RestauranteJPARepository restauranteJPARepository) {
         this.repo = repo;
         this.mapper = mapper;
+        this.restauranteJPARepository = restauranteJPARepository;
     }
 
     @Override
     public ItemCardapioGatewayDto salvar(ItemCardapioGatewayDto dto) {
         var e = mapper.toEntity(dto);
+        if (dto.restauranteId() != null) {
+            restauranteJPARepository.findById(dto.restauranteId())
+                    .ifPresent(e::setRestaurante);
+        }
         e = repo.save(e);
         return mapper.toDto(e);
     }

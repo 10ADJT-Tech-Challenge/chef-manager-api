@@ -27,8 +27,6 @@ public class CadastrarItemCardapioUseCase implements CadastrarItemCardapio {
 
     @Override
     public ItemCardapioOutput executar(CadastrarItemCardapioInput input) {
-
-
         if (!restauranteGateway.existePorId(input.restauranteId())) {
             throw new NoSuchElementException("Nenhum restaurante encontrado com o id: " + input.restauranteId());
         }

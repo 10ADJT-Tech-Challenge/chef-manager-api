@@ -32,7 +32,7 @@ INSERT INTO RESTAURANTE (nome, endereco, data_ultima_alteracao, tipo_cozinha, ho
 --  preco (numeric/decimal), consumo_local (boolean), caminho_foto (text),
 --  data_ultima_alteracao (timestamp)
 
-INSERT INTO itens_cardapio (id, id_restaurante, nome, descricao, preco, consumo_local, caminho_foto, data_ultima_alteracao)
+INSERT INTO itens_cardapio (id, restaurante_id, nome, descricao, preco, consumo_local, caminho_foto, data_ultima_alteracao)
 VALUES
     ('11111111-1111-1111-1111-111111111111',
      'cec64cf0-6dc9-4b4e-b0b8-405870ae1b43',

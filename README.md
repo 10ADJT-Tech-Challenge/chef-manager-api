@@ -89,8 +89,10 @@ A documentação completa da API está disponível através do Swagger UI:
 - **DELETE** `/api/v1/restaurantes/{id}` - Remove restaurante
 
 ### 📋 Cardápio
-- **POST** `/api/v1/itens-cardapio/{restauranteId}` - Adiciona item ao cardápio
-- **GET** `/api/v1/itens-cardapio/{restauranteId}` - Lista itens do cardápio
+- **POST** `/api/v1/restaurante/{restauranteId}/itens-cardapio` - Adiciona item ao cardápio
+- **GET** `/api/v1/restaurante/{restauranteId}/itens-cardapio` - Lista itens do cardápio por id restaurante
+- **GET** `/api/v1/restaurante/{restauranteId}/itens-cardapio?term='nomeItem'` - Lista itens do cardápio por id restaurante e nome de item
+- **GET** `/api/v1/itens-cardapio?nome='nomeItem'` - Busca item por nome
 - **GET** `/api/v1/itens-cardapio/{id}` - Busca item por ID
 - **PUT** `/api/v1/itens-cardapio/{id}` - Atualiza item
 - **DELETE** `/api/v1/itens-cardapio/{id}` - Remove item
