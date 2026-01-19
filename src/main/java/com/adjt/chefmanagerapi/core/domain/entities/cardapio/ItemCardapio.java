@@ -20,24 +20,24 @@ public class ItemCardapio {
     private BigDecimal preco;
     private boolean consumoLocal;
     private String caminhoFoto; // opcional
-    private UUID idRestaurante;
+    private UUID restauranteId;
     private OffsetDateTime dataUltimaAlteracao;
 
 
     public ItemCardapio(String nome, String descricao, BigDecimal preco,
-                        boolean consumoLocal, String caminhoFoto, UUID idRestaurante) {
-        this(UUID.randomUUID(), nome, descricao, preco, consumoLocal, caminhoFoto, idRestaurante, OffsetDateTime.now());
+                        boolean consumoLocal, String caminhoFoto, UUID restauranteId) {
+        this(UUID.randomUUID(), nome, descricao, preco, consumoLocal, caminhoFoto, restauranteId, OffsetDateTime.now());
     }
 
     public ItemCardapio(UUID id, String nome, String descricao, BigDecimal preco,
-                        boolean consumoLocal, String caminhoFoto, UUID idRestaurante, OffsetDateTime dataUltimaAlteracao) {
+                        boolean consumoLocal, String caminhoFoto, UUID restauranteId, OffsetDateTime dataUltimaAlteracao) {
         this.id = id;
         setNome(nome);
         setDescricao(descricao);
         setPreco(preco);
         this.consumoLocal = consumoLocal;
         this.caminhoFoto = (caminhoFoto == null || caminhoFoto.trim().isEmpty()) ? null : caminhoFoto.trim();
-        this.idRestaurante = idRestaurante;
+        this.restauranteId = restauranteId;
         this.dataUltimaAlteracao = (dataUltimaAlteracao != null) ? dataUltimaAlteracao : OffsetDateTime.now();
     }
 
@@ -90,9 +90,9 @@ public class ItemCardapio {
         this.dataUltimaAlteracao = OffsetDateTime.now();
     }
 
-    public void atualizarIdRestaurante(UUID novoIdRestaurante) {
-        if (novoIdRestaurante == null) throw new IllegalArgumentException("idRestaurante é obrigatório");
-        this.idRestaurante = novoIdRestaurante;
+    public void atualizarRestauranteId(UUID novoRestauranteId) {
+        if (novoRestauranteId == null) throw new IllegalArgumentException("restauranteId é obrigatório");
+        this.restauranteId = novoRestauranteId;
         atualizarDataAlteracao();
     }
 

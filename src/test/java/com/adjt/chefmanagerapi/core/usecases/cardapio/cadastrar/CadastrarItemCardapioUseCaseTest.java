@@ -56,7 +56,7 @@ class CadastrarItemCardapioUseCaseTest {
         ItemCardapio salvo = captor.getValue();
         assertEquals("X-Burger", salvo.getNome());
         assertEquals(0, salvo.getPreco().compareTo(new BigDecimal("32.90")));
-        assertEquals(restauranteId, salvo.getIdRestaurante());
+        assertEquals(restauranteId, salvo.getRestauranteId());
         verifyNoMoreInteractions(itemGateway, restauranteGateway);
     }
 

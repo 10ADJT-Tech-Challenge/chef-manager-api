@@ -1,7 +1,10 @@
 package com.adjt.chefmanagerapi.infrastructure.dataprovider.cardapio;
 
+import com.adjt.chefmanagerapi.infrastructure.dataprovider.restaurante.RestauranteEntity;
+import com.adjt.chefmanagerapi.infrastructure.dataprovider.usuario.UsuarioEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -10,20 +13,34 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "itens_cardapio")
-@Getter @Setter
+@NoArgsConstructor
+@Getter
+@Setter
 public class ItemCardapioEntity {
+
     @Id
     private UUID id;
 
+    @Column(nullable = false)
     private String nome;
-    private String descricao;
 
-    @Column(precision = 12, scale = 2)
+        private String descricao;
+
+     @Column(precision = 12, scale = 2,nullable = false)
     private BigDecimal preco;
 
+    @Column(nullable = false)
     private boolean consumoLocal;
+
+
     private String caminhoFoto;
-    private UUID idRestaurante;
+
+    @Column(name = "restaurante_id", insertable = false, updatable = false)
+    private UUID restauranteId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurante_id")
+    private RestauranteEntity restaurante;
 
     private OffsetDateTime dataUltimaAlteracao;
 }

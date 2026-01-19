@@ -43,8 +43,8 @@ public class ItemCardapioJPARepositoryGateway implements ItemCardapioRepositoryG
     }
 
     @Override
-    public List<ItemCardapioGatewayDto> buscarPorNomeNoRestaurante(UUID idRestaurante, String termo) {
-        return repo.findByIdRestauranteAndNomeContainingIgnoreCaseOrderByNomeAsc(idRestaurante, termo)
+    public List<ItemCardapioGatewayDto> buscarPorNomeNoRestaurante(UUID restauranteId, String termo) {
+        return repo.findByRestauranteIdAndNomeContainingIgnoreCaseOrderByNomeAsc(restauranteId, termo)
                 .stream()
                 .map(mapper::toDto)
                 .toList();
@@ -52,8 +52,8 @@ public class ItemCardapioJPARepositoryGateway implements ItemCardapioRepositoryG
 
 
     @Override
-    public List<ItemCardapioGatewayDto> findAllByIdRestauranteOrderByNomeAsc(UUID idRestaurante) {
-        return repo.findAllByIdRestauranteOrderByNomeAsc(idRestaurante)
+    public List<ItemCardapioGatewayDto> findAllByRestauranteIdOrderByNomeAsc(UUID restauranteId) {
+        return repo.findAllByRestauranteIdOrderByNomeAsc(restauranteId)
                 .stream()
                 .map(mapper::toDto)
                 .toList();

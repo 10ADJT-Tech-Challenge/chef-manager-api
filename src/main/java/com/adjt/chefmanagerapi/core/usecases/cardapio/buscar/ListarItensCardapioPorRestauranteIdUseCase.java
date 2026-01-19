@@ -12,18 +12,18 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ListarItensCardapioPorIdRestauranteUseCase implements ListarItensCardapioPorIdRestaurante{
+public class ListarItensCardapioPorRestauranteIdUseCase implements ListarItensCardapioPorRestauranteId {
 
     private final ItemCardapioGateway gateway;
     private final ItemCardapioMapper mapper;
 
-    public ListarItensCardapioPorIdRestauranteUseCase(ItemCardapioGateway gateway, ItemCardapioMapper mapper) {
+    public ListarItensCardapioPorRestauranteIdUseCase(ItemCardapioGateway gateway, ItemCardapioMapper mapper) {
         this.gateway = gateway;
         this.mapper = mapper;
     }
 
-    public List<ItemCardapioOutput> executar(UUID idRestaurante) {
-        var itens = gateway.findAllByIdRestauranteOrderByNomeAsc(idRestaurante);
+    public List<ItemCardapioOutput> executar(UUID restauranteId) {
+        var itens = gateway.findAllByRestauranteIdOrderByNomeAsc(restauranteId);
         return mapper.toOutputList(itens);
     }
 

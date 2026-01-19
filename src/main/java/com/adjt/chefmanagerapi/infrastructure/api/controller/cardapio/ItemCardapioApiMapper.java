@@ -13,7 +13,7 @@ public class ItemCardapioApiMapper {
         dto.setPreco(domain.getPreco());
         dto.setConsumoLocal(domain.isConsumoLocal());
         dto.setCaminhoFoto(domain.getCaminhoFoto());
-        dto.setIdRestaurante(domain.getIdRestaurante());
+        dto.setRestauranteId(domain.getRestauranteId());
         dto.setDataUltimaAlteracao(domain.getDataUltimaAlteracao());
         return dto;
     }
@@ -25,7 +25,7 @@ public class ItemCardapioApiMapper {
         dto.setPreco(domain.getPreco());
         dto.setConsumoLocal(domain.isConsumoLocal());
         dto.setCaminhoFoto(domain.getCaminhoFoto());
-        dto.setIdRestaurante(domain.getIdRestaurante());
+        dto.setRestauranteId(domain.getRestauranteId());
         dto.setDataUltimaAlteracao(domain.getDataUltimaAlteracao());
         return dto;
     }

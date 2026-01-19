@@ -6,4 +6,4 @@ import com.adjt.chefmanagerapi.core.usecases.cardapio.ItemCardapioOutput;
 import java.util.List;
 import java.util.UUID;
 
-public interface ListarItensCardapioPorIdRestaurante extends UseCase<UUID, List<ItemCardapioOutput>> { }
+public interface ListarItensCardapioPorRestauranteId extends UseCase<UUID, List<ItemCardapioOutput>> { }

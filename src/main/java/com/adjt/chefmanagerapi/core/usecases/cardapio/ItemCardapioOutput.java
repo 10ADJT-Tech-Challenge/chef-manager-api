@@ -15,5 +15,5 @@ public class ItemCardapioOutput {
     private boolean consumoLocal;
     private String caminhoFoto;
     private OffsetDateTime dataUltimaAlteracao;
-    private UUID idRestaurante;
+    private UUID restauranteId;
 }

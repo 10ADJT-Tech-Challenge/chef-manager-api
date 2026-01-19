@@ -15,7 +15,7 @@ public class ItemCardapioPersistenceMapper {
         e.setPreco(dto.preco());
         e.setConsumoLocal(dto.consumoLocal());
         e.setCaminhoFoto(dto.caminhoFoto());
-        e.setIdRestaurante(dto.idRestaurante());
+        e.setRestauranteId(dto.restauranteId());
         e.setDataUltimaAlteracao(dto.dataUltimaAlteracao());
         return e;
     }
@@ -28,7 +28,7 @@ public class ItemCardapioPersistenceMapper {
                 e.getPreco(),
                 e.isConsumoLocal(),
                 e.getCaminhoFoto(),
-                e.getIdRestaurante(),
+                e.getRestauranteId(),
                 e.getDataUltimaAlteracao()
         );
     }

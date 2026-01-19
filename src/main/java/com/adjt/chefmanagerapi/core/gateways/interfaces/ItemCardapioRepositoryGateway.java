@@ -10,11 +10,11 @@ import java.util.UUID;
 public interface ItemCardapioRepositoryGateway {
     ItemCardapioGatewayDto salvar(ItemCardapioGatewayDto dto);
     Optional<ItemCardapioGatewayDto> buscarPorId(UUID id);
-       List<ItemCardapioGatewayDto> findAllByIdRestauranteOrderByNomeAsc(UUID idRestaurante);
+       List<ItemCardapioGatewayDto> findAllByRestauranteIdOrderByNomeAsc(UUID restauranteId);
     ItemCardapioGatewayDto atualizar(ItemCardapioGatewayDto dto);
     void remover(UUID id);
     boolean existePorId(UUID id);
     List<ItemCardapioGatewayDto> buscarPorNome(String termo);
-    List<ItemCardapioGatewayDto> buscarPorNomeNoRestaurante(UUID idRestaurante, String termo);
+    List<ItemCardapioGatewayDto> buscarPorNomeNoRestaurante(UUID restauranteId, String termo);
 
 }

@@ -16,7 +16,7 @@ public final class ItemCardapioGatewayMapper {
                 d.getPreco(),
                 d.isConsumoLocal(),
                 d.getCaminhoFoto(),
-                d.getIdRestaurante(),
+                d.getRestauranteId(),
                 d.getDataUltimaAlteracao()
         );
     }
@@ -31,7 +31,7 @@ public final class ItemCardapioGatewayMapper {
                 dto.preco(),
                 dto.consumoLocal(),
                 dto.caminhoFoto(),
-                dto.idRestaurante(),
+                dto.restauranteId(),
                 dto.dataUltimaAlteracao()
         );
     }

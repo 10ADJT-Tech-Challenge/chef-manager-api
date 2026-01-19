@@ -29,8 +29,8 @@ public class CadastrarItemCardapioUseCase implements CadastrarItemCardapio {
     public ItemCardapioOutput executar(CadastrarItemCardapioInput input) {
 
 
-        if (!restauranteGateway.existePorId(input.idRestaurante())) {
-            throw new NoSuchElementException("Nenhum restaurante encontrado com o id: " + input.idRestaurante());
+        if (!restauranteGateway.existePorId(input.restauranteId())) {
+            throw new NoSuchElementException("Nenhum restaurante encontrado com o id: " + input.restauranteId());
         }
 
         validar(input);
@@ -42,7 +42,7 @@ public class CadastrarItemCardapioUseCase implements CadastrarItemCardapio {
                 input.preco(),
                 input.consumoLocal(),
                 input.caminhoFoto(),
-                input.idRestaurante(),
+                input.restauranteId(),
                 OffsetDateTime.now()
         );
         var salvo = gateway.salvar(novo);

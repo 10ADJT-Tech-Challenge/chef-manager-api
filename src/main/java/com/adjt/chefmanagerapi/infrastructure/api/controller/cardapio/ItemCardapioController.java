@@ -12,12 +12,10 @@ import com.adjt.chefmanagerapi.model.ItemCardapioRequest;
 import com.adjt.chefmanagerapi.model.ItemCardapioResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +27,7 @@ public class ItemCardapioController implements ItemCardapioApi {
     private final AtualizarItemCardapio atualizarUC;
     private final RemoverItemCardapio removerUC;
     private final BuscarItemCardapioPorId buscarUC;
-    private final ListarItensCardapioPorIdRestaurante listarPorRestauranteIdUC;
+    private final ListarItensCardapioPorRestauranteId listarPorRestauranteIdUC;
     private final BuscarItensCardapioPorNomeNoRestaurante listarNoRestaurantePorNomeUC;
     private final BuscarItensCardapioPorNome buscarItensCardapioPorNome;
 
@@ -37,7 +35,7 @@ public class ItemCardapioController implements ItemCardapioApi {
                                   AtualizarItemCardapio atualizarUC,
                                   RemoverItemCardapio removerUC,
                                   BuscarItemCardapioPorId buscarUC,
-                                  ListarItensCardapioPorIdRestaurante listarPorRestauranteIdUC, BuscarItensCardapioPorNomeNoRestaurante listarNoRestaurantePorNomeUC, BuscarItensCardapioPorNome buscarItensCardapioPorNome) {
+                                  ListarItensCardapioPorRestauranteId listarPorRestauranteIdUC, BuscarItensCardapioPorNomeNoRestaurante listarNoRestaurantePorNomeUC, BuscarItensCardapioPorNome buscarItensCardapioPorNome) {
         this.criarUC = criarUC;
         this.atualizarUC = atualizarUC;
         this.removerUC = removerUC;
@@ -70,15 +68,15 @@ public class ItemCardapioController implements ItemCardapioApi {
 
     @Override
     public ResponseEntity<List<ItemCardapioResponse>> buscarItensCardapioPorRestauranteId(
-            @PathVariable("id") UUID idRestaurante,
+            @PathVariable("id") UUID restauranteId,
             @RequestParam(value = "term", required = false) String termo
     ) {
         List<ItemCardapioOutput> outputs;
 
         if (termo == null || termo.isBlank()) {
-            outputs = listarPorRestauranteIdUC.executar(idRestaurante);
+            outputs = listarPorRestauranteIdUC.executar(restauranteId);
         } else {
-            var input = new BuscarItensCardapioPorNomeNoRestauranteInput(idRestaurante, termo);
+            var input = new BuscarItensCardapioPorNomeNoRestauranteInput(restauranteId, termo);
             outputs = listarNoRestaurantePorNomeUC.executar(input);
         }
 
@@ -110,7 +108,7 @@ public class ItemCardapioController implements ItemCardapioApi {
                 req.getPreco(),
                 req.getConsumoLocal(),
                 req.getCaminhoFoto(),
-                req.getIdRestaurante()
+                req.getRestauranteId()
         );
 
         ItemCardapioOutput item = atualizarUC.executar(input);

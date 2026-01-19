@@ -21,7 +21,7 @@ public class BuscarItensCardapioPorNomeNoRestauranteUseCase implements BuscarIte
 
     @Override
     public List<ItemCardapioOutput> executar(BuscarItensCardapioPorNomeNoRestauranteInput input) {
-        var itens = gateway.buscarPorNomeNoRestaurante(input.idRestaurante(), input.termo());
+        var itens = gateway.buscarPorNomeNoRestaurante(input.restauranteId(), input.termo());
         return mapper.toOutputList(itens);
     }
 }

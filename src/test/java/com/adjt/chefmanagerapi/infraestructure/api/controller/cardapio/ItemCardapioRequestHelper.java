@@ -17,7 +17,7 @@ public abstract class ItemCardapioRequestHelper {
                 .preco(BigDecimal.valueOf(29.90))
                 .consumoLocal(true)
                 .caminhoFoto("https://img.example/xburger.png")
-                .idRestaurante(UUID.fromString(UUID_DONO));
+                .restauranteId(UUID.fromString(UUID_DONO));
     }
 
     static ItemCardapioRequest novoVegano() {
@@ -27,7 +27,7 @@ public abstract class ItemCardapioRequestHelper {
                 .preco(BigDecimal.valueOf(32.90))
                 .consumoLocal(true)
                 .caminhoFoto("https://img.example/vegano.png")
-                .idRestaurante(UUID.fromString(UUID_DONO));
+                .restauranteId(UUID.fromString(UUID_DONO));
     }
 
     static ItemCardapioRequest invalidoSemNome() {
@@ -37,7 +37,7 @@ public abstract class ItemCardapioRequestHelper {
                 .preco(BigDecimal.valueOf(10.0))
                 .consumoLocal(true)
                 .caminhoFoto("foto.png")
-                .idRestaurante(UUID.fromString(UUID_DONO));
+                .restauranteId(UUID.fromString(UUID_DONO));
     }
 }
 

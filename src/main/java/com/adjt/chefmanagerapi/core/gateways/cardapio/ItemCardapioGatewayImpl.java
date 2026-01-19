@@ -38,14 +38,14 @@ public class ItemCardapioGatewayImpl implements ItemCardapioGateway {
     }
 
     @Override
-    public List<ItemCardapio> buscarPorNomeNoRestaurante(UUID idRestaurante, String termo) {
-        return repository.buscarPorNomeNoRestaurante(idRestaurante,termo).stream().map(ItemCardapioGatewayMapper::toDomain).toList();
+    public List<ItemCardapio> buscarPorNomeNoRestaurante(UUID restauranteId, String termo) {
+        return repository.buscarPorNomeNoRestaurante(restauranteId,termo).stream().map(ItemCardapioGatewayMapper::toDomain).toList();
     }
 
 
     @Override
-    public List<ItemCardapio> findAllByIdRestauranteOrderByNomeAsc(UUID idRestaurante) {
-        return repository.findAllByIdRestauranteOrderByNomeAsc(idRestaurante)
+    public List<ItemCardapio> findAllByRestauranteIdOrderByNomeAsc(UUID restauranteId) {
+        return repository.findAllByRestauranteIdOrderByNomeAsc(restauranteId)
                 .stream()
                 .map(ItemCardapioGatewayMapper::toDomain)
                 .toList();

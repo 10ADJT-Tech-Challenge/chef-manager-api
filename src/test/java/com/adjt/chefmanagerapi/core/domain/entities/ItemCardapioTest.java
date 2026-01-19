@@ -56,6 +56,6 @@ public class ItemCardapioTest {
         assertEquals(0, VALOR.compareTo(itemCardapio.getPreco()));
         assertEquals(CONSUMO_LOCAL, itemCardapio.isConsumoLocal());
         assertEquals(CAMINHO_FOTO, itemCardapio.getCaminhoFoto());
-        assertEquals(restaurante.getId(), itemCardapio.getIdRestaurante());
+        assertEquals(restaurante.getId(), itemCardapio.getRestauranteId());
     }
 }

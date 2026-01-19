@@ -30,7 +30,7 @@ class ItemCardapioControllerTest extends BaseIntegrationTest {
                 .body("descricao", equalTo("Hambúrguer artesanal"))
                 .body("preco", comparesEqualTo(new java.math.BigDecimal("29.90")))
                 .body("consumoLocal", equalTo(true))
-                .body("idRestaurante", equalTo(ItemCardapioRequestHelper.UUID_DONO));
+                .body("restauranteId", equalTo(ItemCardapioRequestHelper.UUID_DONO));
     }
 
     @Test
@@ -44,7 +44,7 @@ class ItemCardapioControllerTest extends BaseIntegrationTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("id", equalTo(idItem))
                 .body("nome", notNullValue())
-                .body("idRestaurante", equalTo(ItemCardapioRequestHelper.UUID_DONO));
+                .body("restauranteId", equalTo(ItemCardapioRequestHelper.UUID_DONO));
     }
 
     @Test
@@ -96,7 +96,7 @@ class ItemCardapioControllerTest extends BaseIntegrationTest {
                 .preco(BigDecimal.valueOf(29.90))
                 .consumoLocal(true)
                 .caminhoFoto("https://img.example/xburger-esp.png")
-                .idRestaurante(java.util.UUID.fromString(ItemCardapioRequestHelper.UUID_DONO));
+                .restauranteId(java.util.UUID.fromString(ItemCardapioRequestHelper.UUID_DONO));
 
         given()
                 .contentType(ContentType.JSON)

@@ -19,5 +19,5 @@ public record CadastrarItemCardapioInput(
         @NotNull @Valid @DecimalMin(value = "0.01") BigDecimal preco,
         @NotNull Boolean consumoLocal,
         String caminhoFoto,
-        @NotNull UUID idRestaurante
+        @NotNull UUID restauranteId
 ) { }

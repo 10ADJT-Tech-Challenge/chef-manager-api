@@ -12,6 +12,6 @@ public record ItemCardapioGatewayDto(
         BigDecimal preco,
         boolean consumoLocal,
         String caminhoFoto,
-        UUID idRestaurante,
+        UUID restauranteId,
         OffsetDateTime dataUltimaAlteracao
 ) {}

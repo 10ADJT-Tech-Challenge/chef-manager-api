@@ -17,22 +17,22 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ListarItensCardapioPorIdRestauranteUseCaseTest {
+class ListarItensCardapioPorRestauranteIdUseCaseTest {
     private AutoCloseable openMocks;
     @Mock private ItemCardapioGateway gateway;
-    private ListarItensCardapioPorIdRestauranteUseCase useCase;
+    private ListarItensCardapioPorRestauranteIdUseCase useCase;
 
 
     @BeforeEach void setup() {
         openMocks = MockitoAnnotations.openMocks(this);
-        useCase = new ListarItensCardapioPorIdRestauranteUseCase(gateway, new ItemCardapioMapperImpl());
+        useCase = new ListarItensCardapioPorRestauranteIdUseCase(gateway, new ItemCardapioMapperImpl());
     }
     @AfterEach void tearDown() throws Exception { openMocks.close(); }
 
     @Test
     void deveListarComSucesso() {
         UUID restauranteId = UUID.randomUUID();
-        when(gateway.findAllByIdRestauranteOrderByNomeAsc(restauranteId)).thenReturn(List.of(
+        when(gateway.findAllByRestauranteIdOrderByNomeAsc(restauranteId)).thenReturn(List.of(
                 ItemCardapioBuilder.umItem().comRestaurante(restauranteId).build()
         ));
 
@@ -44,7 +44,7 @@ class ListarItensCardapioPorIdRestauranteUseCaseTest {
     @Test
     void deveRetornarListaVazia() {
         UUID restauranteId = UUID.randomUUID();
-        when(gateway.findAllByIdRestauranteOrderByNomeAsc(restauranteId)).thenReturn(List.of());
+        when(gateway.findAllByRestauranteIdOrderByNomeAsc(restauranteId)).thenReturn(List.of());
 
         var out = useCase.executar(restauranteId);
         assertNotNull(out);

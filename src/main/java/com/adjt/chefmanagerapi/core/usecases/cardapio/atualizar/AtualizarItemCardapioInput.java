@@ -11,7 +11,7 @@ public record AtualizarItemCardapioInput(
         String nome,
         String descricao,
         BigDecimal preco,
-        Boolean consumoLocal,   // opcional para “não alterar”
+        Boolean consumoLocal,
         String caminhoFoto,
-        UUID idRestaurante      // opcional (se permitir mudar)
+        UUID restauranteId
 ) {}
