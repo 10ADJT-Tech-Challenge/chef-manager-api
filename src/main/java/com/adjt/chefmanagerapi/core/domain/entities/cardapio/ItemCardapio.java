@@ -1,6 +1,7 @@
 
 package com.adjt.chefmanagerapi.core.domain.entities.cardapio;
 
+import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
 import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.DescricaoObrigatoriaException;
 import com.adjt.chefmanagerapi.core.exceptions.PrecoObrigatorioOuInvalidoException;
@@ -25,12 +26,12 @@ public class ItemCardapio {
 
 
     public ItemCardapio(String nome, String descricao, BigDecimal preco,
-                        boolean consumoLocal, String caminhoFoto, UUID restauranteId) {
+                        boolean consumoLocal, String caminhoFoto, UUID restauranteId ) {
         this(UUID.randomUUID(), nome, descricao, preco, consumoLocal, caminhoFoto, restauranteId, OffsetDateTime.now());
     }
 
     public ItemCardapio(UUID id, String nome, String descricao, BigDecimal preco,
-                        boolean consumoLocal, String caminhoFoto, UUID restauranteId, OffsetDateTime dataUltimaAlteracao) {
+                        boolean consumoLocal, String caminhoFoto, UUID restauranteId,OffsetDateTime dataUltimaAlteracao) {
         this.id = id;
         setNome(nome);
         setDescricao(descricao);
@@ -91,7 +92,7 @@ public class ItemCardapio {
     }
 
     public void atualizarRestauranteId(UUID novoRestauranteId) {
-        if (novoRestauranteId == null) throw new IllegalArgumentException("restauranteId é obrigatório");
+        if (novoRestauranteId == null) throw new IllegalArgumentException("novoRestauranteId é obrigatório");
         this.restauranteId = novoRestauranteId;
         atualizarDataAlteracao();
     }

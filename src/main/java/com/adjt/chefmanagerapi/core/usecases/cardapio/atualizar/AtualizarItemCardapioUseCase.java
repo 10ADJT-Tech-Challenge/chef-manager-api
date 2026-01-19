@@ -32,7 +32,6 @@ public class AtualizarItemCardapioUseCase implements AtualizarItemCardapio {
         if (input.preco() != null) item.atualizarPreco(input.preco());
         if (input.consumoLocal() != null) item.atualizarDisponibilidade(input.consumoLocal());
         if (input.caminhoFoto() != null) item.atualizarCaminhoFoto(input.caminhoFoto());
-        if (input.restauranteId() != null) item.atualizarRestauranteId(input.restauranteId());
 
         ItemCardapio atualizado = gateway.atualizar(item);
         return mapper.toOutput(atualizado);

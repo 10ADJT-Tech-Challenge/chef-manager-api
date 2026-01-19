@@ -35,11 +35,11 @@ public class ItemCardapioEntity {
 
     private String caminhoFoto;
 
-    @Column(name = "restaurante_id", insertable = false, updatable = false)
+    @Column(name = "restaurante_id", nullable = false)
     private UUID restauranteId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurante_id")
+    @JoinColumn(name = "restaurante_id", insertable = false, updatable = false)
     private RestauranteEntity restaurante;
 
     private OffsetDateTime dataUltimaAlteracao;
