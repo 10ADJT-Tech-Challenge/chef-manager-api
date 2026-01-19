@@ -10,27 +10,29 @@ paths:
   /restaurantes/{id}/itens-cardapio:
     get:
       operationId: buscarItensCardapioPorRestauranteId
+      summary: Retorna itens de cardápio do restaurante (com filtro opcional por nome)
+      tags: [ItemCardapio]
       parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+        - in: query
+          name: term
+          required: false
+          description: Termo de busca (case-insensitive). Suporta espaços e acentos (URL-encoded).
+          schema: { type: string, minLength: 1, maxLength: 100 }
       responses:
         '200':
+          description: Itens de cardápio do restaurante retornados com sucesso
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/ItemCardapioResponse'
-          description: Itens de cardápio do restaurante retornada com sucesso
         '204':
           description: Nenhum item encontrado
-      summary: Retorna lista de itens de cardápio a partir de id de restaurante
-      tags:
-      - ItemCardapio
     post:
       operationId: criarItemCardapio
       parameters:
@@ -108,6 +110,32 @@ paths:
       summary: Atualiza item de cardápio
       tags:
       - ItemCardapio
+  /itens-cardapio:
+    get:
+      operationId: buscarItensCardapioPorNomeGlobal
+      summary: Busca itens de cardápio pelo nome
+      tags:
+        - ItemCardapio
+      parameters:
+        - in: query
+          name: nome
+          required: true
+          description: Termo (case-insensitive) para buscar itens por nome (busca parcial)
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 100
+      responses:
+        '200':
+          description: Lista de itens retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemCardapioResponse'
+        '204':
+          description: Nenhum item encontrado
   /restaurantes:
     get:
       operationId: buscarRestaurantePorNome

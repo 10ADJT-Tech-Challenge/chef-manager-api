@@ -23,3 +23,31 @@ INSERT INTO RESTAURANTE (nome, endereco, data_ultima_alteracao, tipo_cozinha, ho
 'Nordestina', '10h às 22h', 'e98915ad-2a2f-4463-ac5f-38258d3ffa5d', 'cec64cf0-6dc9-4b4e-b0b8-405870ae1b43'),
 ('Braz Elettrica', 'Av. Paulista', '2024-01-01 10:00:00',
  'Italiana', '10h às 22h', 'e98915ad-2a2f-4463-ac5f-38258d3ffa5d', 'f6f2a623-b22b-4494-bb35-cff956c86e5c');
+
+
+
+-- Seeds de itens de cardápio associados ao restaurante "Camarões"
+-- Colunas baseadas no schema OpenAPI:
+--  id (uuid), id_restaurante (uuid), nome (text), descricao (text),
+--  preco (numeric/decimal), consumo_local (boolean), caminho_foto (text),
+--  data_ultima_alteracao (timestamp)
+
+INSERT INTO itens_cardapio (id, id_restaurante, nome, descricao, preco, consumo_local, caminho_foto, data_ultima_alteracao)
+VALUES
+    ('11111111-1111-1111-1111-111111111111',
+     'cec64cf0-6dc9-4b4e-b0b8-405870ae1b43',
+     'X-Burger',
+     'Hambúrguer artesanal',
+     24.90,
+     TRUE,
+     'https://img.example/xburger.png',
+     NOW()),
+
+    ('22222222-2222-2222-2222-222222222222',
+     'cec64cf0-6dc9-4b4e-b0b8-405870ae1b43',
+     'Vegano',
+     'Grão de bico com queijo de castanhas',
+     32.90,
+     TRUE,
+     'https://img.example/vegano.png',
+     NOW());

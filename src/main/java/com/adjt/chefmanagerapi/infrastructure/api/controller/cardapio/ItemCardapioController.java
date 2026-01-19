@@ -1,68 +1,119 @@
 package com.adjt.chefmanagerapi.infrastructure.api.controller.cardapio;
 
 import com.adjt.chefmanagerapi.ItemCardapioApi;
-import com.adjt.chefmanagerapi.core.domain.entities.cardapio.ItemCardapio;
 import com.adjt.chefmanagerapi.core.usecases.cardapio.ItemCardapioOutput;
-import com.adjt.chefmanagerapi.core.usecases.cardapio.atualizar.AtualizarItemCardapioUseCase;
-import com.adjt.chefmanagerapi.core.usecases.cardapio.buscar.BuscarItemCardapioPorIdUseCase;
-import com.adjt.chefmanagerapi.core.usecases.cardapio.buscar.ListarItensCardapioPorIdRestauranteUseCase;
-import com.adjt.chefmanagerapi.core.usecases.cardapio.cadastrar.CadastrarItemCardapioUseCase;
-import com.adjt.chefmanagerapi.core.usecases.cardapio.deletar.RemoverItemCardapioUseCase;
+import com.adjt.chefmanagerapi.core.usecases.cardapio.atualizar.AtualizarItemCardapio;
+import com.adjt.chefmanagerapi.core.usecases.cardapio.atualizar.AtualizarItemCardapioInput;
+import com.adjt.chefmanagerapi.core.usecases.cardapio.buscar.*;
+import com.adjt.chefmanagerapi.core.usecases.cardapio.cadastrar.CadastrarItemCardapio;
+import com.adjt.chefmanagerapi.core.usecases.cardapio.cadastrar.CadastrarItemCardapioInput;
+import com.adjt.chefmanagerapi.core.usecases.cardapio.remover.RemoverItemCardapio;
 import com.adjt.chefmanagerapi.model.ItemCardapioRequest;
 import com.adjt.chefmanagerapi.model.ItemCardapioResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 @RestController
 public class ItemCardapioController implements ItemCardapioApi {
 
-    private final CadastrarItemCardapioUseCase criarUC;
-    private final AtualizarItemCardapioUseCase atualizarUC;
-    private final RemoverItemCardapioUseCase removerUC;
-    private final BuscarItemCardapioPorIdUseCase buscarUC;
-    private final ListarItensCardapioPorIdRestauranteUseCase listarPorRestauranteIdUC; // UC que vamos criar
+    private final CadastrarItemCardapio criarUC;
+    private final AtualizarItemCardapio atualizarUC;
+    private final RemoverItemCardapio removerUC;
+    private final BuscarItemCardapioPorId buscarUC;
+    private final ListarItensCardapioPorIdRestaurante listarPorRestauranteIdUC;
+    private final BuscarItensCardapioPorNomeNoRestaurante listarNoRestaurantePorNomeUC;
+    private final BuscarItensCardapioPorNome buscarItensCardapioPorNome;
 
-    public ItemCardapioController(CadastrarItemCardapioUseCase criarUC,
-                                  AtualizarItemCardapioUseCase atualizarUC,
-                                  RemoverItemCardapioUseCase removerUC,
-                                  BuscarItemCardapioPorIdUseCase buscarUC, ListarItensCardapioPorIdRestauranteUseCase listarPorRestauranteIdUC) {
+    public ItemCardapioController(CadastrarItemCardapio criarUC,
+                                  AtualizarItemCardapio atualizarUC,
+                                  RemoverItemCardapio removerUC,
+                                  BuscarItemCardapioPorId buscarUC,
+                                  ListarItensCardapioPorIdRestaurante listarPorRestauranteIdUC, BuscarItensCardapioPorNomeNoRestaurante listarNoRestaurantePorNomeUC, BuscarItensCardapioPorNome buscarItensCardapioPorNome) {
         this.criarUC = criarUC;
         this.atualizarUC = atualizarUC;
         this.removerUC = removerUC;
         this.buscarUC = buscarUC;
         this.listarPorRestauranteIdUC = listarPorRestauranteIdUC;
+        this.listarNoRestaurantePorNomeUC = listarNoRestaurantePorNomeUC;
+        this.buscarItensCardapioPorNome = buscarItensCardapioPorNome;
     }
 
     @Override
-    public ResponseEntity<ItemCardapioResponse> criarItemCardapio(@PathVariable UUID id, @RequestBody ItemCardapioRequest itemCardapioRequest) {
-        ItemCardapio item = criarUC.executar(itemCardapioRequest.getNome(), itemCardapioRequest.getDescricao(), itemCardapioRequest.getPreco(),
-                itemCardapioRequest.getConsumoLocal(), itemCardapioRequest.getCaminhoFoto(), id);
-        return ResponseEntity.ok(ItemCardapioApiMapper.toResponse(item));
+    public ResponseEntity<ItemCardapioResponse> criarItemCardapio(@NotNull @PathVariable("id") UUID id, @Valid @RequestBody ItemCardapioRequest req) {
+        CadastrarItemCardapioInput input = new CadastrarItemCardapioInput(
+                req.getNome(),
+                req.getDescricao(),
+                req.getPreco(),
+                req.getConsumoLocal(),
+                req.getCaminhoFoto(),
+                id);
+
+        ItemCardapioOutput item = criarUC.executar(input);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ItemCardapioApiMapper.toResponse(item));
     }
 
     @Override
     public ResponseEntity<ItemCardapioResponse> buscarItemCardapioPorId(@PathVariable UUID id) {
-        ItemCardapio item = buscarUC.executar(id);
+        ItemCardapioOutput item = buscarUC.executar(id);
         return ResponseEntity.ok(ItemCardapioApiMapper.toResponse(item));
     }
 
 
     @Override
-    public ResponseEntity<List<ItemCardapioResponse>> buscarItensCardapioPorRestauranteId(UUID idRestaurante) {
-        List<ItemCardapioOutput> outputs = listarPorRestauranteIdUC.executar(idRestaurante);
-        List<ItemCardapioResponse> body = outputs.stream().map(ItemCardapioApiMapper::toResponseFromOutput).toList();
+    public ResponseEntity<List<ItemCardapioResponse>> buscarItensCardapioPorRestauranteId(
+            @PathVariable("id") UUID idRestaurante,
+            @RequestParam(value = "term", required = false) String termo
+    ) {
+        List<ItemCardapioOutput> outputs;
+
+        if (termo == null || termo.isBlank()) {
+            outputs = listarPorRestauranteIdUC.executar(idRestaurante);
+        } else {
+            var input = new BuscarItensCardapioPorNomeNoRestauranteInput(idRestaurante, termo);
+            outputs = listarNoRestaurantePorNomeUC.executar(input);
+        }
+
+        var body = outputs.stream().map(ItemCardapioApiMapper::toResponseFromOutput).toList();
+        if (body.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(body);
     }
 
     @Override
+    public ResponseEntity<List<ItemCardapioResponse>> buscarItensCardapioPorNomeGlobal(
+            @RequestParam("nome") String termo
+    ) {
+        var outputs = buscarItensCardapioPorNome.executar(termo);
+        var body = outputs.stream().map(ItemCardapioApiMapper::toResponseFromOutput).toList();
+        if (body.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(body);
+    }
+
+
+
+    @Override
     public ResponseEntity<ItemCardapioResponse> atualizarItemCardapio(@PathVariable UUID id,
                                                                       @RequestBody ItemCardapioRequest req) {
-        ItemCardapio item = atualizarUC.executar(id, req.getNome(), req.getDescricao(), req.getPreco(),
-                req.getConsumoLocal(), req.getCaminhoFoto(), req.getIdRestaurante());
+
+        var input = new AtualizarItemCardapioInput(
+                id,
+                req.getNome(),
+                req.getDescricao(),
+                req.getPreco(),
+                req.getConsumoLocal(),
+                req.getCaminhoFoto(),
+                req.getIdRestaurante()
+        );
+
+        ItemCardapioOutput item = atualizarUC.executar(input);
         return ResponseEntity.ok(ItemCardapioApiMapper.toResponse(item));
     }
 

@@ -5,7 +5,7 @@ import com.adjt.chefmanagerapi.model.ItemCardapioResponse;
 
 public class ItemCardapioApiMapper {
 
-    public static ItemCardapioResponse toResponse(ItemCardapio domain) {
+    public static ItemCardapioResponse toResponse(ItemCardapioOutput domain) {
         ItemCardapioResponse dto = new ItemCardapioResponse();
         dto.setId(domain.getId());
         dto.setNome(domain.getNome());

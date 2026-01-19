@@ -1,25 +1,63 @@
 
 package com.adjt.chefmanagerapi.core.usecases.cardapio.cadastrar;
 
-import com.adjt.chefmanagerapi.core.gateways.cardapio.ItemCardapioGateway;
 import com.adjt.chefmanagerapi.core.domain.entities.cardapio.ItemCardapio;
+import com.adjt.chefmanagerapi.core.gateways.cardapio.ItemCardapioGateway;
+import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGateway;
+import com.adjt.chefmanagerapi.core.usecases.cardapio.ItemCardapioMapper;
+import com.adjt.chefmanagerapi.core.usecases.cardapio.ItemCardapioOutput;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
-public class CadastrarItemCardapioUseCase {
+public class CadastrarItemCardapioUseCase implements CadastrarItemCardapio {
 
-    private final ItemCardapioGateway repository;
+    private final ItemCardapioGateway gateway;
+    private final ItemCardapioMapper mapper;
+    private final RestauranteGateway restauranteGateway;
 
-    public CadastrarItemCardapioUseCase(ItemCardapioGateway repository) {
-        this.repository = repository;
+    public CadastrarItemCardapioUseCase(ItemCardapioGateway gateway, ItemCardapioMapper mapper, RestauranteGateway restauranteGateway) {
+        this.gateway = gateway;
+        this.mapper = mapper;
+        this.restauranteGateway = restauranteGateway;
     }
 
-    public ItemCardapio executar(String nome, String descricao, BigDecimal preco,
-                                 boolean apenasNoRestaurante, String caminhoFoto, UUID idRestaurante) {
-        ItemCardapio item = new ItemCardapio(nome, descricao, preco, apenasNoRestaurante, caminhoFoto,idRestaurante);
-        return repository.salvar(item);
+    @Override
+    public ItemCardapioOutput executar(CadastrarItemCardapioInput input) {
+
+
+        if (!restauranteGateway.existePorId(input.idRestaurante())) {
+            throw new NoSuchElementException("Nenhum restaurante encontrado com o id: " + input.idRestaurante());
+        }
+
+        validar(input);
+
+        ItemCardapio novo = new ItemCardapio(
+                UUID.randomUUID(),
+                input.nome(),
+                input.descricao(),
+                input.preco(),
+                input.consumoLocal(),
+                input.caminhoFoto(),
+                input.idRestaurante(),
+                OffsetDateTime.now()
+        );
+        var salvo = gateway.salvar(novo);
+        return mapper.toOutput(salvo);
     }
-}
+
+
+    private void validar(CadastrarItemCardapioInput input) {
+        if (input.nome() == null || input.nome().isBlank()) {
+            throw new IllegalArgumentException("Nome do item é obrigatório.");
+        }
+        if (input.preco() == null || input.preco().signum() <= 0) {
+            throw new IllegalArgumentException("Preço deve ser maior que zero.");
+        }
+    }
+
+
+    }

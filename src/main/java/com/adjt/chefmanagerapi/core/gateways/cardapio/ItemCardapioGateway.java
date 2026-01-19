@@ -14,4 +14,7 @@ public interface ItemCardapioGateway {
     ItemCardapio atualizar(ItemCardapio item);
     void remover(UUID id);
     boolean existePorId(UUID id);
+    List<ItemCardapio> buscarPorNome(String termo);
+    List<ItemCardapio> buscarPorNomeNoRestaurante(UUID idRestaurante, String termo);
+
 }

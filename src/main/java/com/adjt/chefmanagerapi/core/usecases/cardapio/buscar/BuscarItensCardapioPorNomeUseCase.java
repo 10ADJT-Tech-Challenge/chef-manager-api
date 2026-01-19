@@ -2,34 +2,26 @@
 package com.adjt.chefmanagerapi.core.usecases.cardapio.buscar;
 
 import com.adjt.chefmanagerapi.core.gateways.cardapio.ItemCardapioGateway;
-
 import com.adjt.chefmanagerapi.core.usecases.cardapio.ItemCardapioMapper;
 import com.adjt.chefmanagerapi.core.usecases.cardapio.ItemCardapioOutput;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
-public class ListarItensCardapioPorIdRestauranteUseCase implements ListarItensCardapioPorIdRestaurante{
+public class BuscarItensCardapioPorNomeUseCase implements BuscarItensCardapioPorNome {
 
     private final ItemCardapioGateway gateway;
     private final ItemCardapioMapper mapper;
 
-    public ListarItensCardapioPorIdRestauranteUseCase(ItemCardapioGateway gateway, ItemCardapioMapper mapper) {
+    public BuscarItensCardapioPorNomeUseCase(ItemCardapioGateway gateway, ItemCardapioMapper mapper) {
         this.gateway = gateway;
         this.mapper = mapper;
     }
 
-    public List<ItemCardapioOutput> executar(UUID idRestaurante) {
-        var itens = gateway.findAllByIdRestauranteOrderByNomeAsc(idRestaurante);
+    @Override
+    public List<ItemCardapioOutput> executar(String termo) {
+        var itens = gateway.buscarPorNome(termo);
         return mapper.toOutputList(itens);
     }
-
-
-
-
-
-
 }

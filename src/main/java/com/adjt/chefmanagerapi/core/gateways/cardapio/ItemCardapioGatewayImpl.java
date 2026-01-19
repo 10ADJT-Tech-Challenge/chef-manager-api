@@ -29,6 +29,20 @@ public class ItemCardapioGatewayImpl implements ItemCardapioGateway {
         return repository.buscarPorId(id).map(ItemCardapioGatewayMapper::toDomain);
     }
 
+
+    @Override
+    public List<ItemCardapio> buscarPorNome(String termo) {
+        return repository.buscarPorNome(termo).stream()
+                .map(ItemCardapioGatewayMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<ItemCardapio> buscarPorNomeNoRestaurante(UUID idRestaurante, String termo) {
+        return repository.buscarPorNomeNoRestaurante(idRestaurante,termo).stream().map(ItemCardapioGatewayMapper::toDomain).toList();
+    }
+
+
     @Override
     public List<ItemCardapio> findAllByIdRestauranteOrderByNomeAsc(UUID idRestaurante) {
         return repository.findAllByIdRestauranteOrderByNomeAsc(idRestaurante)

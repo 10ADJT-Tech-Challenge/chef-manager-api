@@ -21,7 +21,7 @@ public class ItemCardapioEntity {
     @Column(precision = 12, scale = 2)
     private BigDecimal preco;
 
-    private boolean apenasNoRestaurante;
+    private boolean consumoLocal;
     private String caminhoFoto;
     private UUID idRestaurante;
 
