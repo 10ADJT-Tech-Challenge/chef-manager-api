@@ -23,8 +23,7 @@ public final class ItemCardapioGatewayMapper {
 
     public static ItemCardapio toDomain(ItemCardapioGatewayDto dto) {
         if (dto == null) return null;
-        // Usa o construtor de reidratação do domínio (com id e dataUltimaAlteracao)
-        return new ItemCardapio(
+        return ItemCardapio.reconstituir(
                 dto.id(),
                 dto.nome(),
                 dto.descricao(),

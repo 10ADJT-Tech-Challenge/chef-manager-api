@@ -49,7 +49,7 @@ public class ItemCardapioController implements ItemCardapioApi {
                 req.getNome(),
                 req.getDescricao(),
                 req.getPreco(),
-                req.getConsumoLocal(),
+                Boolean.TRUE.equals(req.getConsumoLocal()),
                 req.getCaminhoFoto(),
                 id);
 

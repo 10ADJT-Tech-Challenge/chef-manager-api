@@ -23,38 +23,86 @@ public class ItemCardapio {
     private UUID restauranteId;
     private OffsetDateTime dataUltimaAlteracao;
 
-
     public ItemCardapio(String nome, String descricao, BigDecimal preco,
-                        boolean consumoLocal, String caminhoFoto, UUID restauranteId ) {
-        this(UUID.randomUUID(), nome, descricao, preco, consumoLocal, caminhoFoto, restauranteId, OffsetDateTime.now());
+                        boolean consumoLocal, String caminhoFoto, UUID restauranteId) {
+        this(UUID.randomUUID(), nome, descricao, preco, consumoLocal, caminhoFoto, restauranteId);
     }
 
+    @SuppressWarnings("java:S107")
+    public static ItemCardapio reconstituir(
+            UUID id,
+            String nome,
+            String descricao,
+            BigDecimal preco,
+            boolean consumoLocal,
+            String caminhoFoto,
+            UUID restauranteId,
+            OffsetDateTime dataUltimaAlteracao
+    ) {
+        ItemCardapio item = new ItemCardapio(id, nome, descricao, preco, consumoLocal, caminhoFoto, restauranteId);
+        item.dataUltimaAlteracao = (dataUltimaAlteracao != null) ? dataUltimaAlteracao : OffsetDateTime.now();
+        return item;
+    }
+
+
     public ItemCardapio(UUID id, String nome, String descricao, BigDecimal preco,
-                        boolean consumoLocal, String caminhoFoto, UUID restauranteId,OffsetDateTime dataUltimaAlteracao) {
+                        boolean consumoLocal, String caminhoFoto, UUID restauranteId) {
         this.id = id;
+
+        // Setters privados (não atualizam a data)
         setNome(nome);
         setDescricao(descricao);
         setPreco(preco);
-        this.consumoLocal = consumoLocal;
-        this.caminhoFoto = (caminhoFoto == null || caminhoFoto.trim().isEmpty()) ? null : caminhoFoto.trim();
-        this.restauranteId = restauranteId;
-        this.dataUltimaAlteracao = (dataUltimaAlteracao != null) ? dataUltimaAlteracao : OffsetDateTime.now();
+        setConsumoLocal(consumoLocal);
+        setCaminhoFoto(caminhoFoto);
+        setRestauranteId(restauranteId);
+
+        // Define a data de criação/última alteração uma única vez na construção
+        this.dataUltimaAlteracao = OffsetDateTime.now();
     }
+
+    // ========= Atualizações públicas (alteram a data) =========
 
     public void atualizarNome(String novoNome) {
         setNome(novoNome);
         atualizarDataAlteracao();
     }
 
+    public void atualizarDescricao(String novaDescricao) {
+        setDescricao(novaDescricao);
+        atualizarDataAlteracao();
+    }
+
+    public void atualizarPreco(BigDecimal novoPreco) {
+        setPreco(novoPreco);
+        atualizarDataAlteracao();
+    }
+
+    public void atualizarDisponibilidade(boolean apenasNoRestaurante) {
+        setConsumoLocal(apenasNoRestaurante);
+        atualizarDataAlteracao();
+    }
+
+    public void atualizarCaminhoFoto(String novoCaminhoFoto) {
+        setCaminhoFoto(novoCaminhoFoto);
+        atualizarDataAlteracao();
+    }
+
+    public void atualizarRestaurante(UUID novoRestauranteId) {
+        setRestauranteId(novoRestauranteId);
+        atualizarDataAlteracao();
+    }
+
+    public void atualizarDataAlteracao() {
+        this.dataUltimaAlteracao = OffsetDateTime.now();
+    }
+
+    // ========= Setters privados (garantem invariantes, NÃO atualizam data) =========
+
     private void setNome(String nome) {
         if (nome == null || nome.trim().isEmpty())
             throw new NomeObrigatorioException();
         this.nome = nome.trim();
-    }
-
-    public void atualizarDescricao(String novaDescricao) {
-        setDescricao(novaDescricao);
-        atualizarDataAlteracao();
     }
 
     private void setDescricao(String descricao) {
@@ -63,30 +111,23 @@ public class ItemCardapio {
         this.descricao = descricao.trim();
     }
 
-    public void atualizarPreco(BigDecimal novoPreco) {
-        setPreco(novoPreco);
-        atualizarDataAlteracao();
-    }
-
     private void setPreco(BigDecimal preco) {
         if (preco == null || preco.compareTo(BigDecimal.ZERO) <= 0)
             throw new PrecoObrigatorioOuInvalidoException();
         this.preco = preco.setScale(2, RoundingMode.HALF_UP);
     }
 
-    public void atualizarDisponibilidade(boolean apenasNoRestaurante) {
-        this.consumoLocal = apenasNoRestaurante;
-        atualizarDataAlteracao();
+    private void setConsumoLocal(boolean consumoLocal) {
+        this.consumoLocal = consumoLocal;
     }
 
-    public void atualizarCaminhoFoto(String novoCaminhoFoto) {
-        this.caminhoFoto = (novoCaminhoFoto == null || novoCaminhoFoto.trim().isEmpty())
+    private void setCaminhoFoto(String caminhoFoto) {
+        this.caminhoFoto = (caminhoFoto == null || caminhoFoto.trim().isEmpty())
                 ? null
-                : novoCaminhoFoto.trim();
-        atualizarDataAlteracao();
+                : caminhoFoto.trim();
     }
 
-    public void atualizarDataAlteracao() {
-        this.dataUltimaAlteracao = OffsetDateTime.now();
+    private void setRestauranteId(UUID restauranteId) {
+        this.restauranteId = restauranteId;
     }
 }
