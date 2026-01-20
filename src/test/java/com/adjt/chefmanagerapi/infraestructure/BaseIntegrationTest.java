@@ -6,6 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
+import static io.restassured.config.JsonConfig.jsonConfig;
+import static io.restassured.path.json.config.JsonPathConfig.NumberReturnType.BIG_DECIMAL;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -20,5 +23,11 @@ public abstract class BaseIntegrationTest {
         RestAssured.port = port;
         RestAssured.baseURI = "http://localhost/api/v1";
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        RestAssured.config = RestAssured.config()
+                .jsonConfig(jsonConfig().numberReturnType(BIG_DECIMAL));
     }
+
+
+
+
 }

@@ -43,7 +43,7 @@ public class UsuarioController implements UsuarioApi {
         this.mapper = mapper;
     }
 
-    @Override
+
     public ResponseEntity<Void> alterarSenha(UUID id, AlterarSenhaRequest alterarSenhaRequest) {
         alterarSenha.executar(mapper.toInput(id, alterarSenhaRequest));
         return ResponseEntity.noContent().build();

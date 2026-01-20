@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.infrastructure.api.controller.restaurante;
+package com.adjt.chefmanagerapi.infraestructure.api.controller.restaurante;
 
 import com.adjt.chefmanagerapi.infraestructure.BaseIntegrationTest;
 import com.adjt.chefmanagerapi.model.AtualizarRestauranteRequest;
@@ -85,14 +85,14 @@ class RestauranteControllerTest extends BaseIntegrationTest {
     void deveDeletarRestauranteComSucesso() {
         given()
                 .when()
-                .delete("/restaurantes/{id}", RestauranteRequestHelper.UUID_CAMAROES)
+                .delete("/restaurantes/{id}", RestauranteRequestHelper.UUID_BRAZ_ELETTRICA)
                 .then()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Verifica se o restaurantes foi realmente deletado
         given()
                 .when()
-                .get("/restaurantes/{id}", RestauranteRequestHelper.UUID_CAMAROES)
+                .get("/restaurantes/{id}", RestauranteRequestHelper.UUID_BRAZ_ELETTRICA)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }

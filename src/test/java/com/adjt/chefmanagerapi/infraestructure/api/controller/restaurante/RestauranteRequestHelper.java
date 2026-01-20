@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.infrastructure.api.controller.restaurante;
+package com.adjt.chefmanagerapi.infraestructure.api.controller.restaurante;
 
 import com.adjt.chefmanagerapi.model.AtualizarRestauranteRequest;
 import com.adjt.chefmanagerapi.model.RestauranteRequest;
