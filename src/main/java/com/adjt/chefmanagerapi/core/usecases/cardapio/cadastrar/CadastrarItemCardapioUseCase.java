@@ -8,9 +8,8 @@ import com.adjt.chefmanagerapi.core.usecases.cardapio.ItemCardapioMapper;
 import com.adjt.chefmanagerapi.core.usecases.cardapio.ItemCardapioOutput;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
+
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Service
 public class CadastrarItemCardapioUseCase implements CadastrarItemCardapio {

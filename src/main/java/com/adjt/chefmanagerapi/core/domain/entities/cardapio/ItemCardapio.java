@@ -28,7 +28,7 @@ public class ItemCardapio {
         this(UUID.randomUUID(), nome, descricao, preco, consumoLocal, caminhoFoto, restauranteId);
     }
 
-
+    @SuppressWarnings("java:S107")
     public static ItemCardapio reconstituir(
             UUID id,
             String nome,
