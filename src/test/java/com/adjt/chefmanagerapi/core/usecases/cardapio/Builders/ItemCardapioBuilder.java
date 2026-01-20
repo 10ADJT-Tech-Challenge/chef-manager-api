@@ -6,7 +6,7 @@ import com.adjt.chefmanagerapi.core.domain.entities.cardapio.ItemCardapio;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-// test/.../builders/ItemCardapioBuilder.java
+
 public class ItemCardapioBuilder {
     private UUID restauranteId = UUID.randomUUID();
     private String nome = "Hamburguer double Cheese";
@@ -19,7 +19,6 @@ public class ItemCardapioBuilder {
     public ItemCardapioBuilder comRestaurante(UUID r) { this.restauranteId = r; return this; }
     public ItemCardapioBuilder comNome(String n) { this.nome = n; return this; }
     public ItemCardapio build() {
-        // se precisar setar id via reflexão ou construtor alternativo, ajuste aqui
         return new ItemCardapio(nome, descricao, preco, consumoLocal, caminhoFoto, restauranteId);
     }
 }

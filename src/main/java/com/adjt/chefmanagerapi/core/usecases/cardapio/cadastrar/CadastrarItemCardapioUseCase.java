@@ -34,14 +34,12 @@ public class CadastrarItemCardapioUseCase implements CadastrarItemCardapio {
         validar(input);
 
         ItemCardapio novo = new ItemCardapio(
-                UUID.randomUUID(),
                 input.nome(),
                 input.descricao(),
                 input.preco(),
                 input.consumoLocal(),
                 input.caminhoFoto(),
-                input.restauranteId(),
-                OffsetDateTime.now()
+                input.restauranteId()
         );
         var salvo = gateway.salvar(novo);
         return mapper.toOutput(salvo);
