@@ -3,7 +3,6 @@ package com.adjt.chefmanagerapi.core.gateways.cardapio;
 
 import com.adjt.chefmanagerapi.core.domain.entities.cardapio.ItemCardapio;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.ItemCardapioRepositoryGateway;
-import com.adjt.chefmanagerapi.infrastructure.dataprovider.cardapio.ItemCardapioPersistenceMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +12,7 @@ public class ItemCardapioGatewayImpl implements ItemCardapioGateway {
 
     private final ItemCardapioRepositoryGateway repository;
 
-    public ItemCardapioGatewayImpl(ItemCardapioRepositoryGateway repository, ItemCardapioPersistenceMapper mapper) {
+    public ItemCardapioGatewayImpl(ItemCardapioRepositoryGateway repository) {
         this.repository = repository;
     }
 

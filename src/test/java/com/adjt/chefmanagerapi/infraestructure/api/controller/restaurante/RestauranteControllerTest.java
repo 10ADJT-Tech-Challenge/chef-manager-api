@@ -85,14 +85,14 @@ class RestauranteControllerTest extends BaseIntegrationTest {
     void deveDeletarRestauranteComSucesso() {
         given()
                 .when()
-                .delete("/restaurantes/{id}", RestauranteRequestHelper.UUID_CAMAROES)
+                .delete("/restaurantes/{id}", RestauranteRequestHelper.UUID_BRAZ_ELETTRICA)
                 .then()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Verifica se o restaurantes foi realmente deletado
         given()
                 .when()
-                .get("/restaurantes/{id}", RestauranteRequestHelper.UUID_CAMAROES)
+                .get("/restaurantes/{id}", RestauranteRequestHelper.UUID_BRAZ_ELETTRICA)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }

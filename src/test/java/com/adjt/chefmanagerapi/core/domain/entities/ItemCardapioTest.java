@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 
-public class ItemCardapioTest {
+class ItemCardapioTest {
     private static final String NOME = "Hamburguer double Chesse";
     private static final String DESCRICAO = "hamburguer de grão de bico com queijo de castanha";
     private static final BigDecimal VALOR = new BigDecimal(50);

@@ -1,9 +1,8 @@
 
 package com.adjt.chefmanagerapi.core.domain.entities.cardapio;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
-import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.DescricaoObrigatoriaException;
+import com.adjt.chefmanagerapi.core.exceptions.NomeObrigatorioException;
 import com.adjt.chefmanagerapi.core.exceptions.PrecoObrigatorioOuInvalidoException;
 import lombok.Getter;
 
@@ -90,12 +89,4 @@ public class ItemCardapio {
     public void atualizarDataAlteracao() {
         this.dataUltimaAlteracao = OffsetDateTime.now();
     }
-
-    public void atualizarRestauranteId(UUID novoRestauranteId) {
-        if (novoRestauranteId == null) throw new IllegalArgumentException("novoRestauranteId é obrigatório");
-        this.restauranteId = novoRestauranteId;
-        atualizarDataAlteracao();
-    }
-
-
 }

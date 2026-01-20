@@ -10,11 +10,9 @@ import com.adjt.chefmanagerapi.core.usecases.cardapio.cadastrar.CadastrarItemCar
 import com.adjt.chefmanagerapi.core.usecases.cardapio.remover.RemoverItemCardapio;
 import com.adjt.chefmanagerapi.model.ItemCardapioRequest;
 import com.adjt.chefmanagerapi.model.ItemCardapioResponse;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,7 +44,7 @@ public class ItemCardapioController implements ItemCardapioApi {
     }
 
     @Override
-    public ResponseEntity<ItemCardapioResponse> criarItemCardapio(@NotNull @PathVariable("id") UUID id, @Valid @RequestBody ItemCardapioRequest req) {
+    public ResponseEntity<ItemCardapioResponse> criarItemCardapio(UUID id, ItemCardapioRequest req) {
         CadastrarItemCardapioInput input = new CadastrarItemCardapioInput(
                 req.getNome(),
                 req.getDescricao(),
@@ -60,7 +58,7 @@ public class ItemCardapioController implements ItemCardapioApi {
     }
 
     @Override
-    public ResponseEntity<ItemCardapioResponse> buscarItemCardapioPorId(@PathVariable UUID id) {
+    public ResponseEntity<ItemCardapioResponse> buscarItemCardapioPorId(UUID id) {
         ItemCardapioOutput item = buscarUC.executar(id);
         return ResponseEntity.ok(ItemCardapioApiMapper.toResponse(item));
     }
@@ -68,8 +66,8 @@ public class ItemCardapioController implements ItemCardapioApi {
 
     @Override
     public ResponseEntity<List<ItemCardapioResponse>> buscarItensCardapioPorRestauranteId(
-            @PathVariable("id") UUID restauranteId,
-            @RequestParam(value = "term", required = false) String termo
+            UUID restauranteId,
+            String termo
     ) {
         List<ItemCardapioOutput> outputs;
 
@@ -87,7 +85,7 @@ public class ItemCardapioController implements ItemCardapioApi {
 
     @Override
     public ResponseEntity<List<ItemCardapioResponse>> buscarItensCardapioPorNomeGlobal(
-            @RequestParam("nome") String termo
+            String termo
     ) {
         var outputs = buscarItensCardapioPorNome.executar(termo);
         var body = outputs.stream().map(ItemCardapioApiMapper::toResponseFromOutput).toList();
@@ -98,8 +96,8 @@ public class ItemCardapioController implements ItemCardapioApi {
 
 
     @Override
-    public ResponseEntity<ItemCardapioResponse> atualizarItemCardapio(@PathVariable UUID id,
-                                                                      @RequestBody ItemCardapioRequest req) {
+    public ResponseEntity<ItemCardapioResponse> atualizarItemCardapio(UUID id,
+                                                                      ItemCardapioRequest req) {
 
         var input = new AtualizarItemCardapioInput(
                 id,
@@ -116,7 +114,7 @@ public class ItemCardapioController implements ItemCardapioApi {
     }
 
     @Override
-    public ResponseEntity<Void> removerItemCardapioPorId(@PathVariable UUID id) {
+    public ResponseEntity<Void> removerItemCardapioPorId(UUID id) {
         removerUC.executar(id);
         return ResponseEntity.noContent().build();
     }

@@ -12,8 +12,7 @@ O projeto utiliza Clean Architecture para garantir uma estrutura modular e de f�
 
 ```
 src/
-    ├── application/                  # Lógica de negócio e casos de uso
-    ├── domain/                       # Entidades e regras de negócio puras
+    ├── core/                         # Entidades e regras de negócio 
     └── infrastructure/               # Implementações de repositórios e serviços externos
 ```
 
@@ -50,7 +49,7 @@ cd chef-manager-api
 cp .env.example .env
 ``` 
 Edite o arquivo .env com suas configurações
-####3. Inicie os serviços com Docker Compose:
+#### 3. Inicie os serviços com Docker Compose:
 ```bash
 docker-compose up --build
 ```
@@ -60,10 +59,7 @@ docker-compose up --build
 ## 📚 Documentação da API
 
 A documentação completa da API está disponível através do Swagger UI:
-`http://localhost:8080/swagger-ui.html`
-
-### 🔐 Autenticação
-- **POST** `/api/v1/auth/login` - Autenticação de usuário
+`http://localhost:8080/api/v1/swagger-ui.html`
 
 ### 👥 Usuários
 - **POST** `/api/v1/usuarios` - Cadastro de usuário
@@ -72,7 +68,6 @@ A documentação completa da API está disponível através do Swagger UI:
 - **PUT** `/api/v1/usuarios/{id}` - Atualiza dados do usuário
 - **DELETE** `/api/v1/usuarios/{id}` - Remove usuário
 - **PATCH** `/api/v1/usuarios/{id}/senha` - Altera senha
-- **PATCH** `/api/v1/usuarios/{id}/tipo` - Atribui tipo ao usuário
 
 ### 🏷️ Tipos de Usuário
 - **POST** `/api/v1/tipos-usuario` - Cadastra novo tipo
@@ -113,11 +108,16 @@ Para executar os testes:
 
 Para gerar relatório de cobertura de testes:
 
-**TODO: implementar cobertura de testes e relatório com Jacoco**
 ```bash 
-./gradlew jacocoTestReport
+./gradlew test jacocoTestReport sonar `
+  "-Dsonar.projectKey=chef-manager-api" `
+  "-Dsonar.projectName=chef-manager-api" `
+  "-Dsonar.host.url=http://localhost:9000" `
+  "-Dsonar.token=sqp_49a83fe752449b518c0413f2a5d482373f198baa"
+
 ```
 O relatório será gerado em: `build/reports/jacoco/test/html/index.html`
+E estara disponível no SonarQube na URL configurada.
 
 ---
 
@@ -132,9 +132,8 @@ A collection do Postman com todos os endpoints está disponível em:
 
 ## 🎥 Vídeo de Apresentação
 
-[Link para o vídeo de apresentação do projeto]
+[Vídeo de apresentação](https://youtu.be/9z_a6-WOrBM)
 
-**TODO: criar e incluir o vídeo**
 
 ---
 

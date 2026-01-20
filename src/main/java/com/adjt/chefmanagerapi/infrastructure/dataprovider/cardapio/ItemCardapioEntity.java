@@ -1,7 +1,6 @@
 package com.adjt.chefmanagerapi.infrastructure.dataprovider.cardapio;
 
 import com.adjt.chefmanagerapi.infrastructure.dataprovider.restaurante.RestauranteEntity;
-import com.adjt.chefmanagerapi.infrastructure.dataprovider.usuario.UsuarioEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -52,10 +52,10 @@ public class CadastrarItemCardapioUseCase implements CadastrarItemCardapio {
         if (input.nome() == null || input.nome().isBlank()) {
             throw new IllegalArgumentException("Nome do item é obrigatório.");
         }
-        if (input.preco() == null || input.preco().signum() <= 0) {
+        if (input.preco().signum() <= 0) {
             throw new IllegalArgumentException("Preço deve ser maior que zero.");
         }
     }
 
 
-    }
+}

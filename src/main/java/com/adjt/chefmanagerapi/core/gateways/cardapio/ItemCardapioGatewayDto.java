@@ -1,8 +1,6 @@
 
 package com.adjt.chefmanagerapi.core.gateways.cardapio;
 
-import com.adjt.chefmanagerapi.core.domain.entities.Restaurante;
-
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
