@@ -124,9 +124,9 @@ E estara disponível no SonarQube na URL configurada.
 ## 📝 Postman Collection
 
 A collection do Postman com todos os endpoints está disponível em:
-`/docs/ChefManager.postman_collection.json`
+[.postman/ChefManagerApi.postman_collection.json](https://github.com/10ADJT-Tech-Challenge/chef-manager-api/blob/main/.postman/ChefManagerApi.postman_collection.json)
 
-**TODO: incluir a collection**
+
 
 ---
 
