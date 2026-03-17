@@ -39,8 +39,9 @@ springdoc:
     disable-swagger-default-url: true
   cache:
     disabled: true
-  jwt:
-    issuer: chef-manager-api
-    secret: ${JWT_SECRET:CHANGE_ME_TO_A_LONG_RANDOM_SECRET_32+}
-    expiration-seconds: 3600
 
+app:
+  jwt:
+    issuer: ${JWT_ISSUER:tech-challenge-auth}
+    secret: ${JWT_SECRET:CHANGE_ME_TO_A_LONG_RANDOM_SECRET_32+}
+    expiration-seconds: ${JWT_EXP_SECONDS:3600}

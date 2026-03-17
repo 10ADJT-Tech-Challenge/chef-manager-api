@@ -1,6 +1,6 @@
 # Estágio 1: Build da Aplicação (usando o JDK)
 # Usamos uma imagem JDK completa para compilar o código
-FROM eclipse-temurin:25-jdk-jammy AS build
+FROM eclipse-temurin:21-jdk-jammy AS build
 
 # Define o diretório de trabalho
 WORKDIR /app
@@ -27,7 +27,7 @@ COPY src ./src
 RUN ./gradlew bootJar --no-daemon -x test
 
 # Estágio 2: Imagem Final (Runtime com Alpine)
-FROM eclipse-temurin:25-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
