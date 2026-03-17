@@ -7,8 +7,6 @@ plugins {
 	// Cobertura de Testes
 	id 'jacoco'
 	id 'org.sonarqube' version "7.2.2.6593"
-	// JWT
-
 }
 
 group = 'com.adjt'
