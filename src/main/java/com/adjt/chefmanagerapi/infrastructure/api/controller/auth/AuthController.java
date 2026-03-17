@@ -1,23 +1,34 @@
 package com.adjt.chefmanagerapi.infrastructure.api.controller.auth;
 
+
+import com.adjt.chefmanagerapi.AuthApi;
+
 import com.adjt.chefmanagerapi.core.usecases.auth.LoginUseCase;
-import com.adjt.chefmanagerapi.infrastructure.api.controller.auth.dto.AuthResponse;
-import com.adjt.chefmanagerapi.infrastructure.api.controller.auth.dto.LoginRequest;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
+import com.adjt.chefmanagerapi.model.AuthResponse;
+import com.adjt.chefmanagerapi.model.LoginRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
-public class AuthController {
+public class AuthController implements AuthApi {
 
     private final LoginUseCase loginUseCase;
+    private final AuthApiMapper mapper;
 
-    public AuthController(LoginUseCase loginUseCase) {
+    public AuthController(LoginUseCase loginUseCase, AuthApiMapper mapper) {
         this.loginUseCase = loginUseCase;
+        this.mapper = mapper;
     }
 
-    @PostMapping("/login")
-    public AuthResponse login(@RequestBody @Valid LoginRequest request) {
-        return loginUseCase.execute(request);
+    @Override
+    public ResponseEntity<AuthResponse> login(LoginRequest loginRequest) {
+        var output = loginUseCase.execute(mapper.toUseCaseInput(loginRequest));
+
+        AuthResponse response = new AuthResponse();
+        response.setAccessToken(output.accessToken());
+        response.setTokenType(output.tokenType());
+        response.setExpiresIn(output.expiresIn());
+
+        return ResponseEntity.ok(response);
     }
 }

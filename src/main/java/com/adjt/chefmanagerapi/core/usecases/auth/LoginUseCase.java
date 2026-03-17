@@ -3,8 +3,6 @@ package com.adjt.chefmanagerapi.core.usecases.auth;
 import com.adjt.chefmanagerapi.core.domain.entities.usuario.Usuario;
 import com.adjt.chefmanagerapi.core.gateways.interfaces.SenhaEncoderGateway;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
-import com.adjt.chefmanagerapi.infrastructure.api.controller.auth.dto.AuthResponse;
-import com.adjt.chefmanagerapi.infrastructure.api.controller.auth.dto.LoginRequest;
 import com.adjt.chefmanagerapi.infrastructure.security.JwtService;
 import org.springframework.stereotype.Service;
 

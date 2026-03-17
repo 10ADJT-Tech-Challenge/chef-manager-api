@@ -1,4 +1,4 @@
-package com.adjt.chefmanagerapi.infrastructure.api.controller.auth.dto;
+package com.adjt.chefmanagerapi.core.usecases.auth;
 
 public record AuthResponse(
         String accessToken,
