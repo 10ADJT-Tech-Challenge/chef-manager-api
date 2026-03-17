@@ -7,6 +7,8 @@ plugins {
 	// Cobertura de Testes
 	id 'jacoco'
 	id 'org.sonarqube' version "7.2.2.6593"
+	// JWT
+
 }
 
 group = 'com.adjt'
@@ -57,6 +59,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'io.rest-assured:rest-assured:6.0.0'
 	testImplementation("org.hamcrest:hamcrest:3.0")
+
+	// 6. JWT
+	implementation 'com.auth0:java-jwt:4.4.0'
 }
 
 // Configuração da Geração Automática

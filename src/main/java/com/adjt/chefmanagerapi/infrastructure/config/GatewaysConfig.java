@@ -3,15 +3,14 @@ package com.adjt.chefmanagerapi.infrastructure.config;
 
 import com.adjt.chefmanagerapi.core.gateways.cardapio.ItemCardapioGateway;
 import com.adjt.chefmanagerapi.core.gateways.cardapio.ItemCardapioGatewayImpl;
-import com.adjt.chefmanagerapi.core.gateways.interfaces.ItemCardapioRepositoryGateway;
-import com.adjt.chefmanagerapi.core.gateways.interfaces.RestauranteRepositoryGateway;
-import com.adjt.chefmanagerapi.core.gateways.interfaces.UsuarioRepositoryGateway;
+import com.adjt.chefmanagerapi.core.gateways.interfaces.*;
 import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGateway;
 import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGatewayImpl;
 import com.adjt.chefmanagerapi.core.gateways.restaurante.RestauranteGatewayMapper;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGateway;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGatewayImpl;
 import com.adjt.chefmanagerapi.core.gateways.usuario.UsuarioGatewayMapper;
+import com.adjt.chefmanagerapi.core.usecases.usuario.login.LoginUsuarioUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -71,4 +70,19 @@ public class GatewaysConfig {
     // public UsuarioGatewayMapper usuarioGatewayMapper() {
     //     return new UsuarioGatewayMapper();
     // }
+
+
+    @Bean
+    public LoginUsuarioUseCase loginUsuarioUseCase(
+            UsuarioGateway usuarioGateway,
+            SenhaEncoderGateway senhaEncoder,
+            TokenGeneratorGateway tokenGenerator
+    ) {
+        return new LoginUsuarioUseCase(
+                usuarioGateway,
+                senhaEncoder,
+                tokenGenerator
+        );
+    }
+
 }

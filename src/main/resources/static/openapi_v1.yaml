@@ -7,6 +7,26 @@ Este serviço gerencia o cadastro usuários, tipos de usuários do sistema, rest
   title: ChefManagerApi
   version: 2.0.0
 paths:
+  /auth/login:
+    post:
+      summary: Autentica usuário e gera token JWT
+      description: Endpoint responsável por autenticar o usuário e retornar um JWT assinado com chave assimétrica (RSA).
+      tags: [Autenticacao]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginAuthResponse'
+        '401':
+          description: Credenciais inválidas
   /restaurantes/{id}/itens-cardapio:
     get:
       operationId: buscarItensCardapioPorRestauranteId
@@ -460,7 +480,14 @@ tags:
   name: Restaurante
 - description: Gerenciamento de itens de cardápio
   name: ItemCardapio
+- name: Autenticacao
+  description: Autenticação e geração de token JWT
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   parameters:
     IdParam:
       description: Identificador único do recurso
@@ -471,6 +498,32 @@ components:
         type: string
         format: uuid
   schemas:
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: usuario@exemplo.com
+        senha:
+          type: string
+          example: senha123
+      required:
+        - email
+        - senha
+    LoginAuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT assinado com RSA
+          example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+        tipo:
+          type: string
+          example: Bearer
+      required:
+        - token
+        - tipo
     ItemCardapioResponse:
       description: Item do cardápio.
       properties:
