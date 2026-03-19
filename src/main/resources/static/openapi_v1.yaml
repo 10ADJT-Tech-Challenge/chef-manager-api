@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
-  description: 'API para o Tech Challenge da Fase 2 - Pós Tech.
+  description: 'API para o Tech Challenge da Fase 3 - Pós Tech.
 
 
-Este serviço gerencia o cadastro usuários, tipos de usuários do sistema, restaurantes e  seus cardápios.'
+Este serviço gerencia o cadastro usuários, gera token JWT assimétrico para autenticação, tipos de usuários do sistema, restaurantes e  seus cardápios.'
   title: ChefManagerApi
-  version: 2.0.0
+  version: 3.0.0
 paths:
   /auth/login:
     post:
@@ -359,6 +359,7 @@ paths:
       tags:
       - Usuario
     post:
+      security: []
       operationId: criarUsuario
       requestBody:
         content:
@@ -780,3 +781,5 @@ components:
           format: uuid
         endereco:
           $ref: '#/components/schemas/EnderecoRequest'
+security:
+  - BearerAuth: []
